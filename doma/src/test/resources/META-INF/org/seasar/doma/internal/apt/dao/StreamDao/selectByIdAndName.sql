@@ -1,1 +1,0 @@
-select * from dummy where id = /* id */0 and name = /* name */''

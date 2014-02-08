@@ -1,1 +1,0 @@
-select * from hoge where name = /*name*/'a' and salary = /*salary*/1

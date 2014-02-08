@@ -1,1 +1,0 @@
-select * from Emp where id = /* dto.id */1

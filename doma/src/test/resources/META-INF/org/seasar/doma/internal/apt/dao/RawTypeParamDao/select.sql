@@ -1,1 +1,0 @@
-select * from employee where height = /* height */

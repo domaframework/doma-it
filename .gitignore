@@ -1,1 +1,3 @@
 .gradle/
+/.apt_generated
+/bin

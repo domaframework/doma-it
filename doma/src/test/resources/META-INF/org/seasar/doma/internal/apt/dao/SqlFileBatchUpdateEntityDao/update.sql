@@ -1,1 +1,0 @@
-update hoge set id = /*entities.id*/1

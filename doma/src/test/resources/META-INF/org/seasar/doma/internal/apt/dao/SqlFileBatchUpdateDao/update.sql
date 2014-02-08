@@ -1,1 +1,0 @@
-update hoge set name = /*names*/'aaa'

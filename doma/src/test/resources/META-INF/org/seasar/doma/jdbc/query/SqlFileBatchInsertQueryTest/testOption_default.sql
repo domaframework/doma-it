@@ -1,1 +1,0 @@
-insert into emp (id, name, salary) values (/*e.id*/999, /*e.name*/'aaa', /*e.salary*/999)

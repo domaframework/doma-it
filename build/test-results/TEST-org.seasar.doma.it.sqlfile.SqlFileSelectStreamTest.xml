@@ -1,0 +1,48 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.seasar.doma.it.sqlfile.SqlFileSelectStreamTest" tests="2" failures="0" errors="0" timestamp="2014-02-08T01:52:39" hostname="nakamura-to-MacBook.local" time="0.091">
+  <properties/>
+  <testcase name="testStreamAll" classname="org.seasar.doma.it.sqlfile.SqlFileSelectStreamTest" time="0.047"/>
+  <testcase name="testStreamBySalary" classname="org.seasar.doma.it.sqlfile.SqlFileSelectStreamTest" time="0.043"/>
+  <system-out><![CDATA[DEBUG 2014-02-08 10:52:39,216 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:39,216 [Test worker] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:39,218 [Test worker] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:39,218 [Test worker] 設定ファイル(jdbc.dicon)をインクルードします
+DEBUG 2014-02-08 10:52:39,218 [Test worker] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:39,219 [Test worker] S2Containerを作成します。path=jta.dicon
+DEBUG 2014-02-08 10:52:39,220 [Test worker] S2Containerを作成しました。path=jta.dicon
+DEBUG 2014-02-08 10:52:39,220 [Test worker] S2Containerを作成します。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:39,221 [Test worker] S2Containerを作成しました。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:39,222 [Test worker] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:39,222 [Test worker] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1391824339450/124, BranchId=]
+INFO  2014-02-08 10:52:39,223 [Test worker] START org.seasar.doma.it.dao.EmployeeDaoImpl#streamAll
+DEBUG 2014-02-08 10:52:39,255 [Test worker] 物理的なコネクションを取得しました
+DEBUG 2014-02-08 10:52:39,255 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/124, BranchId=]
+INFO  2014-02-08 10:52:39,255 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/EmployeeDao/streamAll.sql]
+select * from EMPLOYEE order by EMPLOYEE_ID
+DEBUG 2014-02-08 10:52:39,260 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/124, BranchId=]
+INFO  2014-02-08 10:52:39,260 [Test worker] END   org.seasar.doma.it.dao.EmployeeDaoImpl#streamAll
+DEBUG 2014-02-08 10:52:39,260 [Test worker] トランザクションをロールバックしました。tx=[FormatId=4360, GlobalId=1391824339450/124, BranchId=]
+DEBUG 2014-02-08 10:52:39,262 [Test worker] 物理的なコネクションを閉じました
+DEBUG 2014-02-08 10:52:39,264 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:39,264 [Test worker] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:39,265 [Test worker] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:39,266 [Test worker] 設定ファイル(jdbc.dicon)をインクルードします
+DEBUG 2014-02-08 10:52:39,266 [Test worker] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:39,267 [Test worker] S2Containerを作成します。path=jta.dicon
+DEBUG 2014-02-08 10:52:39,268 [Test worker] S2Containerを作成しました。path=jta.dicon
+DEBUG 2014-02-08 10:52:39,268 [Test worker] S2Containerを作成します。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:39,269 [Test worker] S2Containerを作成しました。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:39,269 [Test worker] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:39,270 [Test worker] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1391824339450/125, BranchId=]
+INFO  2014-02-08 10:52:39,271 [Test worker] START org.seasar.doma.it.dao.EmployeeDaoImpl#streamBySalary
+DEBUG 2014-02-08 10:52:39,303 [Test worker] 物理的なコネクションを取得しました
+DEBUG 2014-02-08 10:52:39,303 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/125, BranchId=]
+INFO  2014-02-08 10:52:39,303 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/EmployeeDao/streamBySalary.sql]
+select * from EMPLOYEE where SALARY > 2000 order by EMPLOYEE_ID
+DEBUG 2014-02-08 10:52:39,304 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/125, BranchId=]
+INFO  2014-02-08 10:52:39,304 [Test worker] END   org.seasar.doma.it.dao.EmployeeDaoImpl#streamBySalary
+DEBUG 2014-02-08 10:52:39,304 [Test worker] トランザクションをロールバックしました。tx=[FormatId=4360, GlobalId=1391824339450/125, BranchId=]
+DEBUG 2014-02-08 10:52:39,307 [Test worker] 物理的なコネクションを閉じました
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

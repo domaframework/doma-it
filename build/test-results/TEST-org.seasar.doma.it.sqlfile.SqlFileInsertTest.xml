@@ -1,0 +1,60 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.seasar.doma.it.sqlfile.SqlFileInsertTest" tests="2" failures="0" errors="0" timestamp="2014-02-08T01:52:35" hostname="nakamura-to-MacBook.local" time="0.093">
+  <properties/>
+  <testcase name="test" classname="org.seasar.doma.it.sqlfile.SqlFileInsertTest" time="0.042"/>
+  <testcase name="testImmutable" classname="org.seasar.doma.it.sqlfile.SqlFileInsertTest" time="0.05"/>
+  <system-out><![CDATA[DEBUG 2014-02-08 10:52:35,186 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:35,186 [Test worker] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,188 [Test worker] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,188 [Test worker] 設定ファイル(jdbc.dicon)をインクルードします
+DEBUG 2014-02-08 10:52:35,188 [Test worker] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,189 [Test worker] S2Containerを作成します。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,190 [Test worker] S2Containerを作成しました。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,190 [Test worker] S2Containerを作成します。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,191 [Test worker] S2Containerを作成しました。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,191 [Test worker] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,192 [Test worker] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1391824339450/105, BranchId=]
+INFO  2014-02-08 10:52:35,192 [Test worker] START org.seasar.doma.it.dao.DepartmentDaoImpl#insertBySqlFile
+DEBUG 2014-02-08 10:52:35,225 [Test worker] 物理的なコネクションを取得しました
+DEBUG 2014-02-08 10:52:35,225 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/105, BranchId=]
+INFO  2014-02-08 10:52:35,225 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/DepartmentDao/insertBySqlFile.sql]
+insert into DEPARTMENT (DEPARTMENT_ID, DEPARTMENT_NO) values (99, 99)
+DEBUG 2014-02-08 10:52:35,225 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/105, BranchId=]
+INFO  2014-02-08 10:52:35,225 [Test worker] END   org.seasar.doma.it.dao.DepartmentDaoImpl#insertBySqlFile
+INFO  2014-02-08 10:52:35,225 [Test worker] START org.seasar.doma.it.dao.DepartmentDaoImpl#selectById
+DEBUG 2014-02-08 10:52:35,226 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/105, BranchId=]
+INFO  2014-02-08 10:52:35,226 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/DepartmentDao/selectById.sql]
+select * from DEPARTMENT where DEPARTMENT_ID = 99
+DEBUG 2014-02-08 10:52:35,226 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/105, BranchId=]
+INFO  2014-02-08 10:52:35,226 [Test worker] END   org.seasar.doma.it.dao.DepartmentDaoImpl#selectById
+DEBUG 2014-02-08 10:52:35,226 [Test worker] トランザクションをロールバックしました。tx=[FormatId=4360, GlobalId=1391824339450/105, BranchId=]
+DEBUG 2014-02-08 10:52:35,228 [Test worker] 物理的なコネクションを閉じました
+DEBUG 2014-02-08 10:52:35,229 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:35,229 [Test worker] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,237 [Test worker] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,237 [Test worker] 設定ファイル(jdbc.dicon)をインクルードします
+DEBUG 2014-02-08 10:52:35,238 [Test worker] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,239 [Test worker] S2Containerを作成します。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,240 [Test worker] S2Containerを作成しました。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,240 [Test worker] S2Containerを作成します。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,242 [Test worker] S2Containerを作成しました。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,243 [Test worker] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,243 [Test worker] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1391824339450/106, BranchId=]
+INFO  2014-02-08 10:52:35,243 [Test worker] START org.seasar.doma.it.dao.DeptDaoImpl#insertBySqlFile
+DEBUG 2014-02-08 10:52:35,275 [Test worker] 物理的なコネクションを取得しました
+DEBUG 2014-02-08 10:52:35,275 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/106, BranchId=]
+INFO  2014-02-08 10:52:35,275 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/DeptDao/insertBySqlFile.sql]
+insert into DEPARTMENT (DEPARTMENT_ID, DEPARTMENT_NO, DEPARTMENT_NAME) values (99, 99, 'hoge_preI')
+DEBUG 2014-02-08 10:52:35,275 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/106, BranchId=]
+INFO  2014-02-08 10:52:35,275 [Test worker] END   org.seasar.doma.it.dao.DeptDaoImpl#insertBySqlFile
+INFO  2014-02-08 10:52:35,275 [Test worker] START org.seasar.doma.it.dao.DeptDaoImpl#selectById
+DEBUG 2014-02-08 10:52:35,275 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/106, BranchId=]
+INFO  2014-02-08 10:52:35,275 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/DeptDao/selectById.sql]
+select * from DEPARTMENT where DEPARTMENT_ID = 99
+DEBUG 2014-02-08 10:52:35,275 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/106, BranchId=]
+INFO  2014-02-08 10:52:35,275 [Test worker] END   org.seasar.doma.it.dao.DeptDaoImpl#selectById
+DEBUG 2014-02-08 10:52:35,275 [Test worker] トランザクションをロールバックしました。tx=[FormatId=4360, GlobalId=1391824339450/106, BranchId=]
+DEBUG 2014-02-08 10:52:35,278 [Test worker] 物理的なコネクションを閉じました
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

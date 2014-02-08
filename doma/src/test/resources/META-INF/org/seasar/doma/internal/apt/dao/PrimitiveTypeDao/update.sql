@@ -1,1 +1,0 @@
-update employee set name = 'hoge' where id = /*id*/1

@@ -1,1 +1,0 @@
-select * from aaa where sarary >= /*salary*/100

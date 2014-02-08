@@ -1,0 +1,132 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.seasar.doma.it.sqlfile.SqlFileSelectIterationCallbackTest" tests="6" failures="0" errors="0" timestamp="2014-02-08T01:52:35" hostname="nakamura-to-MacBook.local" time="0.259">
+  <properties/>
+  <testcase name="testEntity" classname="org.seasar.doma.it.sqlfile.SqlFileSelectIterationCallbackTest" time="0.04"/>
+  <testcase name="testEntity_limitOffset" classname="org.seasar.doma.it.sqlfile.SqlFileSelectIterationCallbackTest" time="0.042"/>
+  <testcase name="testMap" classname="org.seasar.doma.it.sqlfile.SqlFileSelectIterationCallbackTest" time="0.041"/>
+  <testcase name="testDomain" classname="org.seasar.doma.it.sqlfile.SqlFileSelectIterationCallbackTest" time="0.045"/>
+  <testcase name="testDomain_limitOffset" classname="org.seasar.doma.it.sqlfile.SqlFileSelectIterationCallbackTest" time="0.043"/>
+  <testcase name="testMap_limitOffset" classname="org.seasar.doma.it.sqlfile.SqlFileSelectIterationCallbackTest" time="0.041"/>
+  <system-out><![CDATA[DEBUG 2014-02-08 10:52:35,509 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:35,509 [Test worker] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,511 [Test worker] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,511 [Test worker] 設定ファイル(jdbc.dicon)をインクルードします
+DEBUG 2014-02-08 10:52:35,511 [Test worker] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,512 [Test worker] S2Containerを作成します。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,513 [Test worker] S2Containerを作成しました。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,513 [Test worker] S2Containerを作成します。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,514 [Test worker] S2Containerを作成しました。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,515 [Test worker] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,515 [Test worker] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1391824339450/112, BranchId=]
+INFO  2014-02-08 10:52:35,516 [Test worker] START org.seasar.doma.it.dao.EmployeeDaoImpl#selectAll
+DEBUG 2014-02-08 10:52:35,546 [Test worker] 物理的なコネクションを取得しました
+DEBUG 2014-02-08 10:52:35,546 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/112, BranchId=]
+INFO  2014-02-08 10:52:35,546 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/EmployeeDao/selectAll.sql]
+select * from EMPLOYEE order by EMPLOYEE_ID
+DEBUG 2014-02-08 10:52:35,546 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/112, BranchId=]
+INFO  2014-02-08 10:52:35,546 [Test worker] END   org.seasar.doma.it.dao.EmployeeDaoImpl#selectAll
+DEBUG 2014-02-08 10:52:35,546 [Test worker] トランザクションをロールバックしました。tx=[FormatId=4360, GlobalId=1391824339450/112, BranchId=]
+DEBUG 2014-02-08 10:52:35,549 [Test worker] 物理的なコネクションを閉じました
+DEBUG 2014-02-08 10:52:35,551 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:35,551 [Test worker] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,553 [Test worker] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,553 [Test worker] 設定ファイル(jdbc.dicon)をインクルードします
+DEBUG 2014-02-08 10:52:35,553 [Test worker] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,554 [Test worker] S2Containerを作成します。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,555 [Test worker] S2Containerを作成しました。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,555 [Test worker] S2Containerを作成します。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,556 [Test worker] S2Containerを作成しました。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,558 [Test worker] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,559 [Test worker] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1391824339450/113, BranchId=]
+INFO  2014-02-08 10:52:35,559 [Test worker] START org.seasar.doma.it.dao.EmployeeDaoImpl#selectAll
+DEBUG 2014-02-08 10:52:35,589 [Test worker] 物理的なコネクションを取得しました
+DEBUG 2014-02-08 10:52:35,589 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/113, BranchId=]
+INFO  2014-02-08 10:52:35,590 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/EmployeeDao/selectAll.sql]
+select * from EMPLOYEE order by EMPLOYEE_ID limit 5 offset 3
+DEBUG 2014-02-08 10:52:35,590 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/113, BranchId=]
+INFO  2014-02-08 10:52:35,590 [Test worker] END   org.seasar.doma.it.dao.EmployeeDaoImpl#selectAll
+DEBUG 2014-02-08 10:52:35,590 [Test worker] トランザクションをロールバックしました。tx=[FormatId=4360, GlobalId=1391824339450/113, BranchId=]
+DEBUG 2014-02-08 10:52:35,593 [Test worker] 物理的なコネクションを閉じました
+DEBUG 2014-02-08 10:52:35,595 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:35,595 [Test worker] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,597 [Test worker] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,597 [Test worker] 設定ファイル(jdbc.dicon)をインクルードします
+DEBUG 2014-02-08 10:52:35,597 [Test worker] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,598 [Test worker] S2Containerを作成します。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,599 [Test worker] S2Containerを作成しました。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,599 [Test worker] S2Containerを作成します。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,600 [Test worker] S2Containerを作成しました。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,600 [Test worker] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,601 [Test worker] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1391824339450/114, BranchId=]
+INFO  2014-02-08 10:52:35,601 [Test worker] START org.seasar.doma.it.dao.EmployeeDaoImpl#selectAllAsMapList
+DEBUG 2014-02-08 10:52:35,632 [Test worker] 物理的なコネクションを取得しました
+DEBUG 2014-02-08 10:52:35,632 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/114, BranchId=]
+INFO  2014-02-08 10:52:35,632 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/EmployeeDao/selectAllAsMapList.sql]
+select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE order by EMPLOYEE_ID
+DEBUG 2014-02-08 10:52:35,633 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/114, BranchId=]
+INFO  2014-02-08 10:52:35,633 [Test worker] END   org.seasar.doma.it.dao.EmployeeDaoImpl#selectAllAsMapList
+DEBUG 2014-02-08 10:52:35,633 [Test worker] トランザクションをロールバックしました。tx=[FormatId=4360, GlobalId=1391824339450/114, BranchId=]
+DEBUG 2014-02-08 10:52:35,636 [Test worker] 物理的なコネクションを閉じました
+DEBUG 2014-02-08 10:52:35,637 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:35,638 [Test worker] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,639 [Test worker] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,640 [Test worker] 設定ファイル(jdbc.dicon)をインクルードします
+DEBUG 2014-02-08 10:52:35,640 [Test worker] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,640 [Test worker] S2Containerを作成します。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,641 [Test worker] S2Containerを作成しました。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,642 [Test worker] S2Containerを作成します。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,643 [Test worker] S2Containerを作成しました。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,643 [Test worker] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,644 [Test worker] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1391824339450/115, BranchId=]
+INFO  2014-02-08 10:52:35,644 [Test worker] START org.seasar.doma.it.dao.EmployeeDaoImpl#selectAllSalary
+DEBUG 2014-02-08 10:52:35,678 [Test worker] 物理的なコネクションを取得しました
+DEBUG 2014-02-08 10:52:35,678 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/115, BranchId=]
+INFO  2014-02-08 10:52:35,678 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/EmployeeDao/selectAllSalary.sql]
+select salary from EMPLOYEE order by salary
+DEBUG 2014-02-08 10:52:35,679 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/115, BranchId=]
+INFO  2014-02-08 10:52:35,679 [Test worker] END   org.seasar.doma.it.dao.EmployeeDaoImpl#selectAllSalary
+DEBUG 2014-02-08 10:52:35,679 [Test worker] トランザクションをロールバックしました。tx=[FormatId=4360, GlobalId=1391824339450/115, BranchId=]
+DEBUG 2014-02-08 10:52:35,682 [Test worker] 物理的なコネクションを閉じました
+DEBUG 2014-02-08 10:52:35,683 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:35,683 [Test worker] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,686 [Test worker] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,686 [Test worker] 設定ファイル(jdbc.dicon)をインクルードします
+DEBUG 2014-02-08 10:52:35,686 [Test worker] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,687 [Test worker] S2Containerを作成します。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,688 [Test worker] S2Containerを作成しました。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,688 [Test worker] S2Containerを作成します。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,689 [Test worker] S2Containerを作成しました。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,690 [Test worker] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,691 [Test worker] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1391824339450/116, BranchId=]
+INFO  2014-02-08 10:52:35,691 [Test worker] START org.seasar.doma.it.dao.EmployeeDaoImpl#selectAllSalary
+DEBUG 2014-02-08 10:52:35,723 [Test worker] 物理的なコネクションを取得しました
+DEBUG 2014-02-08 10:52:35,723 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/116, BranchId=]
+INFO  2014-02-08 10:52:35,723 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/EmployeeDao/selectAllSalary.sql]
+select salary from EMPLOYEE order by salary limit 5 offset 3
+DEBUG 2014-02-08 10:52:35,724 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/116, BranchId=]
+INFO  2014-02-08 10:52:35,724 [Test worker] END   org.seasar.doma.it.dao.EmployeeDaoImpl#selectAllSalary
+DEBUG 2014-02-08 10:52:35,724 [Test worker] トランザクションをロールバックしました。tx=[FormatId=4360, GlobalId=1391824339450/116, BranchId=]
+DEBUG 2014-02-08 10:52:35,726 [Test worker] 物理的なコネクションを閉じました
+DEBUG 2014-02-08 10:52:35,727 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:35,728 [Test worker] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,729 [Test worker] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2014-02-08 10:52:35,730 [Test worker] 設定ファイル(jdbc.dicon)をインクルードします
+DEBUG 2014-02-08 10:52:35,730 [Test worker] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,730 [Test worker] S2Containerを作成します。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,731 [Test worker] S2Containerを作成しました。path=jta.dicon
+DEBUG 2014-02-08 10:52:35,731 [Test worker] S2Containerを作成します。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,732 [Test worker] S2Containerを作成しました。path=xadatasource.dicon
+DEBUG 2014-02-08 10:52:35,733 [Test worker] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2014-02-08 10:52:35,733 [Test worker] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1391824339450/117, BranchId=]
+INFO  2014-02-08 10:52:35,734 [Test worker] START org.seasar.doma.it.dao.EmployeeDaoImpl#selectAllAsMapList
+DEBUG 2014-02-08 10:52:35,765 [Test worker] 物理的なコネクションを取得しました
+DEBUG 2014-02-08 10:52:35,765 [Test worker] 論理的なコネクションを取得しました。tx=[FormatId=4360, GlobalId=1391824339450/117, BranchId=]
+INFO  2014-02-08 10:52:35,765 [Test worker] sqlFilePath=[META-INF/org/seasar/doma/it/dao/EmployeeDao/selectAllAsMapList.sql]
+select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE order by EMPLOYEE_ID limit 5 offset 3
+DEBUG 2014-02-08 10:52:35,765 [Test worker] 論理的なコネクションを閉じました。tx=[FormatId=4360, GlobalId=1391824339450/117, BranchId=]
+INFO  2014-02-08 10:52:35,765 [Test worker] END   org.seasar.doma.it.dao.EmployeeDaoImpl#selectAllAsMapList
+DEBUG 2014-02-08 10:52:35,765 [Test worker] トランザクションをロールバックしました。tx=[FormatId=4360, GlobalId=1391824339450/117, BranchId=]
+DEBUG 2014-02-08 10:52:35,768 [Test worker] 物理的なコネクションを閉じました
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

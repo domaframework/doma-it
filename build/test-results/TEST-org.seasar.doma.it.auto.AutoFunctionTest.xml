@@ -1,0 +1,28 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<testsuite name="org.seasar.doma.it.auto.AutoFunctionTest" tests="11" failures="0" errors="0" timestamp="2014-02-08T01:52:21" hostname="nakamura-to-MacBook.local" time="0.004">
+  <properties/>
+  <ignored-testcase name="testNoParam" classname="org.seasar.doma.it.auto.AutoFunctionTest" time="0.0"/>
+  <ignored-testcase name="testOneParam" classname="org.seasar.doma.it.auto.AutoFunctionTest" time="0.0"/>
+  <ignored-testcase name="testOneParam_time" classname="org.seasar.doma.it.auto.AutoFunctionTest" time="0.0"/>
+  <ignored-testcase name="testTwoParams" classname="org.seasar.doma.it.auto.AutoFunctionTest" time="0.0"/>
+  <ignored-testcase name="testTwoParams_time" classname="org.seasar.doma.it.auto.AutoFunctionTest" time="0.0"/>
+  <ignored-testcase name="testResultSet" classname="org.seasar.doma.it.auto.AutoFunctionTest" time="0.0"/>
+  <ignored-testcase name="testResultSet_check" classname="org.seasar.doma.it.auto.AutoFunctionTest" time="0.0"/>
+  <ignored-testcase name="testResultSet_nocheck" classname="org.seasar.doma.it.auto.AutoFunctionTest" time="0.0"/>
+  <ignored-testcase name="testResultSet_map" classname="org.seasar.doma.it.auto.AutoFunctionTest" time="0.0"/>
+  <ignored-testcase name="testResultSetAndUpdate" classname="org.seasar.doma.it.auto.AutoFunctionTest" time="0.0"/>
+  <ignored-testcase name="testResultSetAndUpdate2" classname="org.seasar.doma.it.auto.AutoFunctionTest" time="0.0"/>
+  <system-out><![CDATA[DEBUG 2014-02-08 10:52:21,868 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:21,869 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:21,869 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:21,869 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:21,870 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:21,870 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:21,870 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:21,870 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:21,871 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:21,871 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+DEBUG 2014-02-08 10:52:21,871 [Test worker] 環境変数#Envにファイル(env_ut.txt)から値(h2)が設定されました
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
