@@ -23,8 +23,6 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.seasar.doma.it.dao.ScriptDao;
 import org.seasar.doma.jdbc.ScriptException;
-import org.seasar.framework.container.factory.SingletonS2ContainerFactory;
-import org.seasar.framework.env.Env;
 
 /**
  * SQLを実行するタスクです。
@@ -37,16 +35,7 @@ public class ExecSqlFileTask extends Task {
     public void execute() throws BuildException {
         ClassLoader original = Thread.currentThread().getContextClassLoader();
         try {
-            Thread.currentThread().setContextClassLoader(
-                    getClass().getClassLoader());
-            Env.setFilePath("env_ut.txt");
-            SingletonS2ContainerFactory.setConfigPath("jdbc.dicon");
-            SingletonS2ContainerFactory.init();
-            try {
-                run();
-            } finally {
-                SingletonS2ContainerFactory.destroy();
-            }
+            run();
         } catch (Throwable throwable) {
             StringWriter writer = new StringWriter();
             throwable.printStackTrace(new PrintWriter(writer));

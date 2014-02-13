@@ -19,15 +19,19 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.seasar.doma.it.ItConfig;
+import org.seasar.doma.it.RollbackRule;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.SelectOptions;
-import org.seasar.framework.unit.Seasar2;
 
-@RunWith(Seasar2.class)
 public class SqlFileSelectPagingTest {
+
+    @Rule
+    public RollbackRule rule = new RollbackRule(
+            ItConfig.getLocalTransactionManager());
 
     @Test
     public void testNoPaging() throws Exception {

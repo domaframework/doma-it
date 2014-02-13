@@ -11,18 +11,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.seasar.doma.it.ItConfig;
+import org.seasar.doma.it.RollbackRule;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.domain.Salary;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.ResultMappingException;
-import org.seasar.framework.unit.Seasar2;
 
-@RunWith(Seasar2.class)
+//@RunWith(Seasar2.class)
 public class SqlFileSelectTest {
+
+    @Rule
+    public RollbackRule rule = new RollbackRule(
+            ItConfig.getLocalTransactionManager());
 
     @Test
     public void testEmbeddedVariable() throws Exception {

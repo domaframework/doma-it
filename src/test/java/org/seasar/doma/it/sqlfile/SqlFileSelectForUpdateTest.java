@@ -19,21 +19,26 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.seasar.doma.it.ItConfig;
+import org.seasar.doma.it.RollbackRule;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.message.Message;
-import org.seasar.framework.unit.Seasar2;
-import org.seasar.framework.unit.annotation.Prerequisite;
 
-@RunWith(Seasar2.class)
 public class SqlFileSelectForUpdateTest {
 
+    @Rule
+    public RollbackRule rule = new RollbackRule(
+            ItConfig.getLocalTransactionManager());
+
     @Test
-    @Prerequisite("#ENV not in {'h2', 'postgres', 'oracle', 'mysql', 'db2', 'mssql2008'}")
+    @Ignore
+    // @Prerequisite("#ENV not in {'h2', 'postgres', 'oracle', 'mysql', 'db2', 'mssql2008'}")
     public void testUnsupported() throws Exception {
         EmployeeDao dao = EmployeeDao.get();
         try {
@@ -45,7 +50,7 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'hsqldb', 'sqlite'}")
+    // @Prerequisite("#ENV not in {'hsqldb', 'sqlite'}")
     public void testForUpdate() throws Exception {
         EmployeeDao dao = EmployeeDao.get();
         Employee employee = dao.selectById(1, SelectOptions.get().forUpdate());
@@ -53,7 +58,8 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'hsqldb', 'h2', 'postgres', 'mysql', 'db2', 'mssql2008', 'sqlite'}")
+    @Ignore
+    // @Prerequisite("#ENV not in {'hsqldb', 'h2', 'postgres', 'mysql', 'db2', 'mssql2008', 'sqlite'}")
     public void testForUpdateWithColumns() throws Exception {
         EmployeeDao dao = EmployeeDao.get();
         Employee employee = dao.selectById(1,
@@ -62,7 +68,8 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'hsqldb', 'h2', 'oracle', 'mysql', 'db2', 'mssql2008', 'sqlite'}")
+    @Ignore
+    // @Prerequisite("#ENV not in {'hsqldb', 'h2', 'oracle', 'mysql', 'db2', 'mssql2008', 'sqlite'}")
     public void testForUpdateWithTables() throws Exception {
         EmployeeDao dao = EmployeeDao.get();
         Employee employee = dao.selectById(1,
@@ -71,7 +78,8 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'hsqldb', 'h2', 'postgres', 'mysql', 'db2', 'sqlite'}")
+    @Ignore
+    // @Prerequisite("#ENV not in {'hsqldb', 'h2', 'postgres', 'mysql', 'db2', 'sqlite'}")
     public void testForUpdateNowait() throws Exception {
         EmployeeDao dao = EmployeeDao.get();
         Employee employee = dao.selectById(1, SelectOptions.get()
@@ -80,7 +88,8 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'hsqldb', 'h2', 'postgres', 'mysql', 'db2', 'mssql2008', 'sqlite'}")
+    @Ignore
+    // @Prerequisite("#ENV not in {'hsqldb', 'h2', 'postgres', 'mysql', 'db2', 'mssql2008', 'sqlite'}")
     public void testForUpdateNowaitWithColumns() throws Exception {
         EmployeeDao dao = EmployeeDao.get();
         Employee employee = dao.selectById(1, SelectOptions.get()
@@ -89,7 +98,8 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'hsqldb', 'h2', 'postgres', 'mysql', 'db2', 'mssql2008', 'sqlite'}")
+    @Ignore
+    // @Prerequisite("#ENV not in {'hsqldb', 'h2', 'postgres', 'mysql', 'db2', 'mssql2008', 'sqlite'}")
     public void testForUpdateWait() throws Exception {
         EmployeeDao dao = EmployeeDao.get();
         Employee employee = dao.selectById(1, SelectOptions.get()
@@ -97,7 +107,9 @@ public class SqlFileSelectForUpdateTest {
         assertNotNull(employee);
     }
 
-    @Prerequisite("#ENV not in {'hsqldb', 'h2', 'postgres', 'mysql', 'db2', 'mssql2008', 'sqlite'}")
+    @Test
+    @Ignore
+    // @Prerequisite("#ENV not in {'hsqldb', 'h2', 'postgres', 'mysql', 'db2', 'mssql2008', 'sqlite'}")
     public void testForUpdateWaitWithColumns() throws Exception {
         EmployeeDao dao = EmployeeDao.get();
         Employee employee = dao.selectById(1, SelectOptions.get()

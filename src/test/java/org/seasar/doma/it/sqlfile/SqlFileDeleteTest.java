@@ -3,17 +3,21 @@ package org.seasar.doma.it.sqlfile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.seasar.doma.it.ItConfig;
+import org.seasar.doma.it.RollbackRule;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.PersonDao;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.Person;
 import org.seasar.doma.jdbc.Result;
-import org.seasar.framework.unit.Seasar2;
 
-@RunWith(Seasar2.class)
 public class SqlFileDeleteTest {
+
+    @Rule
+    public RollbackRule rule = new RollbackRule(
+            ItConfig.getLocalTransactionManager());
 
     @Test
     public void test() throws Exception {

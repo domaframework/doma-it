@@ -20,8 +20,10 @@ import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.seasar.doma.it.ItConfig;
+import org.seasar.doma.it.RollbackRule;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
 import org.seasar.doma.it.domain.Identity;
@@ -29,10 +31,12 @@ import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.jdbc.BatchOptimisticLockException;
 import org.seasar.doma.jdbc.BatchResult;
-import org.seasar.framework.unit.Seasar2;
 
-@RunWith(Seasar2.class)
 public class SqlFileBatchUpdateTest {
+
+    @Rule
+    public RollbackRule rule = new RollbackRule(
+            ItConfig.getLocalTransactionManager());
 
     @Test
     public void test() throws Exception {

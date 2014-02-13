@@ -22,18 +22,16 @@ import java.sql.Time;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.FunctionDao;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.ResultMappingException;
-import org.seasar.framework.unit.Seasar2;
-import org.seasar.framework.unit.annotation.Prerequisite;
 
-@RunWith(Seasar2.class)
-@Prerequisite("#ENV not in {'hsqldb', 'h2', 'db2', 'sqlite'}")
+@Ignore
+// @Prerequisite("#ENV not in {'hsqldb', 'h2', 'db2', 'sqlite'}")
 public class AutoFunctionTest {
 
     @Test
@@ -73,7 +71,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
     public void testResultSet() throws Exception {
         FunctionDao dao = FunctionDao.get();
         List<Employee> result = dao.func_resultset(new Integer(1));
@@ -81,7 +79,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
     public void testResultSet_check() throws Exception {
         FunctionDao dao = FunctionDao.get();
         try {
@@ -93,7 +91,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
     public void testResultSet_nocheck() throws Exception {
         FunctionDao dao = FunctionDao.get();
         List<Employee> result = dao.func_resultset_nocheck(new Integer(1));
@@ -101,7 +99,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
     public void testResultSet_map() throws Exception {
         FunctionDao dao = FunctionDao.get();
         List<Map<String, Object>> result = dao
@@ -110,7 +108,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
     public void testResultSetAndUpdate() throws Exception {
         FunctionDao dao = FunctionDao.get();
         List<Employee> result = dao.func_resultset_update(new Integer(1));
@@ -121,7 +119,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
     public void testResultSetAndUpdate2() throws Exception {
         FunctionDao dao = FunctionDao.get();
         List<Employee> result = dao.func_resultset_update2(new Integer(1));

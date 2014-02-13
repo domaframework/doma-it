@@ -19,13 +19,17 @@ import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.seasar.doma.it.ItConfig;
+import org.seasar.doma.it.RollbackRule;
 import org.seasar.doma.it.dao.EmployeeDao;
-import org.seasar.framework.unit.Seasar2;
 
-@RunWith(Seasar2.class)
 public class SqlFileSelectStreamTest {
+
+    @Rule
+    public RollbackRule rule = new RollbackRule(
+            ItConfig.getLocalTransactionManager());
 
     @Test
     public void testStreamAll() throws Exception {

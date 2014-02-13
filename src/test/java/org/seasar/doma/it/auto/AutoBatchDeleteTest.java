@@ -22,8 +22,10 @@ import static org.junit.Assert.fail;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.seasar.doma.it.ItConfig;
+import org.seasar.doma.it.RollbackRule;
 import org.seasar.doma.it.dao.CompKeyEmployeeDao;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.NoIdDao;
@@ -38,10 +40,12 @@ import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.jdbc.OptimisticLockException;
 import org.seasar.doma.message.Message;
-import org.seasar.framework.unit.Seasar2;
 
-@RunWith(Seasar2.class)
 public class AutoBatchDeleteTest {
+
+    @Rule
+    public RollbackRule rule = new RollbackRule(
+            ItConfig.getLocalTransactionManager());
 
     @Test
     public void test() throws Exception {

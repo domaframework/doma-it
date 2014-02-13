@@ -5,17 +5,21 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.seasar.doma.it.ItConfig;
+import org.seasar.doma.it.RollbackRule;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.PersonDao;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.Person;
 import org.seasar.doma.jdbc.BatchResult;
-import org.seasar.framework.unit.Seasar2;
 
-@RunWith(Seasar2.class)
 public class SqlFileBatchDeleteTest {
+
+    @Rule
+    public RollbackRule rule = new RollbackRule(
+            ItConfig.getLocalTransactionManager());
 
     @Test
     public void test() throws Exception {

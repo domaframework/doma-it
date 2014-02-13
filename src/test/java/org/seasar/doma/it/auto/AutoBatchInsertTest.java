@@ -24,8 +24,10 @@ import static org.junit.Assert.fail;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.seasar.doma.it.ItConfig;
+import org.seasar.doma.it.RollbackRule;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
@@ -46,11 +48,12 @@ import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.message.Message;
-import org.seasar.framework.unit.Seasar2;
-import org.seasar.framework.unit.annotation.Prerequisite;
 
-@RunWith(Seasar2.class)
 public class AutoBatchInsertTest {
+
+    @Rule
+    public RollbackRule rule = new RollbackRule(
+            ItConfig.getLocalTransactionManager());
 
     @Test
     public void test() throws Exception {
@@ -170,7 +173,7 @@ public class AutoBatchInsertTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'oracle'}")
+    // @Prerequisite("#ENV not in {'oracle'}")
     public void testId_Identity() throws Exception {
         IdentityStrategyDao dao = IdentityStrategyDao.get();
         for (int i = 0; i < 110; i++) {
@@ -187,7 +190,7 @@ public class AutoBatchInsertTest {
     }
 
     @Test
-    @Prerequisite("#ENV not in {'mysql', 'mssql2008', 'sqlite'}")
+    // @Prerequisite("#ENV not in {'mysql', 'mssql2008', 'sqlite'}")
     public void testId_sequence() throws Exception {
         SequenceStrategyDao dao = SequenceStrategyDao.get();
         for (int i = 0; i < 110; i++) {
@@ -206,7 +209,7 @@ public class AutoBatchInsertTest {
     // it seems that sqlite doesn't support requiresNew transaction
     // so ignore this test case
     @Test
-    @Prerequisite("#ENV not in {'sqlite'}")
+    // @Prerequisite("#ENV not in {'sqlite'}")
     public void testId_table() throws Exception {
         TableStrategyDao dao = TableStrategyDao.get();
         for (int i = 0; i < 110; i++) {

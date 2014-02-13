@@ -6,15 +6,14 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.seasar.doma.it.dao.SalEmpDao;
 import org.seasar.doma.it.entity.SalEmp;
-import org.seasar.framework.unit.Seasar2;
-import org.seasar.framework.unit.annotation.Prerequisite;
 
-@RunWith(Seasar2.class)
-@Prerequisite("#ENV not in {'hsqldb', 'h2', 'mysql', 'oracle', 'db2', 'mssql2008', 'sqlite'}")
+// @RunWith(Seasar2.class)
+// @Prerequisite("#ENV not in {'hsqldb', 'h2', 'mysql', 'oracle', 'db2', 'mssql2008', 'sqlite'}")
+@Ignore
 public class ArrayTest {
 
     @Test

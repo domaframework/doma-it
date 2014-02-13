@@ -23,19 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.ProcedureDao;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Reference;
 import org.seasar.doma.jdbc.ResultMappingException;
-import org.seasar.framework.unit.Seasar2;
-import org.seasar.framework.unit.annotation.Prerequisite;
 
-@RunWith(Seasar2.class)
-@Prerequisite("#ENV not in {'hsqldb', 'h2', 'sqlite'}")
+@Ignore
+// @Prerequisite("#ENV not in {'hsqldb', 'h2', 'sqlite'}")
 public class AutoProcedureTest {
 
     @Test
