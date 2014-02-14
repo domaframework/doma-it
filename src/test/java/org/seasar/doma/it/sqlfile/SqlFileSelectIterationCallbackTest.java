@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.RollbackRule;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.entity.Employee;
@@ -34,8 +33,7 @@ import org.seasar.doma.jdbc.SelectOptions;
 public class SqlFileSelectIterationCallbackTest {
 
     @Rule
-    public RollbackRule rule = new RollbackRule(
-            ItConfig.getLocalTransactionManager());
+    public RollbackRule rule = new RollbackRule();
 
     @Test
     public void testEntity() throws Exception {

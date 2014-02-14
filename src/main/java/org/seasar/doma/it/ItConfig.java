@@ -20,45 +20,37 @@ import java.net.URL;
 
 import javax.sql.DataSource;
 
+import org.seasar.doma.SingletonConfig;
 import org.seasar.doma.internal.util.ResourceUtil;
 import org.seasar.doma.jdbc.Config;
-import org.seasar.doma.jdbc.ConfigSupport;
-import org.seasar.doma.jdbc.JdbcLogger;
 import org.seasar.doma.jdbc.SimpleDataSource;
 import org.seasar.doma.jdbc.dialect.Dialect;
 import org.seasar.doma.jdbc.dialect.H2Dialect;
+import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
 import org.seasar.doma.jdbc.tx.LocalTransactionManager;
-import org.seasar.doma.jdbc.tx.LocalTransactionalDataSource;
 
-public class ItConfig implements Config {
+@SingletonConfig
+public final class ItConfig implements Config {
 
-    protected static final JdbcLogger jdbcLogger = ConfigSupport.defaultJdbcLogger;
+    private static ItConfig config = new ItConfig();
 
-    protected static final Dialect dialect = new H2Dialect();
+    private final Dialect dialect;
 
-    private static final DataSource originalDataSource = createDataSource();
+    private final DataSource originalDataSource;
 
-    private static final LocalTransactionalDataSource localTxDataSource = createLocalTxDataSource(originalDataSource);
+    private final LocalTransactionDataSource dataSource;
 
-    private static final LocalTransactionManager localTxManager = new LocalTransactionManager(
-            localTxDataSource.getLocalTransaction(jdbcLogger));
+    private final LocalTransactionManager transactionManager;
 
-    @Override
-    public DataSource getDataSource() {
-        return localTxDataSource;
+    private ItConfig() {
+        dialect = new H2Dialect();
+        originalDataSource = createDataSource();
+        dataSource = new LocalTransactionDataSource(originalDataSource);
+        transactionManager = new LocalTransactionManager(
+                dataSource.getLocalTransaction(getJdbcLogger()));
     }
 
-    @Override
-    public Dialect getDialect() {
-        return dialect;
-    }
-
-    @Override
-    public JdbcLogger getJdbcLogger() {
-        return jdbcLogger;
-    }
-
-    protected static DataSource createDataSource() {
+    private DataSource createDataSource() {
         SimpleDataSource dataSource = new SimpleDataSource();
         URL url = ResourceUtil.getResource("jdbc.dicon");
         File file = new File(url.getFile());
@@ -73,17 +65,26 @@ public class ItConfig implements Config {
         }
     }
 
-    protected static LocalTransactionalDataSource createLocalTxDataSource(
-            DataSource dataSource) {
-        return new LocalTransactionalDataSource(dataSource);
+    @Override
+    public DataSource getDataSource() {
+        return dataSource;
     }
 
-    public static DataSource getOriginalDataSource() {
+    @Override
+    public Dialect getDialect() {
+        return dialect;
+    }
+
+    @Override
+    public LocalTransactionManager getLocalTransactionManager() {
+        return transactionManager;
+    }
+
+    public DataSource getOriginalDataSource() {
         return originalDataSource;
     }
 
-    public static LocalTransactionManager getLocalTransactionManager() {
-        return localTxManager;
+    public static ItConfig singleton() {
+        return config;
     }
-
 }

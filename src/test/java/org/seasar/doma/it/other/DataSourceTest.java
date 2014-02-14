@@ -15,7 +15,7 @@ public class DataSourceTest {
 
     @Test
     public void test() throws Exception {
-        DataSource dataSource = ItConfig.getOriginalDataSource();
+        DataSource dataSource = ItConfig.singleton().getOriginalDataSource();
         EmployeeDao dao = EmployeeDao.get(dataSource);
         List<Employee> list = dao.selectAll();
         assertEquals(14, list.size());

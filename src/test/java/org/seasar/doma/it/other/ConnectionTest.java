@@ -16,7 +16,7 @@ public class ConnectionTest {
 
     @Test
     public void test() throws Exception {
-        DataSource dataSource = ItConfig.getOriginalDataSource();
+        DataSource dataSource = ItConfig.singleton().getOriginalDataSource();
         Connection connection = dataSource.getConnection();
         try {
             EmployeeDao dao = EmployeeDao.get(connection);

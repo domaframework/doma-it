@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.RollbackRule;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
@@ -31,8 +30,7 @@ import org.seasar.doma.jdbc.Result;
 public class SqlFileInsertTest {
 
     @Rule
-    public RollbackRule rule = new RollbackRule(
-            ItConfig.getLocalTransactionManager());
+    public RollbackRule rule = new RollbackRule();
 
     @Test
     public void test() throws Exception {

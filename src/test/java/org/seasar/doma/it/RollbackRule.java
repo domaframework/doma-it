@@ -27,10 +27,10 @@ import org.seasar.doma.jdbc.tx.LocalTransactionManager;
  */
 public class RollbackRule implements TestRule {
 
-    protected LocalTransactionManager tx;
+    protected LocalTransactionManager transactionManager;
 
-    public RollbackRule(LocalTransactionManager tx) {
-        this.tx = tx;
+    public RollbackRule() {
+        this.transactionManager = ItConfig.singleton().getLocalTransactionManager();
     }
 
     @Override
@@ -39,12 +39,12 @@ public class RollbackRule implements TestRule {
 
             @Override
             public void evaluate() throws Throwable {
-                LocalTransaction t = tx.getLocalTransaction();
-                t.begin();
+                LocalTransaction tx = transactionManager.getLocalTransaction();
+                tx.begin();
                 try {
                     base.evaluate();
                 } finally {
-                    t.rollback();
+                    tx.rollback();
                 }
             }
         };
