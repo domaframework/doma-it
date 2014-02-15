@@ -1,4 +1,4 @@
-Doma Integration Test
+Doma Integration Test [![Build Status](https://travis-ci.org/seasarorg/doma-it.png?branch=master)](https://travis-ci.org/seasarorg/doma-it)
 ========================================
 
 Test Target
