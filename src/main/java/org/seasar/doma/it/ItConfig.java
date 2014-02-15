@@ -52,7 +52,7 @@ public final class ItConfig implements Config {
 
     private DataSource createDataSource() {
         SimpleDataSource dataSource = new SimpleDataSource();
-        URL url = ResourceUtil.getResource("jdbc.dicon");
+        URL url = ResourceUtil.getResource("env_ut.txt");
         File file = new File(url.getFile());
         try {
             String path = file.getParentFile().getCanonicalPath();
