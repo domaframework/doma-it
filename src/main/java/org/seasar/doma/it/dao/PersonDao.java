@@ -22,16 +22,16 @@ import org.seasar.doma.BatchDelete;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.Select;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.Person;
 import org.seasar.doma.jdbc.BatchResult;
+import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Result;
 
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface PersonDao {
 
-    static PersonDao get() {
-        return new PersonDaoImpl();
+    static PersonDao get(Config config) {
+        return new PersonDaoImpl(config);
     }
 
     @Select

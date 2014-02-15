@@ -4,30 +4,37 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.seasar.doma.it.dao.EmployeeDao.get;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.MapKeyNamingType;
-import org.seasar.doma.it.ItConfig;
-import org.seasar.doma.it.RollbackRule;
+import org.seasar.doma.it.Container;
+import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.IterationCallback;
 import org.seasar.doma.jdbc.IterationContext;
 import org.seasar.doma.jdbc.builder.SelectBuilder;
 
+@SuppressWarnings("unused")
 public class SelectBuilderTest {
 
+    @ClassRule
+    public static Container container = new Container();
+
     @Rule
-    public RollbackRule rule = new RollbackRule();
+    public Sandbox sandbox = new Sandbox(container);
 
     @Test
     public void testGetScalarSingleResult() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -37,7 +44,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetScalarSingleResult_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 99);
@@ -47,7 +55,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetOptionalScalarSingleResult() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -58,7 +67,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetOptionalScalarSingleResult_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 99);
@@ -69,7 +79,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetScalarResultList() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
         List<String> list = builder.getScalarResultList(String.class);
         assertEquals(14, list.size());
@@ -78,7 +89,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetScalarResultList_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select null from EMPLOYEE");
         List<String> list = builder.getScalarResultList(String.class);
         assertEquals(14, list.size());
@@ -87,7 +99,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetOptionalScalarResultList() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
         List<Optional<String>> list = builder
                 .getOptionalScalarResultList(String.class);
@@ -97,7 +110,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetOptionalScalarResultList_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select null from EMPLOYEE");
         List<Optional<String>> list = builder
                 .getOptionalScalarResultList(String.class);
@@ -107,7 +121,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testIterateAsScalar() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -117,7 +132,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testIterateAsScalar_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 99);
@@ -127,7 +143,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testIterateAsOptionalScalar() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -138,7 +155,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testIterateAsOptionalScalar_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select null from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -149,7 +167,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testStreamScalar() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -160,7 +179,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testStreamScalar_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select null from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 99);
@@ -171,7 +191,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testStreamOptionalScalar() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -182,7 +203,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testStreamOptionalScalar_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select null from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -193,7 +215,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetMapSingleResult() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -207,7 +230,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetMapSingleResult_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 99);
@@ -218,7 +242,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetOptionalMapSingleResult() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -230,7 +255,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetOptionalMapSingleResult_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 99);
@@ -242,7 +268,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetMapResultList() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         List<Map<String, Object>> employees = builder
                 .getMapResultList(MapKeyNamingType.CAMEL_CASE);
@@ -252,7 +279,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testIterateAsMap() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         Integer result = builder.iterateAsMap(MapKeyNamingType.CAMEL_CASE,
                 new IterationCallback<Map<String, Object>, Integer>() {
@@ -269,7 +297,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testStreamMap() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         Optional<Map<String, Object>> result = builder.streamMap(
                 MapKeyNamingType.CAMEL_CASE, stream -> stream.findFirst());
@@ -278,7 +307,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetEntitySingleResult() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -289,7 +319,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetEntitySingleResult_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 99);
@@ -299,7 +330,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetOptionalEntitySingleResult() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
@@ -311,7 +343,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetOptionalEntitySingleResult_null() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 99);
@@ -323,7 +356,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testGetEntityResultList() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         List<Employee> employees = builder.getEntityResultList(Employee.class);
         assertEquals(14, employees.size());
@@ -332,7 +366,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testIterateAsEntity() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         Integer result = builder.iterateAsEntity(Employee.class,
                 new IterationCallback<Employee, Integer>() {
@@ -349,7 +384,8 @@ public class SelectBuilderTest {
 
     @Test
     public void testStreamEntity() throws Exception {
-        SelectBuilder builder = SelectBuilder.newInstance(ItConfig.singleton());
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         Optional<Employee> employee = builder.streamEntity(Employee.class,
                 stream -> stream.findFirst());
@@ -358,7 +394,7 @@ public class SelectBuilderTest {
 
     @Test
     public void testSelectBuilderInDao() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         List<Employee> employees = dao.selectWithBuilder();
         assertEquals(14, employees.size());
     }

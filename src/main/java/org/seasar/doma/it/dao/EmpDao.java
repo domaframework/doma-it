@@ -23,18 +23,18 @@ import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.Emp;
+import org.seasar.doma.jdbc.Config;
 
 /**
  * @author taedium
  * 
  */
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface EmpDao {
 
-    static EmpDao get() {
-        return new EmpDaoImpl();
+    static EmpDao get(Config config) {
+        return new EmpDaoImpl(config);
     }
 
     @Select

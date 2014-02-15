@@ -1,0 +1,89 @@
+/*
+ * Copyright 2004-2010 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+package org.seasar.doma.it;
+
+import java.util.Objects;
+
+import javax.sql.DataSource;
+
+import org.seasar.doma.jdbc.Config;
+import org.seasar.doma.jdbc.SimpleDataSource;
+import org.seasar.doma.jdbc.dialect.Dialect;
+import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
+import org.seasar.doma.jdbc.tx.LocalTransactionManager;
+
+/**
+ * @author nakamura-to
+ *
+ */
+public class AppConfig implements Config {
+
+    private final Dialect dialect;
+
+    private final String dbms;
+
+    private final DataSource originalDataSource;
+
+    private final LocalTransactionDataSource dataSource;
+
+    private final LocalTransactionManager transactionManager;
+
+    public AppConfig(Dialect dialect, String dbms, String url, String user,
+            String password) {
+        Objects.requireNonNull(dialect);
+        Objects.requireNonNull(dbms);
+        Objects.requireNonNull(url);
+        Objects.requireNonNull(user);
+        Objects.requireNonNull(password);
+        this.dialect = dialect;
+        this.dbms = dbms;
+        originalDataSource = createDataSource(url, user, password);
+        dataSource = new LocalTransactionDataSource(originalDataSource);
+        transactionManager = new LocalTransactionManager(
+                dataSource.getLocalTransaction(getJdbcLogger()));
+    }
+
+    private DataSource createDataSource(String url, String user, String password) {
+        SimpleDataSource dataSource = new SimpleDataSource();
+        dataSource.setUrl(url);
+        dataSource.setUser("sa");
+        return dataSource;
+    }
+
+    @Override
+    public Dialect getDialect() {
+        return dialect;
+    }
+
+    @Override
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    @Override
+    public LocalTransactionManager getLocalTransactionManager() {
+        return transactionManager;
+    }
+
+    public String getDbms() {
+        return dbms;
+    }
+
+    public DataSource getOriginalDataSource() {
+        return originalDataSource;
+    }
+
+}

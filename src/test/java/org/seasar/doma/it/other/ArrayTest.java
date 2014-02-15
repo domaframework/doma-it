@@ -2,23 +2,35 @@ package org.seasar.doma.it.other;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.seasar.doma.it.dao.SalEmpDao.get;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Ignore;
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
+import org.seasar.doma.it.Container;
+import org.seasar.doma.it.Dbms;
+import org.seasar.doma.it.RunOn;
+import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.SalEmpDao;
 import org.seasar.doma.it.entity.SalEmp;
 
-// @RunWith(Seasar2.class)
-// @Prerequisite("#ENV not in {'hsqldb', 'h2', 'mysql', 'oracle', 'db2', 'mssql2008', 'sqlite'}")
-@Ignore
+@RunOn(ignore = { Dbms.HSQLDB, Dbms.H2, Dbms.MYSQL, Dbms.ORACLE, Dbms.DB2,
+        Dbms.SQLSERVER, Dbms.SQLITE })
+@SuppressWarnings("unused")
 public class ArrayTest {
+
+    @ClassRule
+    public static Container container = new Container();
+
+    @Rule
+    public Sandbox sandbox = new Sandbox(container);
 
     @Test
     public void testSelect() throws Exception {
-        SalEmpDao dao = SalEmpDao.get();
+        SalEmpDao dao = container.get(SalEmpDao::get);
         List<SalEmp> entities = dao.selectAll();
         assertEquals(2, entities.size());
         SalEmp entity = entities.get(0);
@@ -33,7 +45,7 @@ public class ArrayTest {
 
     @Test
     public void testSelect_2DimesionalArray() throws Exception {
-        SalEmpDao dao = SalEmpDao.get();
+        SalEmpDao dao = container.get(SalEmpDao::get);
         List<SalEmp> entities = dao.selectAll();
         assertEquals(2, entities.size());
         SalEmp entity = entities.get(0);
@@ -58,7 +70,7 @@ public class ArrayTest {
 
     @Test
     public void testInsert() throws Exception {
-        SalEmpDao dao = SalEmpDao.get();
+        SalEmpDao dao = container.get(SalEmpDao::get);
         Integer[] array = new Integer[] { 10, 20, 30, 40 };
         SalEmp entity = new SalEmp();
         entity.setName("hoge");
@@ -73,7 +85,7 @@ public class ArrayTest {
 
     @Test
     public void testInsert_2DimesionalArray() throws Exception {
-        SalEmpDao dao = SalEmpDao.get();
+        SalEmpDao dao = container.get(SalEmpDao::get);
         String[][] array = new String[][] { { "aaa", "bbb" }, { "ccc", "ddd" } };
         SalEmp entity = new SalEmp();
         entity.setName("hoge");
@@ -94,7 +106,7 @@ public class ArrayTest {
 
     @Test
     public void testUpdate() throws Exception {
-        SalEmpDao dao = SalEmpDao.get();
+        SalEmpDao dao = container.get(SalEmpDao::get);
         List<SalEmp> entities = dao.selectAll();
         assertEquals(2, entities.size());
         SalEmp entity = entities.get(0);
@@ -112,7 +124,7 @@ public class ArrayTest {
 
     @Test
     public void testUpdate_2DimesionalArray() throws Exception {
-        SalEmpDao dao = SalEmpDao.get();
+        SalEmpDao dao = container.get(SalEmpDao::get);
         List<SalEmp> entities = dao.selectAll();
         assertEquals(2, entities.size());
         SalEmp entity = entities.get(0);

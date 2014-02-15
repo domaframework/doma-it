@@ -18,6 +18,7 @@ package org.seasar.doma.it.dao;
 import java.util.List;
 import java.util.Optional;
 
+import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.BatchUpdate;
@@ -26,18 +27,18 @@ import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.Worker;
+import org.seasar.doma.jdbc.Config;
 
 /**
  * @author nakamura-to
  *
  */
-@Dao(config = ItConfig.class)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface WorkerDao {
 
-    public static WorkerDao get() {
-        return new WorkerDaoImpl();
+    public static WorkerDao get(Config config) {
+        return new WorkerDaoImpl(config);
     }
 
     @Select

@@ -24,14 +24,14 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Function;
 import org.seasar.doma.In;
 import org.seasar.doma.MapKeyNamingType;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.Employee;
+import org.seasar.doma.jdbc.Config;
 
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface FunctionDao {
 
-    static FunctionDao get() {
-        return new FunctionDaoImpl();
+    static FunctionDao get(Config config) {
+        return new FunctionDaoImpl(config);
     }
 
     @Function

@@ -17,10 +17,14 @@ package org.seasar.doma.it.sqlfile;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.seasar.doma.it.dao.DepartmentDao.get;
+import static org.seasar.doma.it.dao.DeptDao.get;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.it.RollbackRule;
+import org.seasar.doma.it.Container;
+import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
 import org.seasar.doma.it.domain.Identity;
@@ -29,14 +33,18 @@ import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.jdbc.OptimisticLockException;
 import org.seasar.doma.jdbc.Result;
 
+@SuppressWarnings("unused")
 public class SqlFileUpdateTest {
 
+    @ClassRule
+    public static Container container = new Container();
+
     @Rule
-    public RollbackRule rule = new RollbackRule();
+    public Sandbox sandbox = new Sandbox(container);
 
     @Test
     public void test() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
         department.setDepartmentId(new Identity<Department>(1));
         department.setDepartmentNo(1);
@@ -53,7 +61,7 @@ public class SqlFileUpdateTest {
 
     @Test
     public void testImmutable() throws Exception {
-        DeptDao dao = DeptDao.get();
+        DeptDao dao = container.get(DeptDao::get);
         Dept dept = new Dept(new Identity<Dept>(1), 1, "hoge", null, 1);
         Result<Dept> result = dao.updateBySqlFile(dept);
         assertEquals(1, result.getCount());
@@ -68,7 +76,7 @@ public class SqlFileUpdateTest {
 
     @Test
     public void testOptimisticLockException() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(1);
@@ -83,7 +91,7 @@ public class SqlFileUpdateTest {
 
     @Test
     public void testSuppressOptimisticLockException() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(1);

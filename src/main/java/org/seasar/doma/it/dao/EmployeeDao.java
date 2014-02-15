@@ -16,13 +16,10 @@
 package org.seasar.doma.it.dao;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
-import javax.sql.DataSource;
 
 import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
@@ -31,26 +28,17 @@ import org.seasar.doma.Delete;
 import org.seasar.doma.MapKeyNamingType;
 import org.seasar.doma.Select;
 import org.seasar.doma.SelectStrategyType;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.IterationCallback;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.builder.SelectBuilder;
 
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface EmployeeDao {
 
-    static EmployeeDao get() {
-        return new EmployeeDaoImpl();
-    }
-
-    static EmployeeDao get(Connection connection) {
-        return new EmployeeDaoImpl(connection);
-    }
-
-    static EmployeeDao get(DataSource dataSource) {
-        return new EmployeeDaoImpl(dataSource);
+    static EmployeeDao get(Config config) {
+        return new EmployeeDaoImpl(config);
     }
 
     @Select

@@ -20,13 +20,25 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.seasar.doma.it.dao.CompKeyDepartmentDao.get;
+import static org.seasar.doma.it.dao.DepartmentDao.get;
+import static org.seasar.doma.it.dao.DeptDao.get;
+import static org.seasar.doma.it.dao.IdentityStrategyDao.get;
+import static org.seasar.doma.it.dao.NoIdDao.get;
+import static org.seasar.doma.it.dao.SequenceStrategyDao.get;
+import static org.seasar.doma.it.dao.TableStrategyDao.get;
+import static org.seasar.doma.it.dao.WorkerDao.get;
 
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.it.RollbackRule;
+import org.seasar.doma.it.Container;
+import org.seasar.doma.it.Dbms;
+import org.seasar.doma.it.RunOn;
+import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
@@ -48,14 +60,18 @@ import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.message.Message;
 
+@SuppressWarnings("unused")
 public class AutoBatchInsertTest {
 
+    @ClassRule
+    public static Container container = new Container();
+
     @Rule
-    public RollbackRule rule = new RollbackRule();
+    public Sandbox sandbox = new Sandbox(container);
 
     @Test
     public void test() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
         department.setDepartmentId(new Identity<Department>(99));
         department.setDepartmentNo(99);
@@ -87,7 +103,7 @@ public class AutoBatchInsertTest {
 
     @Test
     public void testImmutable() throws Exception {
-        DeptDao dao = DeptDao.get();
+        DeptDao dao = container.get(DeptDao::get);
         Dept dept = new Dept(new Identity<Dept>(99), 99, "hoge", null, null);
         Dept dept2 = new Dept(new Identity<Dept>(98), 98, "foo", null, null);
         BatchResult<Dept> result = dao.insert(Arrays.asList(dept, dept2));
@@ -119,7 +135,7 @@ public class AutoBatchInsertTest {
 
     @Test
     public void testCompositeKey() throws Exception {
-        CompKeyDepartmentDao dao = CompKeyDepartmentDao.get();
+        CompKeyDepartmentDao dao = container.get(CompKeyDepartmentDao::get);
         CompKeyDepartment department = new CompKeyDepartment();
         department.setDepartmentId1(99);
         department.setDepartmentId2(99);
@@ -155,7 +171,7 @@ public class AutoBatchInsertTest {
 
     @Test
     public void testIdNotAssigned() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
         department.setDepartmentNo(99);
         department.setDepartmentName("hoge");
@@ -173,7 +189,7 @@ public class AutoBatchInsertTest {
     @Test
     // @Prerequisite("#ENV not in {'oracle'}")
     public void testId_Identity() throws Exception {
-        IdentityStrategyDao dao = IdentityStrategyDao.get();
+        IdentityStrategyDao dao = container.get(IdentityStrategyDao::get);
         for (int i = 0; i < 110; i++) {
             IdentityStrategy entity = new IdentityStrategy();
             IdentityStrategy entity2 = new IdentityStrategy();
@@ -190,7 +206,7 @@ public class AutoBatchInsertTest {
     @Test
     // @Prerequisite("#ENV not in {'mysql', 'mssql2008', 'sqlite'}")
     public void testId_sequence() throws Exception {
-        SequenceStrategyDao dao = SequenceStrategyDao.get();
+        SequenceStrategyDao dao = container.get(SequenceStrategyDao::get);
         for (int i = 0; i < 110; i++) {
             SequenceStrategy entity = new SequenceStrategy();
             SequenceStrategy entity2 = new SequenceStrategy();
@@ -207,9 +223,9 @@ public class AutoBatchInsertTest {
     // it seems that sqlite doesn't support requiresNew transaction
     // so ignore this test case
     @Test
-    // @Prerequisite("#ENV not in {'sqlite'}")
+    @RunOn(ignore = { Dbms.SQLITE })
     public void testId_table() throws Exception {
-        TableStrategyDao dao = TableStrategyDao.get();
+        TableStrategyDao dao = container.get(TableStrategyDao::get);
         for (int i = 0; i < 110; i++) {
             TableStrategy entity = new TableStrategy();
             TableStrategy entity2 = new TableStrategy();
@@ -225,7 +241,7 @@ public class AutoBatchInsertTest {
 
     @Test
     public void testNoId() throws Exception {
-        NoIdDao dao = NoIdDao.get();
+        NoIdDao dao = container.get(NoIdDao::get);
         NoId entity = new NoId();
         entity.setValue1(1);
         entity.setValue2(2);
@@ -240,7 +256,7 @@ public class AutoBatchInsertTest {
 
     @Test
     public void testOptional() throws Exception {
-        WorkerDao dao = WorkerDao.get();
+        WorkerDao dao = container.get(WorkerDao::get);
         Worker worker = new Worker();
         worker.employeeId = Optional.of(9998);
         worker.employeeNo = Optional.of(9998);

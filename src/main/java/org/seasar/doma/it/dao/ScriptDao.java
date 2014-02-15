@@ -3,13 +3,13 @@ package org.seasar.doma.it.dao;
 import org.seasar.doma.AccessLevel;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Script;
-import org.seasar.doma.it.ItConfig;
+import org.seasar.doma.jdbc.Config;
 
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface ScriptDao {
 
-    static ScriptDao get() {
-        return new ScriptDaoImpl();
+    static ScriptDao get(Config config) {
+        return new ScriptDaoImpl(config);
     }
 
     @Script

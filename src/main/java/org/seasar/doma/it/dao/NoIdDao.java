@@ -25,14 +25,14 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Update;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.NoId;
+import org.seasar.doma.jdbc.Config;
 
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface NoIdDao {
 
-    static NoIdDao get() {
-        return new NoIdDaoImpl();
+    static NoIdDao get(Config config) {
+        return new NoIdDaoImpl(config);
     }
 
     @Insert

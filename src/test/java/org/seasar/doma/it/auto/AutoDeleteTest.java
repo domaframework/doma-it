@@ -18,12 +18,19 @@ package org.seasar.doma.it.auto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
+import static org.seasar.doma.it.dao.CompKeyEmployeeDao.get;
+import static org.seasar.doma.it.dao.EmployeeDao.get;
+import static org.seasar.doma.it.dao.NoIdDao.get;
+import static org.seasar.doma.it.dao.PersonDao.get;
+import static org.seasar.doma.it.dao.WorkerDao.get;
 
 import java.util.Optional;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.it.RollbackRule;
+import org.seasar.doma.it.Container;
+import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.CompKeyEmployeeDao;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.NoIdDao;
@@ -39,14 +46,18 @@ import org.seasar.doma.jdbc.OptimisticLockException;
 import org.seasar.doma.jdbc.Result;
 import org.seasar.doma.message.Message;
 
+@SuppressWarnings("unused")
 public class AutoDeleteTest {
 
+    @ClassRule
+    public static Container container = new Container();
+
     @Rule
-    public RollbackRule rule = new RollbackRule();
+    public Sandbox sandbox = new Sandbox(container);
 
     @Test
     public void test() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Employee employee = new Employee();
         employee.setEmployeeId(1);
         employee.setVersion(1);
@@ -59,7 +70,7 @@ public class AutoDeleteTest {
 
     @Test
     public void testImmutable() throws Exception {
-        PersonDao dao = PersonDao.get();
+        PersonDao dao = container.get(PersonDao::get);
         Person person = new Person(1, null, null, null, null, null, null, null,
                 1);
         Result<Person> result = dao.delete(person);
@@ -73,7 +84,7 @@ public class AutoDeleteTest {
 
     @Test
     public void testIgnoreVersion() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Employee employee = new Employee();
         employee.setEmployeeId(1);
         employee.setVersion(99);
@@ -86,7 +97,7 @@ public class AutoDeleteTest {
 
     @Test
     public void testCompositeKey() throws Exception {
-        CompKeyEmployeeDao dao = CompKeyEmployeeDao.get();
+        CompKeyEmployeeDao dao = container.get(CompKeyEmployeeDao::get);
         CompKeyEmployee employee = new CompKeyEmployee();
         employee.setEmployeeId1(1);
         employee.setEmployeeId2(1);
@@ -100,7 +111,7 @@ public class AutoDeleteTest {
 
     @Test
     public void testOptimisticLockException() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Employee employee1 = dao.selectById(new Integer(1));
         employee1.setEmployeeName("hoge");
         Employee employee2 = dao.selectById(new Integer(1));
@@ -115,7 +126,7 @@ public class AutoDeleteTest {
 
     @Test
     public void testSuppressOptimisticLockException() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Employee employee1 = dao.selectById(1);
         employee1.setEmployeeName("hoge");
         Employee employee2 = dao.selectById(1);
@@ -126,7 +137,7 @@ public class AutoDeleteTest {
 
     @Test
     public void testNoId() throws Exception {
-        NoIdDao dao = NoIdDao.get();
+        NoIdDao dao = container.get(NoIdDao::get);
         NoId entity = new NoId();
         entity.setValue1(1);
         entity.setValue2(2);
@@ -140,7 +151,7 @@ public class AutoDeleteTest {
 
     @Test
     public void testOptional() throws Exception {
-        WorkerDao dao = WorkerDao.get();
+        WorkerDao dao = container.get(WorkerDao::get);
         Worker employee = new Worker();
         employee.employeeId = Optional.of(1);
         employee.version = Optional.of(1);

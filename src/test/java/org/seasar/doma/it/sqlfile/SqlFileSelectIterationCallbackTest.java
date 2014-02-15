@@ -21,9 +21,11 @@ import static org.junit.Assert.assertTrue;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.it.RollbackRule;
+import org.seasar.doma.it.Container;
+import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.IterationCallback;
@@ -32,12 +34,15 @@ import org.seasar.doma.jdbc.SelectOptions;
 
 public class SqlFileSelectIterationCallbackTest {
 
+    @ClassRule
+    public static Container container = new Container();
+
     @Rule
-    public RollbackRule rule = new RollbackRule();
+    public Sandbox sandbox = new Sandbox(container);
 
     @Test
     public void testEntity() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Integer count = dao
                 .selectAll(new IterationCallback<Employee, Integer>() {
 
@@ -55,7 +60,7 @@ public class SqlFileSelectIterationCallbackTest {
 
     @Test
     public void testEntity_limitOffset() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Integer count = dao.selectAll(
                 new IterationCallback<Employee, Integer>() {
 
@@ -73,7 +78,7 @@ public class SqlFileSelectIterationCallbackTest {
 
     @Test
     public void testDomain() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         BigDecimal total = dao
                 .selectAllSalary(new IterationCallback<BigDecimal, BigDecimal>() {
 
@@ -93,7 +98,7 @@ public class SqlFileSelectIterationCallbackTest {
 
     @Test
     public void testDomain_limitOffset() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         BigDecimal total = dao.selectAllSalary(
                 new IterationCallback<BigDecimal, BigDecimal>() {
 
@@ -113,7 +118,7 @@ public class SqlFileSelectIterationCallbackTest {
 
     @Test
     public void testMap() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Integer count = dao
                 .selectAllAsMapList(new IterationCallback<Map<String, Object>, Integer>() {
 
@@ -131,7 +136,7 @@ public class SqlFileSelectIterationCallbackTest {
 
     @Test
     public void testMap_limitOffset() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Integer count = dao.selectAllAsMapList(
                 new IterationCallback<Map<String, Object>, Integer>() {
 

@@ -16,10 +16,14 @@
 package org.seasar.doma.it.sqlfile;
 
 import static org.junit.Assert.assertEquals;
+import static org.seasar.doma.it.dao.DepartmentDao.get;
+import static org.seasar.doma.it.dao.DeptDao.get;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.it.RollbackRule;
+import org.seasar.doma.it.Container;
+import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
 import org.seasar.doma.it.domain.Identity;
@@ -27,14 +31,18 @@ import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.jdbc.Result;
 
+@SuppressWarnings("unused")
 public class SqlFileInsertTest {
 
+    @ClassRule
+    public static Container container = new Container();
+
     @Rule
-    public RollbackRule rule = new RollbackRule();
+    public Sandbox sandbox = new Sandbox(container);
 
     @Test
     public void test() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
         department.setDepartmentId(new Identity<Department>(99));
         department.setDepartmentNo(99);
@@ -49,7 +57,7 @@ public class SqlFileInsertTest {
 
     @Test
     public void testImmutable() throws Exception {
-        DeptDao dao = DeptDao.get();
+        DeptDao dao = container.get(DeptDao::get);
         Dept dept = new Dept(new Identity<Dept>(99), 99, "hoge", null, null);
         Result<Dept> result = dao.insertBySqlFile(dept);
         assertEquals(1, result.getCount());

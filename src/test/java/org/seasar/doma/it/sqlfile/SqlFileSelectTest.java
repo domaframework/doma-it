@@ -5,15 +5,19 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
+import static org.seasar.doma.it.dao.EmployeeDao.get;
+import static org.seasar.doma.it.dao.WorkerDao.get;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.it.RollbackRule;
+import org.seasar.doma.it.Container;
+import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.domain.Salary;
@@ -21,15 +25,18 @@ import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.ResultMappingException;
 
-//@RunWith(Seasar2.class)
+@SuppressWarnings("unused")
 public class SqlFileSelectTest {
 
+    @ClassRule
+    public static Container container = new Container();
+
     @Rule
-    public RollbackRule rule = new RollbackRule();
+    public Sandbox sandbox = new Sandbox(container);
 
     @Test
     public void testEmbeddedVariable() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         List<Employee> list = dao.selectWithOptionalOrderBy("S",
                 "order by EMPLOYEE_ID");
         assertEquals(2, list.size());
@@ -44,35 +51,35 @@ public class SqlFileSelectTest {
 
     @Test
     public void testNull() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Employee employee = dao.selectById(9);
         assertNull(employee.getManagerId());
     }
 
     @Test
     public void testPrefixSearch() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         List<Employee> employees = dao.selectByNamePrefix("S");
         assertEquals(2, employees.size());
     }
 
     @Test
     public void testInsideSearch() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         List<Employee> employees = dao.selectByNameInfix("S");
         assertEquals(5, employees.size());
     }
 
     @Test
     public void testSuffixSearch() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         List<Employee> employees = dao.selectByNameSuffix("S");
         assertEquals(3, employees.size());
     }
 
     @Test
     public void testMap() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Map<String, Object> employee = dao.selectByIdAsMap(1);
         assertNotNull(employee);
         assertNotNull(employee.get("employeeId"));
@@ -82,21 +89,21 @@ public class SqlFileSelectTest {
 
     @Test
     public void testMapList() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         List<Map<String, Object>> employees = dao.selectAllAsMapList();
         assertEquals(14, employees.size());
     }
 
     @Test
     public void testEnsureResultMappping_false() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         List<Employee> employees = dao.selectOnlyNameWithoutMappingCheck();
         assertEquals(14, employees.size());
     }
 
     @Test
     public void testEnsureResultMappping_true() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         try {
             dao.selectOnlyNameWithMappingCheck();
             fail();
@@ -107,7 +114,7 @@ public class SqlFileSelectTest {
 
     @Test
     public void testOptional() throws Exception {
-        WorkerDao dao = WorkerDao.get();
+        WorkerDao dao = container.get(WorkerDao::get);
         Worker worker = dao.selectById(Optional.of(9));
         assertEquals(Integer.valueOf(9), worker.employeeId.get());
         assertEquals(Integer.valueOf(7839), worker.employeeNo.get());
@@ -123,7 +130,7 @@ public class SqlFileSelectTest {
 
     @Test
     public void testOptional_expression() throws Exception {
-        WorkerDao dao = WorkerDao.get();
+        WorkerDao dao = container.get(WorkerDao::get);
         Worker worker = new Worker();
         worker.employeeNo = Optional.of(7801);
         worker.managerId = Optional.empty();

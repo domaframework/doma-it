@@ -16,22 +16,29 @@
 package org.seasar.doma.it.sqlfile;
 
 import static org.junit.Assert.assertEquals;
+import static org.seasar.doma.it.dao.EmployeeDao.get;
 
 import java.math.BigDecimal;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.it.RollbackRule;
+import org.seasar.doma.it.Container;
+import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.EmployeeDao;
 
+@SuppressWarnings("unused")
 public class SqlFileSelectStreamTest {
 
+    @ClassRule
+    public static Container container = new Container();
+
     @Rule
-    public RollbackRule rule = new RollbackRule();
+    public Sandbox sandbox = new Sandbox(container);
 
     @Test
     public void testStreamAll() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Long count = dao.streamAll(stream -> stream
                 .filter(e -> e.getEmployeeName() != null)
                 .filter(e -> e.getEmployeeName().startsWith("S")).count());
@@ -40,7 +47,7 @@ public class SqlFileSelectStreamTest {
 
     @Test
     public void testStreamBySalary() throws Exception {
-        EmployeeDao dao = EmployeeDao.get();
+        EmployeeDao dao = container.get(EmployeeDao::get);
         Long count = dao.streamBySalary(new BigDecimal(2000),
                 stream -> stream.count());
         assertEquals(new Long(6), count);

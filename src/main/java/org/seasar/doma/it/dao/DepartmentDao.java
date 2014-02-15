@@ -24,14 +24,14 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.Department;
+import org.seasar.doma.jdbc.Config;
 
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface DepartmentDao {
 
-    static DepartmentDao get() {
-        return new DepartmentDaoImpl();
+    static DepartmentDao get(Config config) {
+        return new DepartmentDaoImpl(config);
     }
 
     @Select

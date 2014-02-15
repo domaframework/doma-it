@@ -18,14 +18,21 @@ package org.seasar.doma.it.auto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
+import static org.seasar.doma.it.dao.CompKeyDepartmentDao.get;
+import static org.seasar.doma.it.dao.DepartmentDao.get;
+import static org.seasar.doma.it.dao.DeptDao.get;
+import static org.seasar.doma.it.dao.NoIdDao.get;
+import static org.seasar.doma.it.dao.WorkerDao.get;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.it.RollbackRule;
+import org.seasar.doma.it.Container;
+import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
@@ -42,14 +49,18 @@ import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.jdbc.OptimisticLockException;
 import org.seasar.doma.message.Message;
 
+@SuppressWarnings("unused")
 public class AutoBatchUpdateTest {
 
+    @ClassRule
+    public static Container container = new Container();
+
     @Rule
-    public RollbackRule rule = new RollbackRule();
+    public Sandbox sandbox = new Sandbox(container);
 
     @Test
     public void test() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
         department.setDepartmentId(new Identity<Department>(1));
         department.setDepartmentNo(1);
@@ -83,7 +94,7 @@ public class AutoBatchUpdateTest {
 
     @Test
     public void testImmutable() throws Exception {
-        DeptDao dao = DeptDao.get();
+        DeptDao dao = container.get(DeptDao::get);
         Dept dept = new Dept(new Identity<Dept>(1), 1, "hoge", null, 1);
         Dept dept2 = new Dept(new Identity<Dept>(2), 2, "foo", null, 1);
         BatchResult<Dept> result = dao.update(Arrays.asList(dept, dept2));
@@ -114,7 +125,7 @@ public class AutoBatchUpdateTest {
 
     @Test
     public void testIncludeVersion() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
         department.setDepartmentId(new Identity<Department>(1));
         department.setDepartmentNo(1);
@@ -148,7 +159,7 @@ public class AutoBatchUpdateTest {
     }
 
     public void testCompositeKey() throws Exception {
-        CompKeyDepartmentDao dao = CompKeyDepartmentDao.get();
+        CompKeyDepartmentDao dao = container.get(CompKeyDepartmentDao::get);
         CompKeyDepartment department = new CompKeyDepartment();
         department.setDepartmentId1(1);
         department.setDepartmentId2(1);
@@ -185,7 +196,7 @@ public class AutoBatchUpdateTest {
 
     @Test
     public void testOptimisticLockException() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(2);
@@ -202,7 +213,7 @@ public class AutoBatchUpdateTest {
 
     @Test
     public void testSuppressOptimisticLockException() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(2);
@@ -216,7 +227,7 @@ public class AutoBatchUpdateTest {
 
     @Test
     public void testNoId() throws Exception {
-        NoIdDao dao = NoIdDao.get();
+        NoIdDao dao = container.get(NoIdDao::get);
         NoId entity = new NoId();
         entity.setValue1(1);
         entity.setValue2(2);
@@ -233,14 +244,14 @@ public class AutoBatchUpdateTest {
 
     @Test
     public void testSqlExecutionSkip() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         int[] result = dao.update(new ArrayList<Department>());
         assertEquals(0, result.length);
     }
 
     @Test
     public void testOptional() throws Exception {
-        WorkerDao dao = WorkerDao.get();
+        WorkerDao dao = container.get(WorkerDao::get);
         Worker worker = new Worker();
         worker.employeeId = Optional.of(1);
         worker.employeeNo = Optional.of(5555);

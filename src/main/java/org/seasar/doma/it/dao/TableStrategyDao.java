@@ -21,14 +21,14 @@ import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.TableStrategy;
+import org.seasar.doma.jdbc.Config;
 
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface TableStrategyDao {
 
-    static TableStrategyDao get() {
-        return new TableStrategyDaoImpl();
+    static TableStrategyDao get(Config config) {
+        return new TableStrategyDaoImpl(config);
     }
 
     @Insert

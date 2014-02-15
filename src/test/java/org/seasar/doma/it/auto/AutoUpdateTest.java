@@ -17,13 +17,20 @@ package org.seasar.doma.it.auto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import static org.seasar.doma.it.dao.CompKeyDepartmentDao.get;
+import static org.seasar.doma.it.dao.DepartmentDao.get;
+import static org.seasar.doma.it.dao.DeptDao.get;
+import static org.seasar.doma.it.dao.NoIdDao.get;
+import static org.seasar.doma.it.dao.WorkerDao.get;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.seasar.doma.it.RollbackRule;
+import org.seasar.doma.it.Container;
+import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
@@ -39,14 +46,18 @@ import org.seasar.doma.jdbc.OptimisticLockException;
 import org.seasar.doma.jdbc.Result;
 import org.seasar.doma.message.Message;
 
+@SuppressWarnings("unused")
 public class AutoUpdateTest {
 
+    @ClassRule
+    public static Container container = new Container();
+
     @Rule
-    public RollbackRule rule = new RollbackRule();
+    public Sandbox sandbox = new Sandbox(container);
 
     @Test
     public void test() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = dao.selectById(1);
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
@@ -64,7 +75,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testImmutable() throws Exception {
-        DeptDao dao = DeptDao.get();
+        DeptDao dao = container.get(DeptDao::get);
         Dept dept = dao.selectById(1);
         dept = new Dept(dept.getDepartmentId(), 1, "hoge", dept.getLocation(),
                 dept.getVersion());
@@ -84,7 +95,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testIgnoreVersion() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = dao.selectById(1);
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
@@ -103,7 +114,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testExcludeNull() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = dao.selectById(1);
         department.setDepartmentNo(1);
         department.setDepartmentName(null);
@@ -120,7 +131,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testCompositeKey() throws Exception {
-        CompKeyDepartmentDao dao = CompKeyDepartmentDao.get();
+        CompKeyDepartmentDao dao = container.get(CompKeyDepartmentDao::get);
         CompKeyDepartment department = dao.selectById(1, 1);
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
@@ -140,7 +151,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testOptimisticLockException() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(1);
@@ -155,7 +166,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testSuppressOptimisticLockException() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(1);
@@ -167,7 +178,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testNoId() throws Exception {
-        NoIdDao dao = NoIdDao.get();
+        NoIdDao dao = container.get(NoIdDao::get);
         NoId entity = new NoId();
         entity.setValue1(1);
         entity.setValue2(2);
@@ -181,7 +192,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testSqlExecutionSkip() throws Exception {
-        DepartmentDao dao = DepartmentDao.get();
+        DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = dao.selectById(1);
         int result = dao.update(department);
         assertEquals(0, result);
@@ -189,7 +200,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testOptional() throws Exception {
-        WorkerDao dao = WorkerDao.get();
+        WorkerDao dao = container.get(WorkerDao::get);
         Worker worker = dao.selectById(Optional.of(1));
         worker.employeeName = Optional.of("hoge");
         int result = dao.update(worker);

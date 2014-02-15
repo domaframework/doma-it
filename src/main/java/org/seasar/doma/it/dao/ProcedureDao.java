@@ -27,16 +27,16 @@ import org.seasar.doma.MapKeyNamingType;
 import org.seasar.doma.Out;
 import org.seasar.doma.Procedure;
 import org.seasar.doma.ResultSet;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Employee;
+import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Reference;
 
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface ProcedureDao {
 
-    static ProcedureDao get() {
-        return new ProcedureDaoImpl();
+    static ProcedureDao get(Config config) {
+        return new ProcedureDaoImpl(config);
     }
 
     @Procedure

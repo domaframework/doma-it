@@ -24,20 +24,20 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.jdbc.BatchResult;
+import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Result;
 
 /**
  * @author taedium
  * 
  */
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface DeptDao {
 
-    static DeptDao get() {
-        return new DeptDaoImpl();
+    static DeptDao get(Config config) {
+        return new DeptDaoImpl(config);
     }
 
     @Select

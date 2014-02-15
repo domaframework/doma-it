@@ -22,14 +22,14 @@ import org.seasar.doma.BatchDelete;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.Select;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.CompKeyEmployee;
+import org.seasar.doma.jdbc.Config;
 
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface CompKeyEmployeeDao {
 
-    static CompKeyEmployeeDao get() {
-        return new CompKeyEmployeeDaoImpl();
+    static CompKeyEmployeeDao get(Config config) {
+        return new CompKeyEmployeeDaoImpl(config);
     }
 
     @Select

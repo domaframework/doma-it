@@ -24,14 +24,14 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
-import org.seasar.doma.it.ItConfig;
 import org.seasar.doma.it.entity.CompKeyDepartment;
+import org.seasar.doma.jdbc.Config;
 
-@Dao(config = ItConfig.class, accessLevel = AccessLevel.PACKAGE)
+@Dao(accessLevel = AccessLevel.PACKAGE)
 public interface CompKeyDepartmentDao {
 
-    static CompKeyDepartmentDao get() {
-        return new CompKeyDepartmentDaoImpl();
+    static CompKeyDepartmentDao get(Config config) {
+        return new CompKeyDepartmentDaoImpl(config);
     }
 
     @Select
