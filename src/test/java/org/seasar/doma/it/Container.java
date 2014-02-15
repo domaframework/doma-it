@@ -1,6 +1,8 @@
 package org.seasar.doma.it;
 
 import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +40,8 @@ import org.seasar.doma.jdbc.dialect.SqliteDialect;
  */
 public class Container extends TestWatcher {
 
+    private Logger logger = Logger.getLogger(Container.class.getName());
+
     private Pattern jdbcUrlPattern = Pattern.compile("^jdbc:([^:]*):.*");
 
     private AppConfig config;
@@ -50,6 +54,7 @@ public class Container extends TestWatcher {
     protected void starting(Description description) {
         String url = System.getProperty("url",
                 "jdbc:h2:mem:it;DB_CLOSE_DELAY=-1");
+        logger.log(Level.INFO, "url=" + url);
         String user = System.getProperty("user", "sa");
         String password = System.getProperty("password", "");
         Dbms dbms = determineDbms(url);
