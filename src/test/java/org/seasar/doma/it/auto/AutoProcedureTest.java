@@ -30,7 +30,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Dbms;
-import org.seasar.doma.it.RunOn;
+import org.seasar.doma.it.Run;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.ProcedureDao;
@@ -40,7 +40,7 @@ import org.seasar.doma.jdbc.Reference;
 import org.seasar.doma.jdbc.ResultMappingException;
 
 @SuppressWarnings("unused")
-@RunOn(ignore = { Dbms.HSQLDB, Dbms.H2, Dbms.SQLITE })
+@Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.SQLITE })
 public class AutoProcedureTest {
 
     @ClassRule

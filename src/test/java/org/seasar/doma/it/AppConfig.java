@@ -33,7 +33,7 @@ public class AppConfig implements Config {
 
     private final Dialect dialect;
 
-    private final String dbms;
+    private final Dbms dbms;
 
     private final DataSource originalDataSource;
 
@@ -41,7 +41,7 @@ public class AppConfig implements Config {
 
     private final LocalTransactionManager transactionManager;
 
-    public AppConfig(Dialect dialect, String dbms, String url, String user,
+    public AppConfig(Dialect dialect, Dbms dbms, String url, String user,
             String password) {
         Objects.requireNonNull(dialect);
         Objects.requireNonNull(dbms);
@@ -78,7 +78,7 @@ public class AppConfig implements Config {
         return transactionManager;
     }
 
-    public String getDbms() {
+    public Dbms getDbms() {
         return dbms;
     }
 

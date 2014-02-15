@@ -29,7 +29,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Dbms;
-import org.seasar.doma.it.RunOn;
+import org.seasar.doma.it.Run;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.FunctionDao;
@@ -38,7 +38,7 @@ import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.ResultMappingException;
 
 @SuppressWarnings("unused")
-@RunOn(ignore = { Dbms.HSQLDB, Dbms.H2, Dbms.DB2, Dbms.SQLITE })
+@Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.DB2, Dbms.SQLITE })
 public class AutoFunctionTest {
 
     @ClassRule
@@ -84,7 +84,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSet() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
         List<Employee> result = dao.func_resultset(new Integer(1));
@@ -92,7 +92,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSet_check() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
         try {
@@ -104,7 +104,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSet_nocheck() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
         List<Employee> result = dao.func_resultset_nocheck(new Integer(1));
@@ -112,7 +112,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSet_map() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
         List<Map<String, Object>> result = dao
@@ -121,7 +121,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSetAndUpdate() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
         List<Employee> result = dao.func_resultset_update(new Integer(1));
@@ -132,7 +132,7 @@ public class AutoFunctionTest {
     }
 
     @Test
-    // @Prerequisite("#ENV not in {'mysql', 'mssql2008'}")
+    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSetAndUpdate2() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
         List<Employee> result = dao.func_resultset_update2(new Integer(1));

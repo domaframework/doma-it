@@ -7,7 +7,14 @@ import java.util.regex.Pattern;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.seasar.doma.it.dao.ScriptDao;
+import org.seasar.doma.jdbc.dialect.Db2Dialect;
 import org.seasar.doma.jdbc.dialect.H2Dialect;
+import org.seasar.doma.jdbc.dialect.HsqldbDialect;
+import org.seasar.doma.jdbc.dialect.MssqlDialect;
+import org.seasar.doma.jdbc.dialect.MysqlDialect;
+import org.seasar.doma.jdbc.dialect.OracleDialect;
+import org.seasar.doma.jdbc.dialect.PostgresDialect;
+import org.seasar.doma.jdbc.dialect.SqliteDialect;
 
 /*
  * Copyright 2004-2010 the Seasar Foundation and the Others.
@@ -31,7 +38,7 @@ import org.seasar.doma.jdbc.dialect.H2Dialect;
  */
 public class Container extends TestWatcher {
 
-    private Pattern pattern = Pattern.compile("^jdbc:([^:]*):.*");
+    private Pattern jdbcUrlPattern = Pattern.compile("^jdbc:([^:]*):.*");
 
     private AppConfig config;
 
@@ -45,7 +52,7 @@ public class Container extends TestWatcher {
                 "jdbc:h2:mem:it;DB_CLOSE_DELAY=-1");
         String user = System.getProperty("user", "sa");
         String password = System.getProperty("password", "");
-        String dbms = extractDbms(url);
+        Dbms dbms = determineDbms(url);
         config = createConfig(dbms, url, user, password);
         config.getLocalTransactionManager().required(() -> {
             ScriptDao dao = ScriptDao.get(config);
@@ -53,21 +60,36 @@ public class Container extends TestWatcher {
         });
     }
 
-    protected String extractDbms(String url) {
-        Matcher matcher = pattern.matcher(url);
+    protected Dbms determineDbms(String url) {
+        Matcher matcher = jdbcUrlPattern.matcher(url);
         if (matcher.matches()) {
-            return matcher.group(1);
+            return Dbms.valueOf(matcher.group(1).toUpperCase());
         }
         throw new IllegalArgumentException("url: " + url);
     }
 
-    protected AppConfig createConfig(String dbms, String url, String user,
+    protected AppConfig createConfig(Dbms dbms, String url, String user,
             String password) {
         switch (dbms) {
-        case "h2":
+        case H2:
             return new AppConfig(new H2Dialect(), dbms, url, user, password);
+        case HSQLDB:
+            return new AppConfig(new HsqldbDialect(), dbms, url, user, password);
+        case SQLITE:
+            return new AppConfig(new SqliteDialect(), dbms, url, user, password);
+        case MYSQL:
+            return new AppConfig(new MysqlDialect(), dbms, url, user, password);
+        case POSTGRESQL:
+            return new AppConfig(new PostgresDialect(), dbms, url, user,
+                    password);
+        case SQLSERVER:
+            return new AppConfig(new MssqlDialect(), dbms, url, user, password);
+        case ORACLE:
+            return new AppConfig(new OracleDialect(), dbms, url, user, password);
+        case DB2:
+            return new AppConfig(new Db2Dialect(), dbms, url, user, password);
         }
-        throw new IllegalArgumentException("url is illegal: " + url);
+        throw new IllegalArgumentException("unreachable: " + dbms);
     }
 
     @Override

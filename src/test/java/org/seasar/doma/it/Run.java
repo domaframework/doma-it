@@ -26,9 +26,9 @@ import java.lang.annotation.Target;
  */
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RunOn {
+public @interface Run {
 
-    Dbms[] value() default {};
+    Dbms[] onlyIf() default {};
 
-    Dbms[] ignore() default {};
+    Dbms[] unless() default {};
 }

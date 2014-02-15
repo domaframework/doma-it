@@ -12,12 +12,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Dbms;
-import org.seasar.doma.it.RunOn;
+import org.seasar.doma.it.Run;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.SalEmpDao;
 import org.seasar.doma.it.entity.SalEmp;
 
-@RunOn(ignore = { Dbms.HSQLDB, Dbms.H2, Dbms.MYSQL, Dbms.ORACLE, Dbms.DB2,
+@Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.MYSQL, Dbms.ORACLE, Dbms.DB2,
         Dbms.SQLSERVER, Dbms.SQLITE })
 @SuppressWarnings("unused")
 public class ArrayTest {

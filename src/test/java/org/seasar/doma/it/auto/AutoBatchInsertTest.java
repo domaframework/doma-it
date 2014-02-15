@@ -37,7 +37,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Dbms;
-import org.seasar.doma.it.RunOn;
+import org.seasar.doma.it.Run;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
@@ -187,7 +187,7 @@ public class AutoBatchInsertTest {
     }
 
     @Test
-    // @Prerequisite("#ENV not in {'oracle'}")
+    @Run(unless = { Dbms.ORACLE })
     public void testId_Identity() throws Exception {
         IdentityStrategyDao dao = container.get(IdentityStrategyDao::get);
         for (int i = 0; i < 110; i++) {
@@ -204,7 +204,7 @@ public class AutoBatchInsertTest {
     }
 
     @Test
-    // @Prerequisite("#ENV not in {'mysql', 'mssql2008', 'sqlite'}")
+    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER, Dbms.SQLITE })
     public void testId_sequence() throws Exception {
         SequenceStrategyDao dao = container.get(SequenceStrategyDao::get);
         for (int i = 0; i < 110; i++) {
@@ -223,7 +223,7 @@ public class AutoBatchInsertTest {
     // it seems that sqlite doesn't support requiresNew transaction
     // so ignore this test case
     @Test
-    @RunOn(ignore = { Dbms.SQLITE })
+    @Run(unless = { Dbms.SQLITE })
     public void testId_table() throws Exception {
         TableStrategyDao dao = container.get(TableStrategyDao::get);
         for (int i = 0; i < 110; i++) {

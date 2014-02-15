@@ -108,7 +108,6 @@ public class AutoBatchDeleteTest {
         Employee employee2 = new Employee();
         employee2.setEmployeeId(2);
         employee2.setVersion(99);
-        ;
         int[] result = dao.delete_ignoreVersion(Arrays.asList(employee,
                 employee2));
         assertEquals(2, result.length);

@@ -25,7 +25,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Dbms;
-import org.seasar.doma.it.RunOn;
+import org.seasar.doma.it.Run;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.entity.Employee;
@@ -43,7 +43,7 @@ public class SqlFileSelectForUpdateTest {
     public Sandbox sandbox = new Sandbox(container);
 
     @Test
-    @RunOn(ignore = { Dbms.H2, Dbms.POSTGRESQL, Dbms.ORACLE, Dbms.MYSQL,
+    @Run(unless = { Dbms.H2, Dbms.POSTGRESQL, Dbms.ORACLE, Dbms.MYSQL,
             Dbms.DB2, Dbms.SQLSERVER })
     public void testUnsupported() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
@@ -56,7 +56,7 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @RunOn(ignore = { Dbms.HSQLDB, Dbms.SQLITE })
+    @Run(unless = { Dbms.HSQLDB, Dbms.SQLITE })
     public void testForUpdate() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
         Employee employee = dao.selectById(1, SelectOptions.get().forUpdate());
@@ -64,7 +64,7 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @RunOn(ignore = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
+    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
             Dbms.DB2, Dbms.SQLSERVER, Dbms.SQLITE })
     public void testForUpdateWithColumns() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
@@ -74,7 +74,7 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @RunOn(ignore = { Dbms.HSQLDB, Dbms.H2, Dbms.ORACLE, Dbms.MYSQL, Dbms.DB2,
+    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.ORACLE, Dbms.MYSQL, Dbms.DB2,
             Dbms.SQLSERVER, Dbms.SQLITE })
     public void testForUpdateWithTables() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
@@ -84,7 +84,7 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @RunOn(ignore = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
+    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
             Dbms.DB2, Dbms.SQLITE })
     public void testForUpdateNowait() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
@@ -94,7 +94,7 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @RunOn(ignore = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
+    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
             Dbms.DB2, Dbms.SQLSERVER, Dbms.SQLITE })
     public void testForUpdateNowaitWithColumns() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
@@ -104,7 +104,7 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @RunOn(ignore = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
+    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
             Dbms.DB2, Dbms.SQLSERVER, Dbms.SQLITE })
     public void testForUpdateWait() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
@@ -114,7 +114,7 @@ public class SqlFileSelectForUpdateTest {
     }
 
     @Test
-    @RunOn(ignore = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
+    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
             Dbms.DB2, Dbms.SQLSERVER, Dbms.SQLITE })
     public void testForUpdateWaitWithColumns() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);

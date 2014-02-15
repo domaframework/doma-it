@@ -41,7 +41,7 @@ public class Sandbox implements TestRule {
 
             @Override
             public void evaluate() throws Throwable {
-                if (meetsPrerequisite(description)) {
+                if (meetsPrecondition(description)) {
                     executeInTransaction(base);
                 } else {
                     throw new AssumptionViolatedException("skip");
@@ -50,17 +50,19 @@ public class Sandbox implements TestRule {
         };
     }
 
-    protected boolean meetsPrerequisite(Description description) {
-        Dbms dbms = container.get(c -> Dbms.valueOf(c.getDbms().toUpperCase()));
-        RunOn runOn = description.getAnnotation(RunOn.class);
-        if (runOn == null) {
-            runOn = description.getTestClass().getAnnotation(RunOn.class);
-            if (runOn == null) {
-                return true;
-            }
+    protected boolean meetsPrecondition(Description description) {
+        Dbms dbms = container.get(c -> c.getDbms());
+        Run runAtClass = description.getTestClass().getAnnotation(Run.class);
+        if (isRunnable(runAtClass, dbms)) {
+            Run runAtMethod = description.getAnnotation(Run.class);
+            return isRunnable(runAtMethod, dbms);
         }
-        return Arrays.asList(runOn.value()).contains(dbms)
-                || !Arrays.asList(runOn.ignore()).contains(dbms);
+        return false;
+    }
+
+    protected boolean isRunnable(Run run, Dbms dbms) {
+        return run == null || Arrays.asList(run.onlyIf()).contains(dbms)
+                || !Arrays.asList(run.unless()).contains(dbms);
     }
 
     protected void executeInTransaction(Statement statement) throws Throwable {
