@@ -2,3 +2,10 @@ language: java
 
 jdk:
   - oraclejdk8
+
+env:
+  - JDBC_URL=jdbc:h2:mem:it JDBC_USER=sa JDBC_PASSWORD=
+  - JDBC_URL=jdbc:hsqldb:mem:it JDBC_USER=sa JDBC_PASSWORD=
+
+script: 
+  - ./gradlew check -PjdbcUrl=$JDBC_URL -PjdbcUser=$JDBC_USER -PjdbcPassword=$JDBC_PASSWORD

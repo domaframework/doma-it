@@ -52,17 +52,25 @@ public class Container extends TestWatcher {
 
     @Override
     protected void starting(Description description) {
-        String url = System.getProperty("url",
-                "jdbc:h2:mem:it;DB_CLOSE_DELAY=-1");
+        String url = getProperty("url", "jdbc:h2:mem:it;DB_CLOSE_DELAY=-1");
         logger.log(Level.INFO, "url=" + url);
-        String user = System.getProperty("user", "sa");
-        String password = System.getProperty("password", "");
+        String user = getProperty("user", "sa");
+        logger.log(Level.INFO, "user=" + user);
+        String password = getProperty("password", "");
         Dbms dbms = determineDbms(url);
         config = createConfig(dbms, url, user, password);
         config.getLocalTransactionManager().required(() -> {
             ScriptDao dao = ScriptDao.get(config);
             dao.create();
         });
+    }
+
+    protected String getProperty(String key, String defaultValue) {
+        String value = System.getProperty(key);
+        if (value != null && value.length() > 0) {
+            return value;
+        }
+        return defaultValue;
     }
 
     protected Dbms determineDbms(String url) {

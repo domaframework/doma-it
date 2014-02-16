@@ -3,7 +3,7 @@ apply plugin: 'java'
 version = '2.0-beta-2-SNAPSHOT' 
 processResources.destinationDir = compileJava.destinationDir
 compileJava.dependsOn processResources
- 
+
 compileJava {
     options.encoding = 'UTF-8'
     options.compilerArgs = ['-Adoma.domain.converters=org.seasar.doma.it.domain.DomainConverterProvider']
@@ -18,8 +18,11 @@ jar {
         attributes 'Implementation-Title': 'Doma-IT', 'Implementation-Version': version
     }
 }
- 
+
 test {
+    systemProperty 'url', jdbcUrl
+    systemProperty 'user', jdbcUser
+    systemProperty 'password', jdbcPassword
 }
 
 task wrapper(type: Wrapper) {
