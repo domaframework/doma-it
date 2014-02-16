@@ -60,7 +60,8 @@ public class AppConfig implements Config {
     private DataSource createDataSource(String url, String user, String password) {
         SimpleDataSource dataSource = new SimpleDataSource();
         dataSource.setUrl(url);
-        dataSource.setUser("sa");
+        dataSource.setUser(user);
+        dataSource.setPassword(password);
         return dataSource;
     }
 
