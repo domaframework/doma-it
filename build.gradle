@@ -39,6 +39,7 @@ dependencies {
     compile "org.seasar.doma:doma:${version}"
     testCompile 'org.hsqldb:hsqldb:2.3.2'
     testCompile 'com.h2database:h2:1.3.175'
+    testCompile 'mysql:mysql-connector-java:5.1.29'
     testCompile 'junit:junit:4.11'
 }
 
