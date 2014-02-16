@@ -52,7 +52,8 @@ public class Container extends TestWatcher {
     @Override
     protected void starting(Description description) {
         if (config == null) {
-            String url = getProperty("url", "jdbc:h2:mem:it;DB_CLOSE_DELAY=-1");
+            String url = getProperty("url",
+                    "jdbc:h2:mem:doma_it;DB_CLOSE_DELAY=-1");
             logger.log(Level.INFO, "url=" + url);
             String user = getProperty("user", "sa");
             logger.log(Level.INFO, "user=" + user);
