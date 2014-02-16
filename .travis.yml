@@ -4,8 +4,8 @@ jdk:
   - oraclejdk8
 
 env:
-  - JDBC_URL="jdbc:h2:mem:it;DB_CLOSE_DELAY=-1" JDBC_USER=sa JDBC_PASSWORD=
-  - JDBC_URL=jdbc:hsqldb:mem:it JDBC_USER=sa JDBC_PASSWORD=
+  - DB=h2 JDBC_URL= JDBC_USER= JDBC_PASSWORD=
+  - DB=hsqldb JDBC_URL=jdbc:hsqldb:mem:it JDBC_USER=sa JDBC_PASSWORD=
 
 script: 
-  - ./gradlew check -PjdbcUrl=$JDBC_URL -PjdbcUser=$JDBC_USER -PjdbcPassword=$JDBC_PASSWORD
+  - ./gradlew check -info -PjdbcUrl=$JDBC_URL -PjdbcUser=$JDBC_USER -PjdbcPassword=$JDBC_PASSWORD
