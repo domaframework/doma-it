@@ -114,7 +114,7 @@ public interface EmployeeDao {
     default List<Employee> selectWithBuilder() {
         Config config = Config.get(this);
         SelectBuilder builder = SelectBuilder.newInstance(config);
-        builder.sql("select * from Employee");
+        builder.sql("select * from EMPLOYEE");
         return builder.getEntityResultList(Employee.class);
     }
 
