@@ -40,7 +40,9 @@ import org.seasar.doma.jdbc.dialect.SqliteDialect;
  */
 public class Container extends TestWatcher {
 
-    private Logger logger = Logger.getLogger(Container.class.getName());
+    private static boolean initialized;
+
+    private static Logger logger = Logger.getLogger(Container.class.getName());
 
     private Pattern jdbcUrlPattern = Pattern.compile("^jdbc:([^:]*):.*");
 
@@ -59,10 +61,8 @@ public class Container extends TestWatcher {
         String password = getProperty("password", "");
         Dbms dbms = determineDbms(url);
         config = createConfig(dbms, url, user, password);
-        config.getLocalTransactionManager().required(() -> {
-            ScriptDao dao = ScriptDao.get(config);
-            dao.create();
-        });
+
+        initializeDatabase(config);
     }
 
     protected String getProperty(String key, String defaultValue) {
@@ -105,12 +105,14 @@ public class Container extends TestWatcher {
         throw new IllegalArgumentException("unreachable: " + dbms);
     }
 
-    @Override
-    protected void finished(Description description) {
-        config.getLocalTransactionManager().required(() -> {
-            ScriptDao dao = ScriptDao.get(config);
-            dao.drop();
-        });
+    protected static void initializeDatabase(AppConfig config) {
+        if (!initialized) {
+            config.getLocalTransactionManager().required(() -> {
+                ScriptDao dao = ScriptDao.get(config);
+                dao.create();
+            });
+        }
+        initialized = true;
     }
 
 }
