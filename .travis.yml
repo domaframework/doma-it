@@ -7,9 +7,11 @@ env:
   - DB=h2 JDBC_URL= JDBC_USER= JDBC_PASSWORD=
   - DB=hsqldb JDBC_URL=jdbc:hsqldb:mem:it JDBC_USER=sa JDBC_PASSWORD=
   - DB=mysql JDBC_URL=jdbc:mysql://127.0.0.1/doma_it JDBC_USER=travis JDBC_PASSWORD=
+  - DB=postgresql JDBC_URL=jdbc:postgresql://127.0.0.1/doma_it JDBC_USER=postgres JDBC_PASSWORD=
 
 before_script:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS doma_it;'; fi"
+  - sh -c "if [ '$DB' = 'postgresql' ]; then psql -c 'create database doma_it;' -U postgres; fi"
 
-script: 
+script:
   - ./gradlew check -info -PjdbcUrl=$JDBC_URL -PjdbcUser=$JDBC_USER -PjdbcPassword=$JDBC_PASSWORD
