@@ -1,3 +1,18 @@
+/*
+ * Copyright 2004-2010 the Seasar Foundation and the Others.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+ * either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
 package org.seasar.doma.it;
 
 import java.util.function.Function;
@@ -18,35 +33,17 @@ import org.seasar.doma.jdbc.dialect.OracleDialect;
 import org.seasar.doma.jdbc.dialect.PostgresDialect;
 import org.seasar.doma.jdbc.dialect.SqliteDialect;
 
-/*
- * Copyright 2004-2010 the Seasar Foundation and the Others.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- */
-
 /**
  * @author nakamura-to
  *
  */
 public class Container extends TestWatcher {
 
-    private static boolean initialized;
-
     private static Logger logger = Logger.getLogger(Container.class.getName());
 
-    private Pattern jdbcUrlPattern = Pattern.compile("^jdbc:([^:]*):.*");
+    private static Pattern jdbcUrlPattern = Pattern.compile("^jdbc:([^:]*):.*");
 
-    private AppConfig config;
+    private static AppConfig config;
 
     public <COMPONENT> COMPONENT get(Function<AppConfig, COMPONENT> mapper) {
         return mapper.apply(config);
@@ -54,15 +51,19 @@ public class Container extends TestWatcher {
 
     @Override
     protected void starting(Description description) {
-        String url = getProperty("url", "jdbc:h2:mem:it;DB_CLOSE_DELAY=-1");
-        logger.log(Level.INFO, "url=" + url);
-        String user = getProperty("user", "sa");
-        logger.log(Level.INFO, "user=" + user);
-        String password = getProperty("password", "");
-        Dbms dbms = determineDbms(url);
-        config = createConfig(dbms, url, user, password);
-
-        initializeDatabase(config);
+        if (config == null) {
+            String url = getProperty("url", "jdbc:h2:mem:it;DB_CLOSE_DELAY=-1");
+            logger.log(Level.INFO, "url=" + url);
+            String user = getProperty("user", "sa");
+            logger.log(Level.INFO, "user=" + user);
+            String password = getProperty("password", "");
+            Dbms dbms = determineDbms(url);
+            config = createConfig(dbms, url, user, password);
+            config.getLocalTransactionManager().required(() -> {
+                ScriptDao dao = ScriptDao.get(config);
+                dao.create();
+            });
+        }
     }
 
     protected String getProperty(String key, String defaultValue) {
@@ -103,16 +104,6 @@ public class Container extends TestWatcher {
             return new AppConfig(new Db2Dialect(), dbms, url, user, password);
         }
         throw new IllegalArgumentException("unreachable: " + dbms);
-    }
-
-    protected static void initializeDatabase(AppConfig config) {
-        if (!initialized) {
-            config.getLocalTransactionManager().required(() -> {
-                ScriptDao dao = ScriptDao.get(config);
-                dao.create();
-            });
-        }
-        initialized = true;
     }
 
 }
