@@ -20,6 +20,7 @@ import java.util.Objects;
 import javax.sql.DataSource;
 
 import org.seasar.doma.jdbc.Config;
+import org.seasar.doma.jdbc.RequiresNewController;
 import org.seasar.doma.jdbc.SimpleDataSource;
 import org.seasar.doma.jdbc.dialect.Dialect;
 import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
@@ -71,6 +72,23 @@ public class AppConfig implements Config {
     @Override
     public DataSource getDataSource() {
         return dataSource;
+    }
+
+    @Override
+    public String getDataSourceName() {
+        return dbms.name();
+    }
+
+    @Override
+    public RequiresNewController getRequiresNewController() {
+        return new RequiresNewController() {
+            @Override
+            public <R> R requiresNew(Callback<R> callback) throws Throwable {
+                return transactionManager.requiresNew(() -> {
+                    return callback.execute();
+                });
+            }
+        };
     }
 
     @Override
