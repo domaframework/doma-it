@@ -20,8 +20,6 @@ jar {
 }
  
 test {
-    scanForTestClasses = false
-    includes = ['**/*Test.class']
 }
 
 task wrapper(type: Wrapper) {
