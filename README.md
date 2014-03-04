@@ -4,7 +4,7 @@ Doma Integration Test [![Build Status](https://travis-ci.org/domaframework/doma-
 Test Target
 -------
 
-[Doma](https://github.com/seasarorg/doma)
+[Doma](https://github.com/domaframework/doma)
 
 License
 -------
