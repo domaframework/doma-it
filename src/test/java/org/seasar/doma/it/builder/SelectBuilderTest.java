@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.seasar.doma.it.dao.EmployeeDao.get;
 
 import java.util.List;
 import java.util.Map;
@@ -18,11 +17,8 @@ import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.entity.Employee;
-import org.seasar.doma.jdbc.IterationCallback;
-import org.seasar.doma.jdbc.IterationContext;
 import org.seasar.doma.jdbc.builder.SelectBuilder;
 
-@SuppressWarnings("unused")
 public class SelectBuilderTest {
 
     @ClassRule
@@ -117,52 +113,6 @@ public class SelectBuilderTest {
                 .getOptionalScalarResultList(String.class);
         assertEquals(14, list.size());
         assertFalse(list.get(0).isPresent());
-    }
-
-    @Test
-    public void testIterateAsScalar() throws Exception {
-        SelectBuilder builder = SelectBuilder
-                .newInstance(container.get(c -> c));
-        builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
-        builder.sql("where");
-        builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
-        String name = builder.iterateAsScalar(String.class, (e, c) -> e);
-        assertEquals("SMITH", name);
-    }
-
-    @Test
-    public void testIterateAsScalar_null() throws Exception {
-        SelectBuilder builder = SelectBuilder
-                .newInstance(container.get(c -> c));
-        builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
-        builder.sql("where");
-        builder.sql("EMPLOYEE_ID = ").param(int.class, 99);
-        String name = builder.iterateAsScalar(String.class, (v, c) -> v);
-        assertNull(name);
-    }
-
-    @Test
-    public void testIterateAsOptionalScalar() throws Exception {
-        SelectBuilder builder = SelectBuilder
-                .newInstance(container.get(c -> c));
-        builder.sql("select EMPLOYEE_NAME from EMPLOYEE");
-        builder.sql("where");
-        builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
-        Optional<String> name = builder.iterateAsOptionalScalar(String.class, (
-                v, c) -> v);
-        assertEquals("SMITH", name.get());
-    }
-
-    @Test
-    public void testIterateAsOptionalScalar_null() throws Exception {
-        SelectBuilder builder = SelectBuilder
-                .newInstance(container.get(c -> c));
-        builder.sql("select null from EMPLOYEE");
-        builder.sql("where");
-        builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
-        Optional<String> name = builder.iterateAsOptionalScalar(String.class, (
-                v, c) -> v);
-        assertFalse(name.isPresent());
     }
 
     @Test
@@ -278,24 +228,6 @@ public class SelectBuilderTest {
     }
 
     @Test
-    public void testIterateAsMap() throws Exception {
-        SelectBuilder builder = SelectBuilder
-                .newInstance(container.get(c -> c));
-        builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
-        Integer result = builder.iterateAsMap(MapKeyNamingType.CAMEL_CASE,
-                new IterationCallback<Map<String, Object>, Integer>() {
-                    private int count;
-
-                    public Integer iterate(Map<String, Object> target,
-                            IterationContext context) {
-                        count++;
-                        return count;
-                    }
-                });
-        assertEquals(14, result.intValue());
-    }
-
-    @Test
     public void testStreamMap() throws Exception {
         SelectBuilder builder = SelectBuilder
                 .newInstance(container.get(c -> c));
@@ -362,24 +294,6 @@ public class SelectBuilderTest {
         List<Employee> employees = builder.getEntityResultList(Employee.class);
         assertEquals(14, employees.size());
         assertEquals("SMITH", employees.get(0).getEmployeeName());
-    }
-
-    @Test
-    public void testIterateAsEntity() throws Exception {
-        SelectBuilder builder = SelectBuilder
-                .newInstance(container.get(c -> c));
-        builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
-        Integer result = builder.iterateAsEntity(Employee.class,
-                new IterationCallback<Employee, Integer>() {
-                    private int count;
-
-                    public Integer iterate(Employee target,
-                            IterationContext context) {
-                        count++;
-                        return count;
-                    }
-                });
-        assertEquals(14, result.intValue());
     }
 
     @Test
