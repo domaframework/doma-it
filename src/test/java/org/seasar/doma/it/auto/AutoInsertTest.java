@@ -20,16 +20,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-import static org.seasar.doma.it.dao.CompKeyDepartmentDao.get;
-import static org.seasar.doma.it.dao.DepartmentDao.get;
-import static org.seasar.doma.it.dao.DeptDao.get;
-import static org.seasar.doma.it.dao.IdentityStrategyDao.get;
-import static org.seasar.doma.it.dao.NoIdDao.get;
-import static org.seasar.doma.it.dao.SequenceStrategyDao.get;
-import static org.seasar.doma.it.dao.TableStrategyDao.get;
-import static org.seasar.doma.it.dao.WorkerDao.get;
 
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -38,6 +31,7 @@ import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Dbms;
 import org.seasar.doma.it.Run;
 import org.seasar.doma.it.Sandbox;
+import org.seasar.doma.it.dao.BusinessmanDao;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
@@ -48,6 +42,7 @@ import org.seasar.doma.it.dao.TableStrategyDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.domain.Identity;
 import org.seasar.doma.it.domain.Location;
+import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
@@ -61,7 +56,6 @@ import org.seasar.doma.jdbc.Result;
 import org.seasar.doma.jdbc.UniqueConstraintException;
 import org.seasar.doma.message.Message;
 
-@SuppressWarnings("unused")
 public class AutoInsertTest {
 
     @ClassRule
@@ -238,6 +232,27 @@ public class AutoInsertTest {
         worker = dao.selectById(Optional.of(9999));
         assertEquals(new Integer(9999), worker.employeeNo.get());
         assertEquals(new Integer(1), worker.version.get());
+        assertFalse(worker.employeeName.isPresent());
+        assertFalse(worker.salary.isPresent());
+        assertFalse(worker.hiredate.isPresent());
+        assertFalse(worker.managerId.isPresent());
+        assertFalse(worker.departmentId.isPresent());
+        assertFalse(worker.addressId.isPresent());
+    }
+
+    @Test
+    public void testOptionalInt() throws Exception {
+        BusinessmanDao dao = container.get(BusinessmanDao::get);
+        Businessman worker = new Businessman();
+        worker.employeeId = OptionalInt.of(9999);
+        worker.employeeNo = OptionalInt.of(9999);
+        int result = dao.insert(worker);
+        assertEquals(1, result);
+        assertEquals(1, worker.version.getAsInt());
+
+        worker = dao.selectById(OptionalInt.of(9999));
+        assertEquals(9999, worker.employeeNo.getAsInt());
+        assertEquals(1, worker.version.getAsInt());
         assertFalse(worker.employeeName.isPresent());
         assertFalse(worker.salary.isPresent());
         assertFalse(worker.hiredate.isPresent());

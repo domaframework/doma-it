@@ -16,7 +16,6 @@
 package org.seasar.doma.it.sqlfile;
 
 import static org.junit.Assert.assertEquals;
-import static org.seasar.doma.it.dao.EmployeeDao.get;
 
 import java.util.List;
 
@@ -29,7 +28,6 @@ import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.SelectOptions;
 
-@SuppressWarnings("unused")
 public class SqlFileSelectPagingTest {
 
     @ClassRule

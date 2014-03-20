@@ -18,27 +18,25 @@ package org.seasar.doma.it.auto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-import static org.seasar.doma.it.dao.CompKeyDepartmentDao.get;
-import static org.seasar.doma.it.dao.DepartmentDao.get;
-import static org.seasar.doma.it.dao.DeptDao.get;
-import static org.seasar.doma.it.dao.NoIdDao.get;
-import static org.seasar.doma.it.dao.WorkerDao.get;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
+import org.seasar.doma.it.dao.BusinessmanDao;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
 import org.seasar.doma.it.dao.NoIdDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.domain.Identity;
+import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
@@ -49,7 +47,6 @@ import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.jdbc.OptimisticLockException;
 import org.seasar.doma.message.Message;
 
-@SuppressWarnings("unused")
 public class AutoBatchUpdateTest {
 
     @ClassRule
@@ -275,6 +272,34 @@ public class AutoBatchUpdateTest {
         assertEquals(new Integer(2), worker.employeeId.get());
         assertEquals(new Integer(6666), worker.employeeNo.get());
         assertEquals(new Integer(2), worker.version.get());
+    }
+
+    @Test
+    public void testOptionalInt() throws Exception {
+        BusinessmanDao dao = container.get(BusinessmanDao::get);
+        Businessman worker = new Businessman();
+        worker.employeeId = OptionalInt.of(1);
+        worker.employeeNo = OptionalInt.of(5555);
+        worker.version = OptionalInt.of(1);
+        Businessman worker2 = new Businessman();
+        worker2.employeeId = OptionalInt.of(2);
+        worker2.employeeNo = OptionalInt.of(6666);
+        worker2.version = OptionalInt.of(1);
+        int[] result = dao.update(Arrays.asList(worker, worker2));
+        assertEquals(2, result.length);
+        assertEquals(1, result[0]);
+        assertEquals(1, result[1]);
+        assertEquals(2, worker.version.getAsInt());
+        assertEquals(2, worker2.version.getAsInt());
+
+        worker = dao.selectById(OptionalInt.of(1));
+        assertEquals(1, worker.employeeId.getAsInt());
+        assertEquals(5555, worker.employeeNo.getAsInt());
+        assertEquals(2, worker.version.getAsInt());
+        worker = dao.selectById(OptionalInt.of(2));
+        assertEquals(2, worker.employeeId.getAsInt());
+        assertEquals(6666, worker.employeeNo.getAsInt());
+        assertEquals(2, worker.version.getAsInt());
     }
 
 }

@@ -16,8 +16,6 @@
 package org.seasar.doma.it.sqlfile;
 
 import static org.junit.Assert.assertEquals;
-import static org.seasar.doma.it.dao.DepartmentDao.get;
-import static org.seasar.doma.it.dao.DeptDao.get;
 
 import java.util.Arrays;
 
@@ -33,7 +31,6 @@ import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.jdbc.BatchResult;
 
-@SuppressWarnings("unused")
 public class SqlFileBatchInsertTest {
 
     @ClassRule

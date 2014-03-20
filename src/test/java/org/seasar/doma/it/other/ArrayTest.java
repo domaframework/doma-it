@@ -2,7 +2,6 @@ package org.seasar.doma.it.other;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.seasar.doma.it.dao.SalEmpDao.get;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +18,6 @@ import org.seasar.doma.it.entity.SalEmp;
 
 @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.MYSQL, Dbms.ORACLE, Dbms.DB2,
         Dbms.SQLSERVER, Dbms.SQLITE })
-@SuppressWarnings("unused")
 public class ArrayTest {
 
     @ClassRule

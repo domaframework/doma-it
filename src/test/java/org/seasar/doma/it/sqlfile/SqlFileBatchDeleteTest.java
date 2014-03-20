@@ -2,8 +2,6 @@ package org.seasar.doma.it.sqlfile;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.seasar.doma.it.dao.EmployeeDao.get;
-import static org.seasar.doma.it.dao.PersonDao.get;
 
 import java.util.Arrays;
 
@@ -18,7 +16,6 @@ import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.Person;
 import org.seasar.doma.jdbc.BatchResult;
 
-@SuppressWarnings("unused")
 public class SqlFileBatchDeleteTest {
 
     @ClassRule

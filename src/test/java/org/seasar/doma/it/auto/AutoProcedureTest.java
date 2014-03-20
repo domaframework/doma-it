@@ -17,8 +17,6 @@ package org.seasar.doma.it.auto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.seasar.doma.it.dao.DepartmentDao.get;
-import static org.seasar.doma.it.dao.ProcedureDao.get;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -39,7 +37,6 @@ import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Reference;
 import org.seasar.doma.jdbc.ResultMappingException;
 
-@SuppressWarnings("unused")
 @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.SQLITE })
 public class AutoProcedureTest {
 

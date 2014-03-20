@@ -16,8 +16,6 @@
 package org.seasar.doma.it.sqlfile;
 
 import static org.junit.Assert.assertEquals;
-import static org.seasar.doma.it.dao.DepartmentDao.get;
-import static org.seasar.doma.it.dao.DeptDao.get;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -31,7 +29,6 @@ import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.jdbc.Result;
 
-@SuppressWarnings("unused")
 public class SqlFileInsertTest {
 
     @ClassRule

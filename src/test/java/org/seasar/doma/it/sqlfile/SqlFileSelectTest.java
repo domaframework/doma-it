@@ -5,27 +5,28 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-import static org.seasar.doma.it.dao.EmployeeDao.get;
-import static org.seasar.doma.it.dao.WorkerDao.get;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
+import org.seasar.doma.it.dao.BusinessmanDao;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.domain.Salary;
+import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.ResultMappingException;
 
-@SuppressWarnings("unused")
 public class SqlFileSelectTest {
 
     @ClassRule
@@ -144,4 +145,37 @@ public class SqlFileSelectTest {
         workers = dao.selectByExample(worker);
         assertEquals(3, workers.size());
     }
+
+    @Test
+    public void testOptionalInt() throws Exception {
+        BusinessmanDao dao = container.get(BusinessmanDao::get);
+        Businessman worker = dao.selectById(OptionalInt.of(9));
+        assertEquals(9, worker.employeeId.getAsInt());
+        assertEquals(7839, worker.employeeNo.getAsInt());
+        assertEquals("KING", worker.employeeName.get());
+        assertFalse(worker.managerId.isPresent());
+        assertEquals(java.sql.Date.valueOf("1981-11-17"), worker.hiredate.get());
+        assertEquals(5000L, worker.salary.getAsLong());
+        assertEquals(1, worker.departmentId.getAsInt());
+        assertEquals(9, worker.addressId.getAsInt());
+        assertEquals(1, worker.version.getAsInt());
+    }
+
+    @Test
+    public void testOptionalInt_expression() throws Exception {
+        BusinessmanDao dao = container.get(BusinessmanDao::get);
+        Businessman worker = new Businessman();
+        worker.employeeNo = OptionalInt.of(7801);
+        worker.managerId = OptionalInt.empty();
+        worker.salary = OptionalLong.of(3000L);
+
+        List<Businessman> workers = dao.selectByExample(worker);
+        assertEquals(14, workers.size());
+
+        worker.managerId = OptionalInt.of(1);
+
+        workers = dao.selectByExample(worker);
+        assertEquals(3, workers.size());
+    }
+
 }

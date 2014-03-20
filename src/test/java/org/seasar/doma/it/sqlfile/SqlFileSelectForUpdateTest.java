@@ -18,7 +18,6 @@ package org.seasar.doma.it.sqlfile;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
-import static org.seasar.doma.it.dao.EmployeeDao.get;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -33,7 +32,6 @@ import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.message.Message;
 
-@SuppressWarnings("unused")
 public class SqlFileSelectForUpdateTest {
 
     @ClassRule

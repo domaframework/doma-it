@@ -20,17 +20,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.seasar.doma.it.dao.CompKeyDepartmentDao.get;
-import static org.seasar.doma.it.dao.DepartmentDao.get;
-import static org.seasar.doma.it.dao.DeptDao.get;
-import static org.seasar.doma.it.dao.IdentityStrategyDao.get;
-import static org.seasar.doma.it.dao.NoIdDao.get;
-import static org.seasar.doma.it.dao.SequenceStrategyDao.get;
-import static org.seasar.doma.it.dao.TableStrategyDao.get;
-import static org.seasar.doma.it.dao.WorkerDao.get;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -39,6 +32,7 @@ import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Dbms;
 import org.seasar.doma.it.Run;
 import org.seasar.doma.it.Sandbox;
+import org.seasar.doma.it.dao.BusinessmanDao;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
@@ -48,6 +42,7 @@ import org.seasar.doma.it.dao.SequenceStrategyDao;
 import org.seasar.doma.it.dao.TableStrategyDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.domain.Identity;
+import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
@@ -60,7 +55,6 @@ import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.message.Message;
 
-@SuppressWarnings("unused")
 public class AutoBatchInsertTest {
 
     @ClassRule
@@ -279,4 +273,31 @@ public class AutoBatchInsertTest {
         assertEquals(new Integer(9999), worker.employeeNo.get());
         assertEquals(new Integer(1), worker.version.get());
     }
+
+    @Test
+    public void testOptionalInt() throws Exception {
+        BusinessmanDao dao = container.get(BusinessmanDao::get);
+        Businessman worker = new Businessman();
+        worker.employeeId = OptionalInt.of(9998);
+        worker.employeeNo = OptionalInt.of(9998);
+        Businessman worker2 = new Businessman();
+        worker2.employeeId = OptionalInt.of(9999);
+        worker2.employeeNo = OptionalInt.of(9999);
+        int[] result = dao.insert(Arrays.asList(worker, worker2));
+        assertEquals(2, result.length);
+        assertEquals(1, result[0]);
+        assertEquals(1, result[1]);
+        assertEquals(1, worker.version.getAsInt());
+        assertEquals(1, worker2.version.getAsInt());
+
+        worker = dao.selectById(OptionalInt.of(9998));
+        assertEquals(9998, worker.employeeId.getAsInt());
+        assertEquals(9998, worker.employeeNo.getAsInt());
+        assertEquals(1, worker.version.getAsInt());
+        worker = dao.selectById(OptionalInt.of(9999));
+        assertEquals(9999, worker.employeeId.getAsInt());
+        assertEquals(9999, worker.employeeNo.getAsInt());
+        assertEquals(1, worker.version.getAsInt());
+    }
+
 }

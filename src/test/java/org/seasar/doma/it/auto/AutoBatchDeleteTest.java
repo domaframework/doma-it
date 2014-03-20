@@ -18,25 +18,23 @@ package org.seasar.doma.it.auto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-import static org.seasar.doma.it.dao.CompKeyEmployeeDao.get;
-import static org.seasar.doma.it.dao.EmployeeDao.get;
-import static org.seasar.doma.it.dao.NoIdDao.get;
-import static org.seasar.doma.it.dao.PersonDao.get;
-import static org.seasar.doma.it.dao.WorkerDao.get;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
+import org.seasar.doma.it.dao.BusinessmanDao;
 import org.seasar.doma.it.dao.CompKeyEmployeeDao;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.NoIdDao;
 import org.seasar.doma.it.dao.PersonDao;
 import org.seasar.doma.it.dao.WorkerDao;
+import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyEmployee;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.NoId;
@@ -47,7 +45,6 @@ import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.jdbc.OptimisticLockException;
 import org.seasar.doma.message.Message;
 
-@SuppressWarnings("unused")
 public class AutoBatchDeleteTest {
 
     @ClassRule
@@ -208,6 +205,26 @@ public class AutoBatchDeleteTest {
         employee = dao.selectById(Optional.of(1));
         assertNull(employee);
         employee = dao.selectById(Optional.of(2));
+        assertNull(employee);
+    }
+
+    @Test
+    public void testOptionalInt() throws Exception {
+        BusinessmanDao dao = container.get(BusinessmanDao::get);
+        Businessman employee = new Businessman();
+        employee.employeeId = OptionalInt.of(1);
+        employee.version = OptionalInt.of(1);
+        Businessman employee2 = new Businessman();
+        employee2.employeeId = OptionalInt.of(2);
+        employee2.version = OptionalInt.of(1);
+        int[] result = dao.delete(Arrays.asList(employee, employee2));
+        assertEquals(2, result.length);
+        assertEquals(1, result[0]);
+        assertEquals(1, result[1]);
+
+        employee = dao.selectById(OptionalInt.of(1));
+        assertNull(employee);
+        employee = dao.selectById(OptionalInt.of(2));
         assertNull(employee);
     }
 

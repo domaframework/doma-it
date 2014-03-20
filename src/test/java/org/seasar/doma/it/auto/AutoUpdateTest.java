@@ -17,25 +17,23 @@ package org.seasar.doma.it.auto;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.seasar.doma.it.dao.CompKeyDepartmentDao.get;
-import static org.seasar.doma.it.dao.DepartmentDao.get;
-import static org.seasar.doma.it.dao.DeptDao.get;
-import static org.seasar.doma.it.dao.NoIdDao.get;
-import static org.seasar.doma.it.dao.WorkerDao.get;
 
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
+import org.seasar.doma.it.dao.BusinessmanDao;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
 import org.seasar.doma.it.dao.NoIdDao;
 import org.seasar.doma.it.dao.WorkerDao;
+import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
@@ -46,7 +44,6 @@ import org.seasar.doma.jdbc.OptimisticLockException;
 import org.seasar.doma.jdbc.Result;
 import org.seasar.doma.message.Message;
 
-@SuppressWarnings("unused")
 public class AutoUpdateTest {
 
     @ClassRule
@@ -217,6 +214,26 @@ public class AutoUpdateTest {
         assertEquals(Integer.valueOf(13), worker.managerId.get());
         assertEquals(Integer.valueOf(2), worker.departmentId.get().getValue());
         assertEquals(Integer.valueOf(1), worker.addressId.get());
+    }
+
+    @Test
+    public void testOptionalInt() throws Exception {
+        BusinessmanDao dao = container.get(BusinessmanDao::get);
+        Businessman worker = dao.selectById(OptionalInt.of(1));
+        worker.employeeName = Optional.of("hoge");
+        int result = dao.update(worker);
+        assertEquals(1, result);
+        assertEquals(2, worker.version.getAsInt());
+
+        worker = dao.selectById(OptionalInt.of(1));
+        assertEquals(7369, worker.employeeNo.getAsInt());
+        assertEquals(2, worker.version.getAsInt());
+        assertEquals("hoge", worker.employeeName.get());
+        assertEquals(800L, worker.salary.getAsLong());
+        assertEquals(java.sql.Date.valueOf("1980-12-17"), worker.hiredate.get());
+        assertEquals(13, worker.managerId.getAsInt());
+        assertEquals(2, worker.departmentId.getAsInt());
+        assertEquals(1, worker.addressId.getAsInt());
     }
 
 }
