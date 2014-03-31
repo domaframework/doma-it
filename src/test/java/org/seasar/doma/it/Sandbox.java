@@ -21,7 +21,7 @@ import org.junit.internal.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
-import org.seasar.doma.jdbc.tx.LocalTransaction;
+import org.seasar.doma.jdbc.tx.TransactionManager;
 
 /**
  * @author nakamura-to
@@ -66,14 +66,15 @@ public class Sandbox implements TestRule {
     }
 
     protected void executeInTransaction(Statement statement) throws Throwable {
-        LocalTransaction tx = container.get(config -> config
-                .getLocalTransactionManager().getLocalTransaction());
-        tx.begin();
-        try {
-            statement.evaluate();
-        } finally {
-            tx.rollback();
-        }
+        TransactionManager tm = container.get(c -> c.getTransactionManager());
+        tm.required(() -> {
+            try {
+                statement.evaluate();
+            } catch (Throwable th) {
+                throw new RuntimeException(th);
+            }
+            tm.setRollbackOnly();
+        });
     }
 
 }

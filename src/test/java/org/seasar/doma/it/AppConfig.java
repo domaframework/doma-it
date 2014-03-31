@@ -25,6 +25,7 @@ import org.seasar.doma.jdbc.SimpleDataSource;
 import org.seasar.doma.jdbc.dialect.Dialect;
 import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
 import org.seasar.doma.jdbc.tx.LocalTransactionManager;
+import org.seasar.doma.jdbc.tx.TransactionManager;
 
 /**
  * @author nakamura-to
@@ -93,7 +94,7 @@ public class AppConfig implements Config {
     }
 
     @Override
-    public LocalTransactionManager getLocalTransactionManager() {
+    public TransactionManager getTransactionManager() {
         return transactionManager;
     }
 

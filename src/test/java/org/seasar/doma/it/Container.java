@@ -60,7 +60,7 @@ public class Container extends TestWatcher {
             String password = getProperty("password", "");
             Dbms dbms = determineDbms(url);
             config = createConfig(dbms, url, user, password);
-            config.getLocalTransactionManager().required(() -> {
+            config.getTransactionManager().required(() -> {
                 ScriptDao dao = ScriptDao.get(config);
                 dao.create();
             });
