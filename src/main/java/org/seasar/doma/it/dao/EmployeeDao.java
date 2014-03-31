@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 import org.seasar.doma.AccessLevel;
@@ -104,6 +105,9 @@ public interface EmployeeDao {
 
     @Select(strategy = SelectStrategyType.STREAM)
     <R> R streamBySalary(BigDecimal salary, Function<Stream<Employee>, R> mapper);
+
+    @Select(strategy = SelectStrategyType.COLLECT)
+    <R> R collectAll(Collector<Employee, ?, R> collector);
 
     default List<Employee> selectWithBuilder() {
         Config config = Config.get(this);
