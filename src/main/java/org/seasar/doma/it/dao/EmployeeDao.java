@@ -28,7 +28,7 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.MapKeyNamingType;
 import org.seasar.doma.Select;
-import org.seasar.doma.SelectStrategyType;
+import org.seasar.doma.SelectType;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.SelectOptions;
@@ -62,10 +62,10 @@ public interface EmployeeDao {
     @Select(mapKeyNaming = MapKeyNamingType.CAMEL_CASE)
     List<Map<String, Object>> selectAllAsMapList();
 
-    @Select(strategy = SelectStrategyType.STREAM, mapKeyNaming = MapKeyNamingType.CAMEL_CASE)
+    @Select(strategy = SelectType.STREAM, mapKeyNaming = MapKeyNamingType.CAMEL_CASE)
     <R> R selectAllAsMapList(Function<Stream<Map<String, Object>>, R> mapper);
 
-    @Select(strategy = SelectStrategyType.STREAM, mapKeyNaming = MapKeyNamingType.CAMEL_CASE)
+    @Select(strategy = SelectType.STREAM, mapKeyNaming = MapKeyNamingType.CAMEL_CASE)
     <R> R selectAllAsMapList(Function<Stream<Map<String, Object>>, R> mapper,
             SelectOptions options);
 
@@ -90,23 +90,23 @@ public interface EmployeeDao {
     @Select(ensureResultMapping = false)
     List<Employee> selectOnlyNameWithoutMappingCheck();
 
-    @Select(strategy = SelectStrategyType.STREAM)
+    @Select(strategy = SelectType.STREAM)
     <R> R streamAll(Function<Stream<Employee>, R> mapper);
 
-    @Select(strategy = SelectStrategyType.STREAM)
+    @Select(strategy = SelectType.STREAM)
     <R> R streamAll(Function<Stream<Employee>, R> mapper, SelectOptions options);
 
-    @Select(strategy = SelectStrategyType.STREAM)
+    @Select(strategy = SelectType.STREAM)
     <R> R streamAllSalary(Function<Stream<BigDecimal>, R> mapper);
 
-    @Select(strategy = SelectStrategyType.STREAM)
+    @Select(strategy = SelectType.STREAM)
     <R> R streamAllSalary(Function<Stream<BigDecimal>, R> mapper,
             SelectOptions options);
 
-    @Select(strategy = SelectStrategyType.STREAM)
+    @Select(strategy = SelectType.STREAM)
     <R> R streamBySalary(BigDecimal salary, Function<Stream<Employee>, R> mapper);
 
-    @Select(strategy = SelectStrategyType.COLLECT)
+    @Select(strategy = SelectType.COLLECT)
     <R> R collectAll(Collector<Employee, ?, R> collector);
 
     default List<Employee> selectWithBuilder() {
