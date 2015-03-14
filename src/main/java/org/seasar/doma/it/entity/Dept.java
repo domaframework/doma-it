@@ -21,9 +21,8 @@ import org.seasar.doma.Table;
 import org.seasar.doma.Version;
 import org.seasar.doma.it.domain.Identity;
 import org.seasar.doma.it.domain.Location;
-import org.seasar.doma.jdbc.entity.NamingType;
 
-@Entity(naming = NamingType.SNAKE_UPPER_CASE, immutable = true, listener = DeptListener.class)
+@Entity(immutable = true, listener = DeptListener.class)
 @Table(name = "DEPARTMENT")
 public class Dept {
 

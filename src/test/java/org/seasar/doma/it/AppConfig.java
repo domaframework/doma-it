@@ -20,6 +20,7 @@ import java.util.Objects;
 import javax.sql.DataSource;
 
 import org.seasar.doma.jdbc.Config;
+import org.seasar.doma.jdbc.Naming;
 import org.seasar.doma.jdbc.RequiresNewController;
 import org.seasar.doma.jdbc.SimpleDataSource;
 import org.seasar.doma.jdbc.dialect.Dialect;
@@ -106,4 +107,8 @@ public class AppConfig implements Config {
         return originalDataSource;
     }
 
+    @Override
+    public Naming getNaming() {
+        return Naming.SNAKE_UPPER_CASE;
+    }
 }

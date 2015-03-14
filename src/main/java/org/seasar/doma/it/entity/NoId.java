@@ -18,9 +18,8 @@ package org.seasar.doma.it.entity;
 import org.seasar.doma.Entity;
 import org.seasar.doma.OriginalStates;
 import org.seasar.doma.Table;
-import org.seasar.doma.jdbc.entity.NamingType;
 
-@Entity(naming = NamingType.SNAKE_UPPER_CASE)
+@Entity
 @Table(name = "NO_ID")
 public class NoId {
 
