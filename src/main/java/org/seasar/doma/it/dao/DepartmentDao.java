@@ -52,6 +52,9 @@ public interface DepartmentDao {
     @Update(sqlFile = true)
     int updateBySqlFile(Department entity);
 
+    @Update(sqlFile = true)
+    int updateBySqlFileWithPopulate(Department entity);
+
     @Update(sqlFile = true, ignoreVersion = true)
     int updateBySqlFile_ignoreVersion(Department entity);
 
