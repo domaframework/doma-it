@@ -24,6 +24,8 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
+import org.seasar.doma.it.domain.Identity;
+import org.seasar.doma.it.domain.Location;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.jdbc.Config;
 
@@ -66,6 +68,11 @@ public interface DepartmentDao {
 
     @Update(suppressOptimisticLockException = true)
     int update_suppressOptimisticLockException(Department entity);
+
+    @Update(sqlFile = true)
+    int updateBySqlFile_nonEntity(Identity<Department> departmentId,
+            Integer departmentNo, String departmentName,
+            Location<Department> location, Integer version);
 
     @BatchInsert
     int[] insert(List<Department> entity);

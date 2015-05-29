@@ -114,4 +114,23 @@ public class SqlFileUpdateTest {
         int rows = dao.updateBySqlFile_ignoreVersion(department2);
         assertEquals(0, rows);
     }
+
+    @Test
+    public void test_nonEntity() throws Exception {
+        DepartmentDao dao = container.get(DepartmentDao::get);
+        Department department = new Department();
+        department.setDepartmentId(new Identity<Department>(1));
+        department.setDepartmentNo(1);
+        department.setDepartmentName("hoge");
+        department.setVersion(1);
+        int result = dao.updateBySqlFile_nonEntity(new Identity<Department>(1),
+                1, "hoge", null, 1);
+        assertEquals(1, result);
+
+        department = dao.selectById(1);
+        assertEquals(new Integer(1), department.getDepartmentId().getValue());
+        assertEquals("hoge", department.getDepartmentName());
+        assertEquals(new Integer(2), department.getVersion());
+    }
+
 }
