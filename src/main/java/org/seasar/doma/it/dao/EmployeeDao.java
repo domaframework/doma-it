@@ -29,10 +29,12 @@ import org.seasar.doma.Delete;
 import org.seasar.doma.MapKeyNamingType;
 import org.seasar.doma.Select;
 import org.seasar.doma.SelectType;
+import org.seasar.doma.Suppress;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.builder.SelectBuilder;
+import org.seasar.doma.message.Message;
 
 @Dao(accessLevel = AccessLevel.PACKAGE)
 public interface EmployeeDao {
@@ -108,6 +110,18 @@ public interface EmployeeDao {
 
     @Select(strategy = SelectType.COLLECT)
     <R> R collectAll(Collector<Employee, ?, R> collector);
+
+    @Select
+    @Suppress(messages = { Message.DOMA4274 })
+    Stream<Employee> streamAll();
+
+    @Select
+    @Suppress(messages = { Message.DOMA4274 })
+    Stream<Employee> streamAll(SelectOptions options);
+
+    @Select
+    @Suppress(messages = { Message.DOMA4274 })
+    Stream<Employee> streamBySalary(BigDecimal salary);
 
     default List<Employee> selectWithBuilder() {
         Config config = Config.get(this);
