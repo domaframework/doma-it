@@ -130,6 +130,13 @@ public interface EmployeeDao {
         return builder.getEntityResultList(Employee.class);
     }
 
+    default Stream<Employee> streamWithBuilder() {
+        Config config = Config.get(this);
+        SelectBuilder builder = SelectBuilder.newInstance(config);
+        builder.sql("select * from EMPLOYEE");
+        return builder.streamEntity(Employee.class);
+    }
+
     @Delete
     int delete(Employee entity);
 

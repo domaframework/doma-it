@@ -4,10 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -307,9 +309,31 @@ public class SelectBuilderTest {
     }
 
     @Test
+    public void testStreamEntity_resultStream() throws Exception {
+        Optional<Employee> employee = Optional.empty();
+        SelectBuilder builder = SelectBuilder
+                .newInstance(container.get(c -> c));
+        builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
+        try (Stream<Employee> stream = builder.streamEntity(Employee.class)) {
+            employee = stream.findFirst();
+        }
+        assertTrue(employee.isPresent());
+        assertEquals("SMITH", employee.get().getEmployeeName());
+    }
+
+    @Test
     public void testSelectBuilderInDao() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
         List<Employee> employees = dao.selectWithBuilder();
         assertEquals(14, employees.size());
     }
+
+    @Test
+    public void testStreamBuilderInDao() throws Exception {
+        EmployeeDao dao = container.get(EmployeeDao::get);
+        try (Stream<Employee> employees = dao.streamWithBuilder()) {
+            assertEquals(14, employees.count());
+        }
+    }
+
 }
