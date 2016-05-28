@@ -32,12 +32,14 @@ import org.seasar.doma.it.dao.CompKeyEmployeeDao;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.NoIdDao;
 import org.seasar.doma.it.dao.PersonDao;
+import org.seasar.doma.it.dao.StaffDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyEmployee;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.NoId;
 import org.seasar.doma.it.entity.Person;
+import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.jdbc.OptimisticLockException;
@@ -170,6 +172,19 @@ public class AutoDeleteTest {
 
         employee = dao.selectById(OptionalInt.of(1));
         assertNull(employee);
+    }
+
+    @Test
+    public void testEmbeddable() throws Exception {
+        StaffDao dao = container.get(StaffDao::get);
+        Staff staff = new Staff();
+        staff.employeeId = 1;
+        staff.version = 1;
+        int result = dao.delete(staff);
+        assertEquals(1, result);
+
+        staff = dao.selectById(1);
+        assertNull(staff);
     }
 
 }

@@ -33,12 +33,14 @@ import org.seasar.doma.it.dao.CompKeyEmployeeDao;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.NoIdDao;
 import org.seasar.doma.it.dao.PersonDao;
+import org.seasar.doma.it.dao.StaffDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyEmployee;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.NoId;
 import org.seasar.doma.it.entity.Person;
+import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.JdbcException;
@@ -226,6 +228,26 @@ public class AutoBatchDeleteTest {
         assertNull(employee);
         employee = dao.selectById(OptionalInt.of(2));
         assertNull(employee);
+    }
+
+    @Test
+    public void testEmbeddable() throws Exception {
+        StaffDao dao = container.get(StaffDao::get);
+        Staff staff = new Staff();
+        staff.employeeId = 1;
+        staff.version = 1;
+        Staff staff2 = new Staff();
+        staff2.employeeId = 2;
+        staff2.version = 1;
+        int[] result = dao.delete(Arrays.asList(staff, staff2));
+        assertEquals(2, result.length);
+        assertEquals(1, result[0]);
+        assertEquals(1, result[1]);
+
+        staff = dao.selectById(1);
+        assertNull(staff);
+        staff = dao.selectById(2);
+        assertNull(staff);
     }
 
 }

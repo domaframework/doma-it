@@ -25,9 +25,13 @@ import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
+import org.seasar.doma.it.dao.StaffDao;
 import org.seasar.doma.it.domain.Identity;
+import org.seasar.doma.it.domain.Salary;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
+import org.seasar.doma.it.entity.Staff;
+import org.seasar.doma.it.entity.StaffInfo;
 import org.seasar.doma.jdbc.OptimisticLockException;
 import org.seasar.doma.jdbc.Result;
 
@@ -133,4 +137,17 @@ public class SqlFileUpdateTest {
         assertEquals(new Integer(2), department.getVersion());
     }
 
+    @Test
+    public void testEmbeddable() throws Exception {
+        StaffDao dao = container.get(StaffDao::get);
+        Staff staff = dao.selectById(1);
+        staff.employeeName = "hoge";
+        staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate, new Salary(
+                "5000"));
+        int result = dao.updateBySqlFile(staff);
+        assertEquals(1, result);
+        assertEquals(2, staff.version.intValue());
+        staff = dao.selectById(1);
+        assertEquals(5000L, staff.staffInfo.salary.getValue().longValue());
+    }
 }

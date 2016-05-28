@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
@@ -34,13 +35,17 @@ import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
 import org.seasar.doma.it.dao.NoIdDao;
+import org.seasar.doma.it.dao.StaffDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.domain.Identity;
+import org.seasar.doma.it.domain.Salary;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.it.entity.NoId;
+import org.seasar.doma.it.entity.Staff;
+import org.seasar.doma.it.entity.StaffInfo;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.JdbcException;
@@ -302,4 +307,36 @@ public class AutoBatchUpdateTest {
         assertEquals(2, worker.version.getAsInt());
     }
 
+    @Test
+    public void testEmbeddable() throws Exception {
+        StaffDao dao = container.get(StaffDao::get);
+        Staff staff = new Staff();
+        staff.employeeId = 1;
+        staff.employeeNo = 9998;
+        staff.staffInfo = new StaffInfo(Date.valueOf("2016-05-27"), new Salary(
+                "1234"));
+        staff.version = 1;
+        Staff staff2 = new Staff();
+        staff2.employeeId = 2;
+        staff2.employeeNo = 9999;
+        staff2.staffInfo = new StaffInfo(Date.valueOf("2016-04-01"),
+                new Salary("5678"));
+        staff2.version = 1;
+        int[] result = dao.update(Arrays.asList(staff, staff2));
+        assertEquals(1, result[0]);
+        assertEquals(1, result[1]);
+        assertEquals(2, staff.version.intValue());
+        assertEquals(2, staff2.version.intValue());
+
+        staff = dao.selectById(1);
+        assertEquals(9998, staff.employeeNo.intValue());
+        assertEquals(Date.valueOf("2016-05-27"), staff.staffInfo.hiredate);
+        assertEquals(1234L, staff.staffInfo.salary.getValue().longValue());
+        assertEquals(2, staff.version.intValue());
+        staff = dao.selectById(2);
+        assertEquals(9999, staff.employeeNo.intValue());
+        assertEquals(Date.valueOf("2016-04-01"), staff.staffInfo.hiredate);
+        assertEquals(5678L, staff.staffInfo.salary.getValue().longValue());
+        assertEquals(2, staff.version.intValue());
+    }
 }

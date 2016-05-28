@@ -32,12 +32,16 @@ import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
 import org.seasar.doma.it.dao.NoIdDao;
+import org.seasar.doma.it.dao.StaffDao;
 import org.seasar.doma.it.dao.WorkerDao;
+import org.seasar.doma.it.domain.Salary;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.it.entity.NoId;
+import org.seasar.doma.it.entity.Staff;
+import org.seasar.doma.it.entity.StaffInfo;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.jdbc.OptimisticLockException;
@@ -236,4 +240,26 @@ public class AutoUpdateTest {
         assertEquals(1, worker.addressId.getAsInt());
     }
 
+    @Test
+    public void testUpdate() throws Exception {
+        StaffDao dao = container.get(StaffDao::get);
+        Staff staff = dao.selectById(1);
+        staff.employeeName = "hoge";
+        staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate, new Salary(
+                "5000"));
+        int result = dao.update(staff);
+        assertEquals(1, result);
+        assertEquals(2, staff.version.intValue());
+
+        staff = dao.selectById(1);
+        assertEquals(7369, staff.employeeNo.intValue());
+        assertEquals(2, staff.version.intValue());
+        assertEquals("hoge", staff.employeeName);
+        assertEquals(5000L, staff.staffInfo.salary.getValue().longValue());
+        assertEquals(java.sql.Date.valueOf("1980-12-17"),
+                staff.staffInfo.hiredate);
+        assertEquals(13, staff.managerId.intValue());
+        assertEquals(2, staff.departmentId.intValue());
+        assertEquals(1, staff.addressId.intValue());
+    }
 }
