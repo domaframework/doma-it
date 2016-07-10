@@ -32,6 +32,9 @@ import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Dbms;
 import org.seasar.doma.it.Run;
 import org.seasar.doma.it.Sandbox;
+import org.seasar.doma.it.dao.BranchDao;
+import org.seasar.doma.it.dao.BranchDao.Branch;
+import org.seasar.doma.it.dao.BranchDao.BranchDetail;
 import org.seasar.doma.it.dao.BusinessmanDao;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
@@ -302,4 +305,28 @@ public class AutoInsertTest {
         assertNull(staffInfo.salary);
     }
 
+    @Test
+    public void testNestedEntity() throws Exception {
+        BranchDao dao = container.get(BranchDao::get);
+        {
+            Branch branch = new Branch();
+            branch.branchId = 99;
+            branch.branchDetail = new BranchDetail(99, "hoge",
+                    new org.seasar.doma.it.dao.BranchDao.Location("foo"));
+            dao.insert(branch);
+        }
+        {
+            Branch branch = dao.selectById(99);
+            assertNotNull(branch);
+            assertEquals(new Integer(99), branch.branchId);
+            assertEquals(new Integer(1), branch.version);
+            BranchDetail branchDetail = branch.branchDetail;
+            assertNotNull(branchDetail);
+            assertEquals(new Integer(99), branchDetail.branchNo);
+            assertEquals("hoge", branchDetail.branchName);
+            org.seasar.doma.it.dao.BranchDao.Location location = branchDetail.location;
+            assertNotNull(location);
+            assertEquals("foo", location.getValue());
+        }
+    }
 }
