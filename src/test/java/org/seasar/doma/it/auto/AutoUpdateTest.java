@@ -16,6 +16,7 @@
 package org.seasar.doma.it.auto;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
@@ -27,6 +28,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
+import org.seasar.doma.it.dao.BranchDao;
+import org.seasar.doma.it.dao.BranchDao.Branch;
+import org.seasar.doma.it.dao.BranchDao.BranchDetail;
+import org.seasar.doma.it.dao.BranchDao.Location;
 import org.seasar.doma.it.dao.BusinessmanDao;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
@@ -262,4 +267,29 @@ public class AutoUpdateTest {
         assertEquals(2, staff.departmentId.intValue());
         assertEquals(1, staff.addressId.intValue());
     }
+
+    @Test
+    public void testNestedEntity() throws Exception {
+        BranchDao dao = container.get(BranchDao::get);
+        {
+            Branch branch = dao.selectById(1);
+            assertNotNull(branch);
+            assertEquals(new Integer(1), branch.version);
+            BranchDetail branchDetail = branch.branchDetail;
+            assertNotNull(branchDetail);
+            branchDetail.location = new Location("foo");
+            dao.update(branch);
+        }
+        {
+            Branch branch = dao.selectById(1);
+            assertNotNull(branch);
+            assertEquals(new Integer(2), branch.version);
+            BranchDetail branchDetail = branch.branchDetail;
+            assertNotNull(branchDetail);
+            Location location = branchDetail.location;
+            assertNotNull(location);
+            assertEquals("foo", location.getValue());
+        }
+    }
+
 }

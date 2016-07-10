@@ -18,6 +18,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
+import org.seasar.doma.it.dao.BranchDao;
+import org.seasar.doma.it.dao.BranchDao.Branch;
+import org.seasar.doma.it.dao.BranchDao.BranchDetail;
+import org.seasar.doma.it.dao.BranchDao.Location;
 import org.seasar.doma.it.dao.BusinessmanDao;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.WorkerDao;
@@ -178,4 +182,19 @@ public class SqlFileSelectTest {
         assertEquals(3, workers.size());
     }
 
+    @Test
+    public void testNestedEntity() throws Exception {
+        BranchDao dao = container.get(BranchDao::get);
+        Branch branch = dao.selectById(1);
+        assertNotNull(branch);
+        assertEquals(new Integer(1), branch.branchId);
+        assertEquals(new Integer(1), branch.version);
+        BranchDetail branchDetail = branch.branchDetail;
+        assertNotNull(branchDetail);
+        assertEquals(new Integer(10), branchDetail.branchNo);
+        assertEquals("ACCOUNTING", branchDetail.branchName);
+        Location location = branchDetail.location;
+        assertNotNull(location);
+        assertEquals("NEW YORK", location.getValue());
+    }
 }
