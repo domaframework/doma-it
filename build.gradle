@@ -1,6 +1,7 @@
 apply plugin: 'java'
 
 version = '2.15.1-SNAPSHOT' 
+ext.dependentVersion = '2.15.0' 
 processResources.destinationDir = compileJava.destinationDir
 compileJava.dependsOn processResources
 
@@ -36,7 +37,7 @@ repositories {
 }
  
 dependencies {
-    compile "org.seasar.doma:doma:${version}"
+    compile "org.seasar.doma:doma:${dependentVersion}"
     testCompile 'org.hsqldb:hsqldb:2.3.2'
     testCompile 'com.h2database:h2:1.3.175'
     testCompile 'mysql:mysql-connector-java:5.1.29'
