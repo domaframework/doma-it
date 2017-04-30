@@ -183,7 +183,6 @@ public class AutoInsertTest {
     }
 
     @Test
-    @Run(unless = { Dbms.ORACLE })
     public void testId_Identity() throws Exception {
         IdentityStrategyDao dao = container.get(IdentityStrategyDao::get);
         for (int i = 0; i < 110; i++) {
