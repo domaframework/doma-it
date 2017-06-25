@@ -1,8 +1,8 @@
-package org.seasar.doma.it.domain;
+package org.seasar.doma.it.holder;
 
-import org.seasar.doma.Domain;
+import org.seasar.doma.Holder;
 
-@Domain(valueType = Integer.class)
+@Holder(valueType = Integer.class)
 public class Identity<T> {
 
     private final Integer value;

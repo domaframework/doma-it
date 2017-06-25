@@ -1,4 +1,4 @@
-package org.seasar.doma.it.domain;
+package org.seasar.doma.it.holder;
 
 public class Age {
 

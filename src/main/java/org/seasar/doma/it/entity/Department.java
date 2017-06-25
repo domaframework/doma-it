@@ -19,8 +19,8 @@ import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.OriginalStates;
 import org.seasar.doma.Version;
-import org.seasar.doma.it.domain.Identity;
-import org.seasar.doma.it.domain.Location;
+import org.seasar.doma.it.holder.Identity;
+import org.seasar.doma.it.holder.Location;
 
 @Entity
 public class Department {

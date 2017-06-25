@@ -39,7 +39,6 @@ import org.seasar.doma.it.dao.DeptDao;
 import org.seasar.doma.it.dao.NoIdDao;
 import org.seasar.doma.it.dao.StaffDao;
 import org.seasar.doma.it.dao.WorkerDao;
-import org.seasar.doma.it.domain.Salary;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
@@ -48,6 +47,7 @@ import org.seasar.doma.it.entity.NoId;
 import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.it.entity.StaffInfo;
 import org.seasar.doma.it.entity.Worker;
+import org.seasar.doma.it.holder.Salary;
 import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.jdbc.OptimisticLockException;
 import org.seasar.doma.jdbc.Result;
@@ -69,14 +69,15 @@ public class AutoUpdateTest {
         department.setDepartmentName("hoge");
         int result = dao.update(department);
         assertEquals(1, result);
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
 
         department = dao.selectById(1);
-        assertEquals(new Integer(1), department.getDepartmentId().getValue());
-        assertEquals(new Integer(1), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(1),
+                department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1), department.getDepartmentNo());
         assertEquals("hoge", department.getDepartmentName());
         assertEquals("NEW YORK", department.getLocation().getValue());
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
     }
 
     @Test
@@ -88,15 +89,15 @@ public class AutoUpdateTest {
         Result<Dept> result = dao.update(dept);
         assertEquals(1, result.getCount());
         dept = result.getEntity();
-        assertEquals(new Integer(2), dept.getVersion());
+        assertEquals(Integer.valueOf(2), dept.getVersion());
         assertEquals("hoge_preU_postU", dept.getDepartmentName());
 
         dept = dao.selectById(1);
-        assertEquals(new Integer(1), dept.getDepartmentId().getValue());
-        assertEquals(new Integer(1), dept.getDepartmentNo());
+        assertEquals(Integer.valueOf(1), dept.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1), dept.getDepartmentNo());
         assertEquals("hoge_preU", dept.getDepartmentName());
         assertEquals("NEW YORK", dept.getLocation().getValue());
-        assertEquals(new Integer(2), dept.getVersion());
+        assertEquals(Integer.valueOf(2), dept.getVersion());
     }
 
     @Test
@@ -108,14 +109,15 @@ public class AutoUpdateTest {
         department.setVersion(100);
         int result = dao.update_ignoreVersion(department);
         assertEquals(1, result);
-        assertEquals(new Integer(100), department.getVersion());
+        assertEquals(Integer.valueOf(100), department.getVersion());
 
         department = dao.selectById(1);
-        assertEquals(new Integer(1), department.getDepartmentId().getValue());
-        assertEquals(new Integer(1), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(1),
+                department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1), department.getDepartmentNo());
         assertEquals("hoge", department.getDepartmentName());
         assertEquals("NEW YORK", department.getLocation().getValue());
-        assertEquals(new Integer(100), department.getVersion());
+        assertEquals(Integer.valueOf(100), department.getVersion());
     }
 
     @Test
@@ -128,11 +130,12 @@ public class AutoUpdateTest {
         assertEquals(1, result);
 
         department = dao.selectById(1);
-        assertEquals(new Integer(1), department.getDepartmentId().getValue());
-        assertEquals(new Integer(1), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(1),
+                department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1), department.getDepartmentNo());
         assertEquals("ACCOUNTING", department.getDepartmentName());
         assertEquals("NEW YORK", department.getLocation().getValue());
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
     }
 
     @Test
@@ -144,15 +147,15 @@ public class AutoUpdateTest {
         department.setVersion(1);
         int result = dao.update(department);
         assertEquals(1, result);
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
 
         department = dao.selectById(1, 1);
-        assertEquals(new Integer(1), department.getDepartmentId1());
-        assertEquals(new Integer(1), department.getDepartmentId2());
-        assertEquals(new Integer(1), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(1), department.getDepartmentId1());
+        assertEquals(Integer.valueOf(1), department.getDepartmentId2());
+        assertEquals(Integer.valueOf(1), department.getDepartmentNo());
         assertEquals("hoge", department.getDepartmentName());
         assertEquals("NEW YORK", department.getLocation());
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
     }
 
     @Test
@@ -211,15 +214,16 @@ public class AutoUpdateTest {
         worker.employeeName = Optional.of("hoge");
         int result = dao.update(worker);
         assertEquals(1, result);
-        assertEquals(new Integer(2), worker.version.get());
+        assertEquals(Integer.valueOf(2), worker.version.get());
 
         worker = dao.selectById(Optional.of(1));
-        assertEquals(new Integer(7369), worker.employeeNo.get());
-        assertEquals(new Integer(2), worker.version.get());
+        assertEquals(Integer.valueOf(7369), worker.employeeNo.get());
+        assertEquals(Integer.valueOf(2), worker.version.get());
         assertEquals("hoge", worker.employeeName.get());
-        assertEquals(0,
-                worker.salary.get().getValue().compareTo(new BigDecimal("800")));
-        assertEquals(java.sql.Date.valueOf("1980-12-17"), worker.hiredate.get());
+        assertEquals(0, worker.salary.get().getValue()
+                .compareTo(new BigDecimal("800")));
+        assertEquals(java.sql.Date.valueOf("1980-12-17"),
+                worker.hiredate.get());
         assertEquals(Integer.valueOf(13), worker.managerId.get());
         assertEquals(Integer.valueOf(2), worker.departmentId.get().getValue());
         assertEquals(Integer.valueOf(1), worker.addressId.get());
@@ -239,7 +243,8 @@ public class AutoUpdateTest {
         assertEquals(2, worker.version.getAsInt());
         assertEquals("hoge", worker.employeeName.get());
         assertEquals(800L, worker.salary.getAsLong());
-        assertEquals(java.sql.Date.valueOf("1980-12-17"), worker.hiredate.get());
+        assertEquals(java.sql.Date.valueOf("1980-12-17"),
+                worker.hiredate.get());
         assertEquals(13, worker.managerId.getAsInt());
         assertEquals(2, worker.departmentId.getAsInt());
         assertEquals(1, worker.addressId.getAsInt());
@@ -250,8 +255,8 @@ public class AutoUpdateTest {
         StaffDao dao = container.get(StaffDao::get);
         Staff staff = dao.selectById(1);
         staff.employeeName = "hoge";
-        staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate, new Salary(
-                "5000"));
+        staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate,
+                new Salary("5000"));
         int result = dao.update(staff);
         assertEquals(1, result);
         assertEquals(2, staff.version.intValue());
@@ -274,7 +279,7 @@ public class AutoUpdateTest {
         {
             Branch branch = dao.selectById(1);
             assertNotNull(branch);
-            assertEquals(new Integer(1), branch.version);
+            assertEquals(Integer.valueOf(1), branch.version);
             BranchDetail branchDetail = branch.branchDetail;
             assertNotNull(branchDetail);
             branchDetail.location = new Location("foo");
@@ -283,7 +288,7 @@ public class AutoUpdateTest {
         {
             Branch branch = dao.selectById(1);
             assertNotNull(branch);
-            assertEquals(new Integer(2), branch.version);
+            assertEquals(Integer.valueOf(2), branch.version);
             BranchDetail branchDetail = branch.branchDetail;
             assertNotNull(branchDetail);
             Location location = branchDetail.location;

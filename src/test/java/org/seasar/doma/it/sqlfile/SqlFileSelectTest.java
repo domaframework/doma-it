@@ -25,10 +25,10 @@ import org.seasar.doma.it.dao.BranchDao.Location;
 import org.seasar.doma.it.dao.BusinessmanDao;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.WorkerDao;
-import org.seasar.doma.it.domain.Salary;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.Worker;
+import org.seasar.doma.it.holder.Salary;
 import org.seasar.doma.jdbc.ResultMappingException;
 
 public class SqlFileSelectTest {
@@ -45,13 +45,13 @@ public class SqlFileSelectTest {
         List<Employee> list = dao.selectWithOptionalOrderBy("S",
                 "order by EMPLOYEE_ID");
         assertEquals(2, list.size());
-        assertEquals(new Integer(1), list.get(0).getEmployeeId());
-        assertEquals(new Integer(8), list.get(1).getEmployeeId());
+        assertEquals(Integer.valueOf(1), list.get(0).getEmployeeId());
+        assertEquals(Integer.valueOf(8), list.get(1).getEmployeeId());
 
         list = dao.selectWithOptionalOrderBy("S", "order by EMPLOYEE_ID desc");
         assertEquals(2, list.size());
-        assertEquals(new Integer(8), list.get(0).getEmployeeId());
-        assertEquals(new Integer(1), list.get(1).getEmployeeId());
+        assertEquals(Integer.valueOf(8), list.get(0).getEmployeeId());
+        assertEquals(Integer.valueOf(1), list.get(1).getEmployeeId());
     }
 
     @Test
@@ -125,9 +125,10 @@ public class SqlFileSelectTest {
         assertEquals(Integer.valueOf(7839), worker.employeeNo.get());
         assertEquals("KING", worker.employeeName.get());
         assertFalse(worker.managerId.isPresent());
-        assertEquals(java.sql.Date.valueOf("1981-11-17"), worker.hiredate.get());
-        assertEquals(0, new BigDecimal("5000").compareTo(worker.salary.get()
-                .getValue()));
+        assertEquals(java.sql.Date.valueOf("1981-11-17"),
+                worker.hiredate.get());
+        assertEquals(0, new BigDecimal("5000")
+                .compareTo(worker.salary.get().getValue()));
         assertEquals(Integer.valueOf(1), worker.departmentId.get().getValue());
         assertEquals(Integer.valueOf(9), worker.addressId.get());
         assertEquals(Integer.valueOf(1), worker.version.get());
@@ -158,7 +159,8 @@ public class SqlFileSelectTest {
         assertEquals(7839, worker.employeeNo.getAsInt());
         assertEquals("KING", worker.employeeName.get());
         assertFalse(worker.managerId.isPresent());
-        assertEquals(java.sql.Date.valueOf("1981-11-17"), worker.hiredate.get());
+        assertEquals(java.sql.Date.valueOf("1981-11-17"),
+                worker.hiredate.get());
         assertEquals(5000L, worker.salary.getAsLong());
         assertEquals(1, worker.departmentId.getAsInt());
         assertEquals(9, worker.addressId.getAsInt());
@@ -187,11 +189,11 @@ public class SqlFileSelectTest {
         BranchDao dao = container.get(BranchDao::get);
         Branch branch = dao.selectById(1);
         assertNotNull(branch);
-        assertEquals(new Integer(1), branch.branchId);
-        assertEquals(new Integer(1), branch.version);
+        assertEquals(Integer.valueOf(1), branch.branchId);
+        assertEquals(Integer.valueOf(1), branch.version);
         BranchDetail branchDetail = branch.branchDetail;
         assertNotNull(branchDetail);
-        assertEquals(new Integer(10), branchDetail.branchNo);
+        assertEquals(Integer.valueOf(10), branchDetail.branchNo);
         assertEquals("ACCOUNTING", branchDetail.branchName);
         Location location = branchDetail.location;
         assertNotNull(location);

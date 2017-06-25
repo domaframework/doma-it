@@ -18,7 +18,7 @@ package org.seasar.doma.it.entity;
 import java.sql.Date;
 
 import org.seasar.doma.Embeddable;
-import org.seasar.doma.it.domain.Salary;
+import org.seasar.doma.it.holder.Salary;
 
 /**
  * @author nakamura-to

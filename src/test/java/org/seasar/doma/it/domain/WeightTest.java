@@ -23,9 +23,10 @@ import java.util.Optional;
 
 import org.junit.Test;
 import org.seasar.doma.internal.jdbc.scalar.Scalar;
+import org.seasar.doma.it.holder.Weight;
 import org.seasar.doma.jdbc.ClassHelper;
-import org.seasar.doma.jdbc.domain.DomainType;
-import org.seasar.doma.jdbc.domain.DomainTypeFactory;
+import org.seasar.doma.jdbc.holder.HolderType;
+import org.seasar.doma.jdbc.holder.HolderTypeFactory;
 
 /**
  * @author nakamura-to
@@ -35,8 +36,8 @@ public class WeightTest {
 
     @Test
     public void testDefaultValue() throws Exception {
-        DomainType<Integer, Weight> domainType = DomainTypeFactory
-                .getDomainType(Weight.class, new ClassHelper() {
+        HolderType<Integer, Weight> domainType = HolderTypeFactory
+                .getHolderType(Weight.class, new ClassHelper() {
                 });
         Scalar<Integer, Weight> scalar = domainType.createScalar();
         Weight domain = scalar.get();
@@ -46,8 +47,8 @@ public class WeightTest {
 
     @Test
     public void testDefaultValue_Optional() throws Exception {
-        DomainType<Integer, Weight> domainType = DomainTypeFactory
-                .getDomainType(Weight.class);
+        HolderType<Integer, Weight> domainType = HolderTypeFactory
+                .getHolderType(Weight.class);
         Scalar<Integer, Optional<Weight>> scalar = domainType
                 .createOptionalScalar();
         Optional<Weight> optional = scalar.get();

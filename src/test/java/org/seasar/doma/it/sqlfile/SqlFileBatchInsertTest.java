@@ -26,9 +26,9 @@ import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
-import org.seasar.doma.it.domain.Identity;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
+import org.seasar.doma.it.holder.Identity;
 import org.seasar.doma.jdbc.BatchResult;
 
 public class SqlFileBatchInsertTest {
@@ -50,18 +50,20 @@ public class SqlFileBatchInsertTest {
         department2.setDepartmentId(new Identity<Department>(98));
         department2.setDepartmentNo(98);
         department2.setDepartmentName("foo");
-        int[] result = dao.insertBySqlFile(Arrays.asList(department,
-                department2));
+        int[] result = dao
+                .insertBySqlFile(Arrays.asList(department, department2));
         assertEquals(2, result.length);
         assertEquals(1, result[0]);
         assertEquals(1, result[1]);
 
         department = dao.selectById(99);
-        assertEquals(new Integer(99), department.getDepartmentId().getValue());
-        assertEquals(new Integer(99), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(99),
+                department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(99), department.getDepartmentNo());
         department = dao.selectById(98);
-        assertEquals(new Integer(98), department.getDepartmentId().getValue());
-        assertEquals(new Integer(98), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(98),
+                department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(98), department.getDepartmentNo());
     }
 
     @Test
@@ -69,8 +71,8 @@ public class SqlFileBatchInsertTest {
         DeptDao dao = container.get(DeptDao::get);
         Dept dept = new Dept(new Identity<Dept>(99), 99, "hoge", null, null);
         Dept dept2 = new Dept(new Identity<Dept>(98), 98, "foo", null, null);
-        BatchResult<Dept> result = dao.insertBySqlFile(Arrays.asList(dept,
-                dept2));
+        BatchResult<Dept> result = dao
+                .insertBySqlFile(Arrays.asList(dept, dept2));
         int[] counts = result.getCounts();
         assertEquals(2, counts.length);
         assertEquals(1, counts[0]);
@@ -81,12 +83,12 @@ public class SqlFileBatchInsertTest {
         assertEquals("foo_preI_postI", dept2.getDepartmentName());
 
         dept = dao.selectById(99);
-        assertEquals(new Integer(99), dept.getDepartmentId().getValue());
-        assertEquals(new Integer(99), dept.getDepartmentNo());
+        assertEquals(Integer.valueOf(99), dept.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(99), dept.getDepartmentNo());
         assertEquals("hoge_preI", dept.getDepartmentName());
         dept2 = dao.selectById(98);
-        assertEquals(new Integer(98), dept2.getDepartmentId().getValue());
-        assertEquals(new Integer(98), dept2.getDepartmentNo());
+        assertEquals(Integer.valueOf(98), dept2.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(98), dept2.getDepartmentNo());
         assertEquals("foo_preI", dept2.getDepartmentName());
     }
 }

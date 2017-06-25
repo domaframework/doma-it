@@ -1,10 +1,10 @@
-package org.seasar.doma.it.domain;
+package org.seasar.doma.it.holder;
 
 import java.math.BigDecimal;
 
-import org.seasar.doma.Domain;
+import org.seasar.doma.Holder;
 
-@Domain(valueType = BigDecimal.class)
+@Holder(valueType = BigDecimal.class)
 public class Salary {
 
     private final BigDecimal value;

@@ -21,8 +21,8 @@ import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 import org.seasar.doma.Version;
-import org.seasar.doma.it.domain.Identity;
-import org.seasar.doma.it.domain.Salary;
+import org.seasar.doma.it.holder.Identity;
+import org.seasar.doma.it.holder.Salary;
 
 /**
  * @author nakamura-to

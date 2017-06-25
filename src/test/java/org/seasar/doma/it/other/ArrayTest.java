@@ -77,14 +77,15 @@ public class ArrayTest {
         List<SalEmp> entities = dao.selectAll();
         assertEquals(3, entities.size());
         entity = entities.get(2);
-        assertTrue(Arrays.equals(array, (Integer[]) entity.getPayByQuarter()
-                .getArray()));
+        assertTrue(Arrays.equals(array,
+                (Integer[]) entity.getPayByQuarter().getArray()));
     }
 
     @Test
     public void testInsert_2DimesionalArray() throws Exception {
         SalEmpDao dao = container.get(SalEmpDao::get);
-        String[][] array = new String[][] { { "aaa", "bbb" }, { "ccc", "ddd" } };
+        String[][] array = new String[][] { { "aaa", "bbb" },
+                { "ccc", "ddd" } };
         SalEmp entity = new SalEmp();
         entity.setName("hoge");
         entity.setSchedule(dao.createString2DArray(array));
@@ -116,8 +117,8 @@ public class ArrayTest {
 
         entities = dao.selectAll();
         entity = entities.get(0);
-        assertEquals(new Integer(10), ((Integer[]) entity.getPayByQuarter()
-                .getArray())[0]);
+        assertEquals(Integer.valueOf(10),
+                ((Integer[]) entity.getPayByQuarter().getArray())[0]);
     }
 
     @Test

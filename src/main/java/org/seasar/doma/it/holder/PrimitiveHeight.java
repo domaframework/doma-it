@@ -13,15 +13,15 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.seasar.doma.it.domain;
+package org.seasar.doma.it.holder;
 
-import org.seasar.doma.Domain;
+import org.seasar.doma.Holder;
 
 /**
  * @author nakamura-to
  * 
  */
-@Domain(valueType = int.class)
+@Holder(valueType = int.class)
 public class PrimitiveHeight {
 
     private final int value;

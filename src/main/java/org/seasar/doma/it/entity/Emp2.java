@@ -1,7 +1,7 @@
 package org.seasar.doma.it.entity;
 
 import org.seasar.doma.Entity;
-import org.seasar.doma.it.domain.Age;
+import org.seasar.doma.it.holder.Age;
 
 @Entity
 public class Emp2 extends Emp {

@@ -1,13 +1,12 @@
 apply plugin: 'java'
 
-version = '2.17.0-SNAPSHOT' 
-ext.dependentVersion = '2.16.1' 
+version = '3.0-beta-1-SNAPSHOT' 
+ext.dependentVersion = '3.0-beta-1-SNAPSHOT' 
 processResources.destinationDir = compileJava.destinationDir
 compileJava.dependsOn processResources
 
 compileJava {
     options.encoding = 'UTF-8'
-    options.compilerArgs = ['-Adoma.domain.converters=org.seasar.doma.it.domain.DomainConverterProvider']
 }
  
 compileTestJava {
@@ -27,7 +26,7 @@ test {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+    gradleVersion = '3.5'
 }
 
 repositories {

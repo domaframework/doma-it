@@ -45,9 +45,6 @@ import org.seasar.doma.it.dao.SequenceStrategyDao;
 import org.seasar.doma.it.dao.StaffDao;
 import org.seasar.doma.it.dao.TableStrategyDao;
 import org.seasar.doma.it.dao.WorkerDao;
-import org.seasar.doma.it.domain.Identity;
-import org.seasar.doma.it.domain.Location;
-import org.seasar.doma.it.domain.Salary;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
@@ -59,6 +56,9 @@ import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.it.entity.StaffInfo;
 import org.seasar.doma.it.entity.TableStrategy;
 import org.seasar.doma.it.entity.Worker;
+import org.seasar.doma.it.holder.Identity;
+import org.seasar.doma.it.holder.Location;
+import org.seasar.doma.it.holder.Salary;
 import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.jdbc.Result;
 import org.seasar.doma.jdbc.UniqueConstraintException;
@@ -82,14 +82,15 @@ public class AutoInsertTest {
         department.setLocation(new Location<Department>("foo"));
         int result = dao.insert(department);
         assertEquals(1, result);
-        assertEquals(new Integer(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
 
-        department = dao.selectById(new Integer(99));
-        assertEquals(new Integer(99), department.getDepartmentId().getValue());
-        assertEquals(new Integer(99), department.getDepartmentNo());
+        department = dao.selectById(Integer.valueOf(99));
+        assertEquals(Integer.valueOf(99),
+                department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(99), department.getDepartmentNo());
         assertEquals("hoge", department.getDepartmentName());
         assertEquals("foo", department.getLocation().getValue());
-        assertEquals(new Integer(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
     }
 
     @Test
@@ -100,15 +101,15 @@ public class AutoInsertTest {
         Result<Dept> result = dao.insert(dept);
         assertEquals(1, result.getCount());
         dept = result.getEntity();
-        assertEquals(new Integer(1), dept.getVersion());
+        assertEquals(Integer.valueOf(1), dept.getVersion());
         assertEquals("hoge_preI_postI", dept.getDepartmentName());
 
-        dept = dao.selectById(new Integer(99));
-        assertEquals(new Integer(99), dept.getDepartmentId().getValue());
-        assertEquals(new Integer(99), dept.getDepartmentNo());
+        dept = dao.selectById(Integer.valueOf(99));
+        assertEquals(Integer.valueOf(99), dept.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(99), dept.getDepartmentNo());
         assertEquals("hoge_preI", dept.getDepartmentName());
         assertEquals("foo", dept.getLocation().getValue());
-        assertEquals(new Integer(1), dept.getVersion());
+        assertEquals(Integer.valueOf(1), dept.getVersion());
     }
 
     @Test
@@ -120,7 +121,7 @@ public class AutoInsertTest {
         department.setDepartmentName("hoge");
         int result = dao.insert(department);
         assertEquals(1, result);
-        assertEquals(new Integer(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
         try {
             dao.insert(department);
             fail();
@@ -137,14 +138,15 @@ public class AutoInsertTest {
         department.setDepartmentName("hoge");
         int result = dao.insert_excludeNull(department);
         assertEquals(1, result);
-        assertEquals(new Integer(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
 
-        department = dao.selectById(new Integer(99));
-        assertEquals(new Integer(99), department.getDepartmentId().getValue());
-        assertEquals(new Integer(99), department.getDepartmentNo());
+        department = dao.selectById(Integer.valueOf(99));
+        assertEquals(Integer.valueOf(99),
+                department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(99), department.getDepartmentNo());
         assertEquals("hoge", department.getDepartmentName());
         assertEquals("TOKYO", department.getLocation().getValue());
-        assertEquals(new Integer(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
     }
 
     @Test
@@ -157,15 +159,15 @@ public class AutoInsertTest {
         department.setDepartmentName("hoge");
         int result = dao.insert(department);
         assertEquals(1, result);
-        assertEquals(new Integer(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
 
         department = dao.selectById(99, 99);
-        assertEquals(new Integer(99), department.getDepartmentId1());
-        assertEquals(new Integer(99), department.getDepartmentId2());
-        assertEquals(new Integer(99), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(99), department.getDepartmentId1());
+        assertEquals(Integer.valueOf(99), department.getDepartmentId2());
+        assertEquals(Integer.valueOf(99), department.getDepartmentNo());
         assertEquals("hoge", department.getDepartmentName());
         assertNull(department.getLocation());
-        assertEquals(new Integer(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
     }
 
     @Test
@@ -234,11 +236,11 @@ public class AutoInsertTest {
         worker.employeeNo = Optional.of(9999);
         int result = dao.insert(worker);
         assertEquals(1, result);
-        assertEquals(new Integer(1), worker.version.get());
+        assertEquals(Integer.valueOf(1), worker.version.get());
 
         worker = dao.selectById(Optional.of(9999));
-        assertEquals(new Integer(9999), worker.employeeNo.get());
-        assertEquals(new Integer(1), worker.version.get());
+        assertEquals(Integer.valueOf(9999), worker.employeeNo.get());
+        assertEquals(Integer.valueOf(1), worker.version.get());
         assertFalse(worker.employeeName.isPresent());
         assertFalse(worker.salary.isPresent());
         assertFalse(worker.hiredate.isPresent());
@@ -274,8 +276,8 @@ public class AutoInsertTest {
         Staff staff = new Staff();
         staff.employeeId = 9999;
         staff.employeeNo = 9999;
-        staff.staffInfo = new StaffInfo(Date.valueOf("2016-05-27"), new Salary(
-                "1234"));
+        staff.staffInfo = new StaffInfo(Date.valueOf("2016-05-27"),
+                new Salary("1234"));
         int result = dao.insert(staff);
         assertEquals(1, result);
         assertEquals(1, staff.version.intValue());
@@ -317,11 +319,11 @@ public class AutoInsertTest {
         {
             Branch branch = dao.selectById(99);
             assertNotNull(branch);
-            assertEquals(new Integer(99), branch.branchId);
-            assertEquals(new Integer(1), branch.version);
+            assertEquals(Integer.valueOf(99), branch.branchId);
+            assertEquals(Integer.valueOf(1), branch.version);
             BranchDetail branchDetail = branch.branchDetail;
             assertNotNull(branchDetail);
-            assertEquals(new Integer(99), branchDetail.branchNo);
+            assertEquals(Integer.valueOf(99), branchDetail.branchNo);
             assertEquals("hoge", branchDetail.branchName);
             org.seasar.doma.it.dao.BranchDao.Location location = branchDetail.location;
             assertNotNull(location);

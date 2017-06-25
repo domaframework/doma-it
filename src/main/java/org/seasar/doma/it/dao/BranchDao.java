@@ -19,9 +19,9 @@ import org.seasar.doma.AccessLevel;
 import org.seasar.doma.Column;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
-import org.seasar.doma.Domain;
 import org.seasar.doma.Embeddable;
 import org.seasar.doma.Entity;
+import org.seasar.doma.Holder;
 import org.seasar.doma.Id;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
@@ -86,7 +86,7 @@ public interface BranchDao {
         }
     }
 
-    @Domain(valueType = String.class)
+    @Holder(valueType = String.class)
     public class Location {
 
         private final String value;

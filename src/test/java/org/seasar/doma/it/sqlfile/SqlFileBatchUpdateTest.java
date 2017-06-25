@@ -27,9 +27,9 @@ import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
-import org.seasar.doma.it.domain.Identity;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
+import org.seasar.doma.it.holder.Identity;
 import org.seasar.doma.jdbc.BatchOptimisticLockException;
 import org.seasar.doma.jdbc.BatchResult;
 
@@ -54,20 +54,22 @@ public class SqlFileBatchUpdateTest {
         department2.setDepartmentNo(2);
         department2.setDepartmentName("foo");
         department2.setVersion(1);
-        int[] result = dao.updateBySqlFile(Arrays.asList(department,
-                department2));
+        int[] result = dao
+                .updateBySqlFile(Arrays.asList(department, department2));
         assertEquals(2, result.length);
         assertEquals(1, result[0]);
         assertEquals(1, result[1]);
 
         department = dao.selectById(1);
-        assertEquals(new Integer(1), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1),
+                department.getDepartmentId().getValue());
         assertEquals("hoge", department.getDepartmentName());
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
         department = dao.selectById(2);
-        assertEquals(new Integer(2), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(2),
+                department.getDepartmentId().getValue());
         assertEquals("foo", department.getDepartmentName());
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
     }
 
     @Test
@@ -75,8 +77,8 @@ public class SqlFileBatchUpdateTest {
         DeptDao dao = container.get(DeptDao::get);
         Dept dept = new Dept(new Identity<Dept>(1), 1, "hoge", null, 1);
         Dept dept2 = new Dept(new Identity<Dept>(2), 2, "foo", null, 1);
-        BatchResult<Dept> result = dao.updateBySqlFile(Arrays.asList(dept,
-                dept2));
+        BatchResult<Dept> result = dao
+                .updateBySqlFile(Arrays.asList(dept, dept2));
         int[] counts = result.getCounts();
         assertEquals(2, counts.length);
         assertEquals(1, counts[0]);
@@ -87,13 +89,13 @@ public class SqlFileBatchUpdateTest {
         assertEquals("foo_preU_postU", dept2.getDepartmentName());
 
         dept = dao.selectById(1);
-        assertEquals(new Integer(1), dept.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1), dept.getDepartmentId().getValue());
         assertEquals("hoge_preU", dept.getDepartmentName());
-        assertEquals(new Integer(2), dept.getVersion());
+        assertEquals(Integer.valueOf(2), dept.getVersion());
         dept2 = dao.selectById(2);
-        assertEquals(new Integer(2), dept2.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(2), dept2.getDepartmentId().getValue());
         assertEquals("foo_preU", dept2.getDepartmentName());
-        assertEquals(new Integer(2), dept2.getVersion());
+        assertEquals(Integer.valueOf(2), dept2.getVersion());
     }
 
     @Test
@@ -123,8 +125,8 @@ public class SqlFileBatchUpdateTest {
         Department department3 = dao.selectById(1);
         department3.setDepartmentName("bar");
         dao.update(department1);
-        dao.updateBySqlFile_suppressOptimisticLockException(Arrays.asList(
-                department2, department3));
+        dao.updateBySqlFile_suppressOptimisticLockException(
+                Arrays.asList(department2, department3));
     }
 
 }

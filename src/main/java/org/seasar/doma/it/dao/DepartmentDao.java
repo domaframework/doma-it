@@ -24,9 +24,9 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
-import org.seasar.doma.it.domain.Identity;
-import org.seasar.doma.it.domain.Location;
 import org.seasar.doma.it.entity.Department;
+import org.seasar.doma.it.holder.Identity;
+import org.seasar.doma.it.holder.Location;
 import org.seasar.doma.jdbc.Config;
 
 @Dao(accessLevel = AccessLevel.PACKAGE)
