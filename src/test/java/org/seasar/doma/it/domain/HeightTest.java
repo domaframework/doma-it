@@ -24,8 +24,8 @@ import java.util.Optional;
 import org.junit.Test;
 import org.seasar.doma.internal.jdbc.scalar.Scalar;
 import org.seasar.doma.it.holder.Height;
-import org.seasar.doma.jdbc.holder.HolderType;
-import org.seasar.doma.jdbc.holder.HolderTypeFactory;
+import org.seasar.doma.jdbc.holder.HolderDesc;
+import org.seasar.doma.jdbc.holder.HolderDescFactory;
 
 /**
  * @author nakamura-to
@@ -35,8 +35,8 @@ public class HeightTest {
 
     @Test
     public void testDefaultValue() throws Exception {
-        HolderType<Integer, Height> domainType = HolderTypeFactory
-                .getHolderType(Height.class);
+        HolderDesc<Integer, Height> domainType = HolderDescFactory
+                .getHolderDesc(Height.class);
         Scalar<Integer, Height> scalar = domainType.createScalar();
         Height domain = scalar.get();
         assertNull(domain);
@@ -44,8 +44,8 @@ public class HeightTest {
 
     @Test
     public void testDefaultValue_Optional() throws Exception {
-        HolderType<Integer, Height> domainType = HolderTypeFactory
-                .getHolderType(Height.class);
+        HolderDesc<Integer, Height> domainType = HolderDescFactory
+                .getHolderDesc(Height.class);
         Scalar<Integer, Optional<Height>> scalar = domainType
                 .createOptionalScalar();
         Optional<Height> optional = scalar.get();
