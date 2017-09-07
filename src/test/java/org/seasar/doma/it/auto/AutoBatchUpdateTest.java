@@ -35,6 +35,7 @@ import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
 import org.seasar.doma.it.dao.NoIdDao;
+import org.seasar.doma.it.dao.SalesmanDao;
 import org.seasar.doma.it.dao.StaffDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.domain.Identity;
@@ -44,6 +45,7 @@ import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.it.entity.NoId;
+import org.seasar.doma.it.entity.Salesman;
 import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.it.entity.StaffInfo;
 import org.seasar.doma.it.entity.Worker;
@@ -138,8 +140,8 @@ public class AutoBatchUpdateTest {
         department2.setDepartmentNo(2);
         department2.setDepartmentName("foo");
         department2.setVersion(200);
-        int[] result = dao.update_ignoreVersion(Arrays.asList(department,
-                department2));
+        int[] result = dao
+                .update_ignoreVersion(Arrays.asList(department, department2));
         assertEquals(2, result.length);
         assertEquals(1, result[0]);
         assertEquals(1, result[1]);
@@ -223,8 +225,8 @@ public class AutoBatchUpdateTest {
         Department department3 = dao.selectById(1);
         department3.setDepartmentName("bar");
         dao.update(department1);
-        dao.update_suppressOptimisticLockException(Arrays.asList(department2,
-                department3));
+        dao.update_suppressOptimisticLockException(
+                Arrays.asList(department2, department3));
     }
 
     @Test
@@ -313,8 +315,8 @@ public class AutoBatchUpdateTest {
         Staff staff = new Staff();
         staff.employeeId = 1;
         staff.employeeNo = 9998;
-        staff.staffInfo = new StaffInfo(Date.valueOf("2016-05-27"), new Salary(
-                "1234"));
+        staff.staffInfo = new StaffInfo(Date.valueOf("2016-05-27"),
+                new Salary("1234"));
         staff.version = 1;
         Staff staff2 = new Staff();
         staff2.employeeId = 2;
@@ -339,4 +341,20 @@ public class AutoBatchUpdateTest {
         assertEquals(5678L, staff.staffInfo.salary.getValue().longValue());
         assertEquals(2, staff.version.intValue());
     }
+
+    @Test
+    public void testTenantId() throws Exception {
+        SalesmanDao dao = container.get(SalesmanDao::get);
+        Salesman salesman = dao.selectById(1);
+        Integer tenantId = salesman.departmentId;
+        salesman.departmentId = -1;
+        try {
+            dao.update(Arrays.asList(salesman));
+            fail();
+        } catch (OptimisticLockException expected) {
+        }
+        salesman.departmentId = tenantId;
+        dao.update(Arrays.asList(salesman));
+    }
+
 }

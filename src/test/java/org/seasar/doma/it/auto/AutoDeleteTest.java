@@ -32,6 +32,7 @@ import org.seasar.doma.it.dao.CompKeyEmployeeDao;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.NoIdDao;
 import org.seasar.doma.it.dao.PersonDao;
+import org.seasar.doma.it.dao.SalesmanDao;
 import org.seasar.doma.it.dao.StaffDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.entity.Businessman;
@@ -39,6 +40,7 @@ import org.seasar.doma.it.entity.CompKeyEmployee;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.NoId;
 import org.seasar.doma.it.entity.Person;
+import org.seasar.doma.it.entity.Salesman;
 import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.JdbcException;
@@ -185,6 +187,21 @@ public class AutoDeleteTest {
 
         staff = dao.selectById(1);
         assertNull(staff);
+    }
+
+    @Test
+    public void testTenantId() throws Exception {
+        SalesmanDao dao = container.get(SalesmanDao::get);
+        Salesman salesman = dao.selectById(1);
+        Integer tenantId = salesman.departmentId;
+        salesman.departmentId = -1;
+        try {
+            dao.delete(salesman);
+            fail();
+        } catch (OptimisticLockException expected) {
+        }
+        salesman.departmentId = tenantId;
+        dao.delete(salesman);
     }
 
 }

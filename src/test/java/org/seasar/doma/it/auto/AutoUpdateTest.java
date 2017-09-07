@@ -37,6 +37,7 @@ import org.seasar.doma.it.dao.CompKeyDepartmentDao;
 import org.seasar.doma.it.dao.DepartmentDao;
 import org.seasar.doma.it.dao.DeptDao;
 import org.seasar.doma.it.dao.NoIdDao;
+import org.seasar.doma.it.dao.SalesmanDao;
 import org.seasar.doma.it.dao.StaffDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.domain.Salary;
@@ -45,6 +46,7 @@ import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.it.entity.NoId;
+import org.seasar.doma.it.entity.Salesman;
 import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.it.entity.StaffInfo;
 import org.seasar.doma.it.entity.Worker;
@@ -217,9 +219,10 @@ public class AutoUpdateTest {
         assertEquals(new Integer(7369), worker.employeeNo.get());
         assertEquals(new Integer(2), worker.version.get());
         assertEquals("hoge", worker.employeeName.get());
-        assertEquals(0,
-                worker.salary.get().getValue().compareTo(new BigDecimal("800")));
-        assertEquals(java.sql.Date.valueOf("1980-12-17"), worker.hiredate.get());
+        assertEquals(0, worker.salary.get().getValue()
+                .compareTo(new BigDecimal("800")));
+        assertEquals(java.sql.Date.valueOf("1980-12-17"),
+                worker.hiredate.get());
         assertEquals(Integer.valueOf(13), worker.managerId.get());
         assertEquals(Integer.valueOf(2), worker.departmentId.get().getValue());
         assertEquals(Integer.valueOf(1), worker.addressId.get());
@@ -239,7 +242,8 @@ public class AutoUpdateTest {
         assertEquals(2, worker.version.getAsInt());
         assertEquals("hoge", worker.employeeName.get());
         assertEquals(800L, worker.salary.getAsLong());
-        assertEquals(java.sql.Date.valueOf("1980-12-17"), worker.hiredate.get());
+        assertEquals(java.sql.Date.valueOf("1980-12-17"),
+                worker.hiredate.get());
         assertEquals(13, worker.managerId.getAsInt());
         assertEquals(2, worker.departmentId.getAsInt());
         assertEquals(1, worker.addressId.getAsInt());
@@ -250,8 +254,8 @@ public class AutoUpdateTest {
         StaffDao dao = container.get(StaffDao::get);
         Staff staff = dao.selectById(1);
         staff.employeeName = "hoge";
-        staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate, new Salary(
-                "5000"));
+        staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate,
+                new Salary("5000"));
         int result = dao.update(staff);
         assertEquals(1, result);
         assertEquals(2, staff.version.intValue());
@@ -290,6 +294,21 @@ public class AutoUpdateTest {
             assertNotNull(location);
             assertEquals("foo", location.getValue());
         }
+    }
+
+    @Test
+    public void testTenantId() throws Exception {
+        SalesmanDao dao = container.get(SalesmanDao::get);
+        Salesman salesman = dao.selectById(1);
+        Integer tenantId = salesman.departmentId;
+        salesman.departmentId = -1;
+        try {
+            dao.update(salesman);
+            fail();
+        } catch (OptimisticLockException expected) {
+        }
+        salesman.departmentId = tenantId;
+        dao.update(salesman);
     }
 
 }
