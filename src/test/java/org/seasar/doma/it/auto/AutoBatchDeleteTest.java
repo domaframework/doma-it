@@ -33,6 +33,7 @@ import org.seasar.doma.it.dao.CompKeyEmployeeDao;
 import org.seasar.doma.it.dao.EmployeeDao;
 import org.seasar.doma.it.dao.NoIdDao;
 import org.seasar.doma.it.dao.PersonDao;
+import org.seasar.doma.it.dao.SalesmanDao;
 import org.seasar.doma.it.dao.StaffDao;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.entity.Businessman;
@@ -40,6 +41,7 @@ import org.seasar.doma.it.entity.CompKeyEmployee;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.NoId;
 import org.seasar.doma.it.entity.Person;
+import org.seasar.doma.it.entity.Salesman;
 import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.BatchResult;
@@ -80,8 +82,8 @@ public class AutoBatchDeleteTest {
         PersonDao dao = container.get(PersonDao::get);
         Person person = new Person(1, null, null, null, null, null, null, null,
                 1);
-        Person person2 = new Person(2, null, null, null, null, null, null,
-                null, 1);
+        Person person2 = new Person(2, null, null, null, null, null, null, null,
+                1);
         BatchResult<Person> result = dao.delete(Arrays.asList(person, person2));
         int[] counts = result.getCounts();
         assertEquals(2, counts.length);
@@ -107,8 +109,8 @@ public class AutoBatchDeleteTest {
         Employee employee2 = new Employee();
         employee2.setEmployeeId(2);
         employee2.setVersion(99);
-        int[] result = dao.delete_ignoreVersion(Arrays.asList(employee,
-                employee2));
+        int[] result = dao
+                .delete_ignoreVersion(Arrays.asList(employee, employee2));
         assertEquals(2, result.length);
         assertEquals(1, result[0]);
         assertEquals(1, result[1]);
@@ -169,8 +171,8 @@ public class AutoBatchDeleteTest {
         Employee employee3 = dao.selectById(1);
         employee2.setEmployeeName("bar");
         dao.delete(employee1);
-        dao.delete_suppressOptimisticLockException(Arrays.asList(employee2,
-                employee3));
+        dao.delete_suppressOptimisticLockException(
+                Arrays.asList(employee2, employee3));
     }
 
     @Test
@@ -248,6 +250,21 @@ public class AutoBatchDeleteTest {
         assertNull(staff);
         staff = dao.selectById(2);
         assertNull(staff);
+    }
+
+    @Test
+    public void testTenantId() throws Exception {
+        SalesmanDao dao = container.get(SalesmanDao::get);
+        Salesman salesman = dao.selectById(1);
+        Integer tenantId = salesman.departmentId;
+        salesman.departmentId = -1;
+        try {
+            dao.delete(Arrays.asList(salesman));
+            fail();
+        } catch (OptimisticLockException expected) {
+        }
+        salesman.departmentId = tenantId;
+        dao.delete(Arrays.asList(salesman));
     }
 
 }
