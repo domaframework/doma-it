@@ -1,6 +1,6 @@
 sudo: false
 
-dist: precise
+dist: trusty
 
 language: java
 
@@ -10,6 +10,7 @@ branches:
 
 jdk:
   - oraclejdk8
+  - oraclejdk9
 
 env:
   - DB=h2 JDBC_URL= JDBC_USER= JDBC_PASSWORD=
