@@ -19,12 +19,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.util.Optional;
-
 import org.junit.Test;
-import org.seasar.doma.internal.jdbc.scalar.Scalar;
 import org.seasar.doma.it.holder.Weight;
-import org.seasar.doma.jdbc.ClassHelper;
+import org.seasar.doma.jdbc.ConfigSupport;
 import org.seasar.doma.jdbc.holder.HolderDesc;
 import org.seasar.doma.jdbc.holder.HolderDescFactory;
 
@@ -36,22 +33,20 @@ public class WeightTest {
 
     @Test
     public void testDefaultValue() throws Exception {
-        HolderDesc<Integer, Weight> domainType = HolderDescFactory
-                .getHolderDesc(Weight.class, new ClassHelper() {
-                });
-        Scalar<Integer, Weight> scalar = domainType.createScalar();
-        Weight domain = scalar.get();
-        assertNotNull(domain);
-        assertNull(domain.getValue());
+        HolderDesc<Integer, Weight> holderDesc = HolderDescFactory
+                .getHolderDesc(Weight.class, ConfigSupport.defaultClassHelper);
+        var scalar = holderDesc.createScalar();
+        var holder = scalar.get();
+        assertNotNull(holder);
+        assertNull(holder.getValue());
     }
 
     @Test
     public void testDefaultValue_Optional() throws Exception {
-        HolderDesc<Integer, Weight> domainType = HolderDescFactory
-                .getHolderDesc(Weight.class);
-        Scalar<Integer, Optional<Weight>> scalar = domainType
-                .createOptionalScalar();
-        Optional<Weight> optional = scalar.get();
+        HolderDesc<Integer, Weight> holderDesc = HolderDescFactory
+                .getHolderDesc(Weight.class, ConfigSupport.defaultClassHelper);
+        var scalar = holderDesc.createOptionalScalar();
+        var optional = scalar.get();
         assertNotNull(optional);
         assertFalse(optional.isPresent());
     }

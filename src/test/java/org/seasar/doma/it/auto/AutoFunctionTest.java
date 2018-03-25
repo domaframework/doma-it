@@ -54,7 +54,7 @@ public class AutoFunctionTest {
     @Test
     public void testOneParam() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
-        Integer result = dao.func_simpletype_param(Integer.valueOf(10));
+        Integer result = dao.func_simpletype_param(10);
         assertEquals(Integer.valueOf(20), result);
     }
 
@@ -68,8 +68,8 @@ public class AutoFunctionTest {
     @Test
     public void testTwoParams() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
-        Integer result = dao.func_dto_param(Integer.valueOf(10),
-                Integer.valueOf(20));
+        Integer result = dao.func_dto_param(10,
+                20);
         assertEquals(Integer.valueOf(30), result);
     }
 
@@ -77,7 +77,7 @@ public class AutoFunctionTest {
     public void testTwoParams_time() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
         Time result = dao.func_dto_time_param(Time.valueOf("12:34:56"),
-                Integer.valueOf(20));
+                20);
         assertEquals(Time.valueOf("12:34:56"), result);
     }
 
@@ -85,7 +85,7 @@ public class AutoFunctionTest {
     @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSet() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
-        List<Employee> result = dao.func_resultset(Integer.valueOf(1));
+        List<Employee> result = dao.func_resultset(1);
         assertEquals(13, result.size());
     }
 
@@ -94,7 +94,7 @@ public class AutoFunctionTest {
     public void testResultSet_check() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
         try {
-            dao.func_resultset_check(Integer.valueOf(1));
+            dao.func_resultset_check(1);
             fail();
         } catch (ResultMappingException ignored) {
             System.err.println(ignored);
@@ -105,7 +105,7 @@ public class AutoFunctionTest {
     @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSet_nocheck() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
-        List<Employee> result = dao.func_resultset_nocheck(Integer.valueOf(1));
+        List<Employee> result = dao.func_resultset_nocheck(1);
         assertEquals(13, result.size());
     }
 
@@ -114,7 +114,7 @@ public class AutoFunctionTest {
     public void testResultSet_map() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
         List<Map<String, Object>> result = dao
-                .func_resultset_map(Integer.valueOf(1));
+                .func_resultset_map(1);
         assertEquals(13, result.size());
     }
 
@@ -122,10 +122,10 @@ public class AutoFunctionTest {
     @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSetAndUpdate() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
-        List<Employee> result = dao.func_resultset_update(Integer.valueOf(1));
+        List<Employee> result = dao.func_resultset_update(1);
         assertEquals(13, result.size());
         DepartmentDao departmentDao = container.get(DepartmentDao::get);
-        Department department = departmentDao.selectById(Integer.valueOf(1));
+        Department department = departmentDao.selectById(1);
         assertEquals("HOGE", department.getDepartmentName());
     }
 
@@ -133,10 +133,10 @@ public class AutoFunctionTest {
     @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSetAndUpdate2() throws Exception {
         FunctionDao dao = container.get(FunctionDao::get);
-        List<Employee> result = dao.func_resultset_update2(Integer.valueOf(1));
+        List<Employee> result = dao.func_resultset_update2(1);
         assertEquals(13, result.size());
         DepartmentDao departmentDao = container.get(DepartmentDao::get);
-        Department department = departmentDao.selectById(Integer.valueOf(1));
+        Department department = departmentDao.selectById(1);
         assertEquals("HOGE", department.getDepartmentName());
     }
 

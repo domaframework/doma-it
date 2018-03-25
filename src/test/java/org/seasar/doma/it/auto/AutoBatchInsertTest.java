@@ -72,11 +72,11 @@ public class AutoBatchInsertTest {
     public void test() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(99));
+        department.setDepartmentId(new Identity<>(99));
         department.setDepartmentNo(99);
         department.setDepartmentName("hoge");
         Department department2 = new Department();
-        department2.setDepartmentId(new Identity<Department>(98));
+        department2.setDepartmentId(new Identity<>(98));
         department2.setDepartmentNo(98);
         department2.setDepartmentName("foo");
         int[] result = dao.insert(Arrays.asList(department, department2));
@@ -93,7 +93,7 @@ public class AutoBatchInsertTest {
         assertEquals("hoge", department.getDepartmentName());
         assertNull(department.getLocation().getValue());
         assertEquals(Integer.valueOf(1), department.getVersion());
-        department = dao.selectById(Integer.valueOf(98));
+        department = dao.selectById(98);
         assertEquals(Integer.valueOf(98),
                 department.getDepartmentId().getValue());
         assertEquals(Integer.valueOf(98), department.getDepartmentNo());
@@ -105,8 +105,8 @@ public class AutoBatchInsertTest {
     @Test
     public void testImmutable() throws Exception {
         DeptDao dao = container.get(DeptDao::get);
-        Dept dept = new Dept(new Identity<Dept>(99), 99, "hoge", null, null);
-        Dept dept2 = new Dept(new Identity<Dept>(98), 98, "foo", null, null);
+        Dept dept = new Dept(new Identity<>(99), 99, "hoge", null, null);
+        Dept dept2 = new Dept(new Identity<>(98), 98, "foo", null, null);
         BatchResult<Dept> result = dao.insert(Arrays.asList(dept, dept2));
         int[] counts = result.getCounts();
         assertEquals(2, counts.length);
@@ -126,7 +126,7 @@ public class AutoBatchInsertTest {
         assertEquals("hoge_preI", dept.getDepartmentName());
         assertNull(dept.getLocation().getValue());
         assertEquals(Integer.valueOf(1), dept.getVersion());
-        dept = dao.selectById(Integer.valueOf(98));
+        dept = dao.selectById(98);
         assertEquals(Integer.valueOf(98), dept.getDepartmentId().getValue());
         assertEquals(Integer.valueOf(98), dept.getDepartmentNo());
         assertEquals("foo_preI", dept.getDepartmentName());
@@ -154,7 +154,7 @@ public class AutoBatchInsertTest {
         assertEquals(Integer.valueOf(1), department.getVersion());
         assertEquals(Integer.valueOf(1), department2.getVersion());
 
-        department = dao.selectById(Integer.valueOf(99), Integer.valueOf(99));
+        department = dao.selectById(99, 99);
         assertEquals(Integer.valueOf(99), department.getDepartmentId1());
         assertEquals(Integer.valueOf(99), department.getDepartmentId2());
         assertEquals(Integer.valueOf(99), department.getDepartmentNo());

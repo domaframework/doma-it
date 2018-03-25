@@ -43,11 +43,11 @@ public class SqlFileBatchInsertTest {
     public void test() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(99));
+        department.setDepartmentId(new Identity<>(99));
         department.setDepartmentNo(99);
         department.setDepartmentName("hoge");
         Department department2 = new Department();
-        department2.setDepartmentId(new Identity<Department>(98));
+        department2.setDepartmentId(new Identity<>(98));
         department2.setDepartmentNo(98);
         department2.setDepartmentName("foo");
         int[] result = dao
@@ -69,8 +69,8 @@ public class SqlFileBatchInsertTest {
     @Test
     public void testImmutable() throws Exception {
         DeptDao dao = container.get(DeptDao::get);
-        Dept dept = new Dept(new Identity<Dept>(99), 99, "hoge", null, null);
-        Dept dept2 = new Dept(new Identity<Dept>(98), 98, "foo", null, null);
+        Dept dept = new Dept(new Identity<>(99), 99, "hoge", null, null);
+        Dept dept2 = new Dept(new Identity<>(98), 98, "foo", null, null);
         BatchResult<Dept> result = dao
                 .insertBySqlFile(Arrays.asList(dept, dept2));
         int[] counts = result.getCounts();

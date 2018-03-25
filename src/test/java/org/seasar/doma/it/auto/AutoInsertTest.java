@@ -76,15 +76,15 @@ public class AutoInsertTest {
     public void test() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(99));
+        department.setDepartmentId(new Identity<>(99));
         department.setDepartmentNo(99);
         department.setDepartmentName("hoge");
-        department.setLocation(new Location<Department>("foo"));
+        department.setLocation(new Location<>("foo"));
         int result = dao.insert(department);
         assertEquals(1, result);
         assertEquals(Integer.valueOf(1), department.getVersion());
 
-        department = dao.selectById(Integer.valueOf(99));
+        department = dao.selectById(99);
         assertEquals(Integer.valueOf(99),
                 department.getDepartmentId().getValue());
         assertEquals(Integer.valueOf(99), department.getDepartmentNo());
@@ -96,15 +96,15 @@ public class AutoInsertTest {
     @Test
     public void testImmutable() throws Exception {
         DeptDao dao = container.get(DeptDao::get);
-        Dept dept = new Dept(new Identity<Dept>(99), 99, "hoge",
-                new Location<Dept>("foo"), null);
+        Dept dept = new Dept(new Identity<>(99), 99, "hoge",
+                new Location<>("foo"), null);
         Result<Dept> result = dao.insert(dept);
         assertEquals(1, result.getCount());
         dept = result.getEntity();
         assertEquals(Integer.valueOf(1), dept.getVersion());
         assertEquals("hoge_preI_postI", dept.getDepartmentName());
 
-        dept = dao.selectById(Integer.valueOf(99));
+        dept = dao.selectById(99);
         assertEquals(Integer.valueOf(99), dept.getDepartmentId().getValue());
         assertEquals(Integer.valueOf(99), dept.getDepartmentNo());
         assertEquals("hoge_preI", dept.getDepartmentName());
@@ -116,7 +116,7 @@ public class AutoInsertTest {
     public void test_UniqueConstraintException() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(99));
+        department.setDepartmentId(new Identity<>(99));
         department.setDepartmentNo(99);
         department.setDepartmentName("hoge");
         int result = dao.insert(department);
@@ -133,14 +133,14 @@ public class AutoInsertTest {
     public void testExcludeNull() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(99));
+        department.setDepartmentId(new Identity<>(99));
         department.setDepartmentNo(99);
         department.setDepartmentName("hoge");
         int result = dao.insert_excludeNull(department);
         assertEquals(1, result);
         assertEquals(Integer.valueOf(1), department.getVersion());
 
-        department = dao.selectById(Integer.valueOf(99));
+        department = dao.selectById(99);
         assertEquals(Integer.valueOf(99),
                 department.getDepartmentId().getValue());
         assertEquals(Integer.valueOf(99), department.getDepartmentNo());

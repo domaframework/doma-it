@@ -45,12 +45,12 @@ public class SqlFileBatchUpdateTest {
     public void test() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(1));
+        department.setDepartmentId(new Identity<>(1));
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
         department.setVersion(1);
         Department department2 = new Department();
-        department2.setDepartmentId(new Identity<Department>(2));
+        department2.setDepartmentId(new Identity<>(2));
         department2.setDepartmentNo(2);
         department2.setDepartmentName("foo");
         department2.setVersion(1);
@@ -75,8 +75,8 @@ public class SqlFileBatchUpdateTest {
     @Test
     public void testImmutable() throws Exception {
         DeptDao dao = container.get(DeptDao::get);
-        Dept dept = new Dept(new Identity<Dept>(1), 1, "hoge", null, 1);
-        Dept dept2 = new Dept(new Identity<Dept>(2), 2, "foo", null, 1);
+        Dept dept = new Dept(new Identity<>(1), 1, "hoge", null, 1);
+        Dept dept2 = new Dept(new Identity<>(2), 2, "foo", null, 1);
         BatchResult<Dept> result = dao
                 .updateBySqlFile(Arrays.asList(dept, dept2));
         int[] counts = result.getCounts();

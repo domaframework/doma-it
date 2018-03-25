@@ -92,7 +92,7 @@ public class SelectBuilderTest {
         builder.sql("select null from EMPLOYEE");
         List<String> list = builder.getScalarResultList(String.class);
         assertEquals(14, list.size());
-        assertEquals(null, list.get(0));
+        assertNull(list.get(0));
     }
 
     @Test
@@ -125,7 +125,7 @@ public class SelectBuilderTest {
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
         Optional<String> name = builder.streamScalar(String.class,
-                stream -> stream.findFirst());
+                Stream::findFirst);
         assertEquals("SMITH", name.get());
     }
 
@@ -137,7 +137,7 @@ public class SelectBuilderTest {
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 99);
         Optional<String> name = builder.streamScalar(String.class,
-                stream -> stream.findFirst());
+                Stream::findFirst);
         assertFalse(name.isPresent());
     }
 
@@ -149,7 +149,7 @@ public class SelectBuilderTest {
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
         Optional<Optional<String>> name = builder.streamOptionalScalar(
-                String.class, stream -> stream.findFirst());
+                String.class, Stream::findFirst);
         assertEquals("SMITH", name.get().get());
     }
 
@@ -161,7 +161,7 @@ public class SelectBuilderTest {
         builder.sql("where");
         builder.sql("EMPLOYEE_ID = ").param(int.class, 1);
         Optional<Optional<String>> name = builder.streamOptionalScalar(
-                String.class, stream -> stream.findFirst());
+                String.class, Stream::findFirst);
         assertFalse(name.get().isPresent());
     }
 
@@ -235,7 +235,7 @@ public class SelectBuilderTest {
                 .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         Optional<Map<String, Object>> result = builder.streamMap(
-                MapKeyNamingType.CAMEL_CASE, stream -> stream.findFirst());
+                MapKeyNamingType.CAMEL_CASE, Stream::findFirst);
         assertEquals("SMITH", result.get().get("employeeName"));
     }
 
@@ -304,7 +304,7 @@ public class SelectBuilderTest {
                 .newInstance(container.get(c -> c));
         builder.sql("select EMPLOYEE_ID, EMPLOYEE_NAME, HIREDATE from EMPLOYEE");
         Optional<Employee> employee = builder.streamEntity(Employee.class,
-                stream -> stream.findFirst());
+                Stream::findFirst);
         assertEquals("SMITH", employee.get().getEmployeeName());
     }
 

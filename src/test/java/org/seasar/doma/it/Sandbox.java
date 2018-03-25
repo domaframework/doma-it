@@ -51,7 +51,7 @@ public class Sandbox implements TestRule {
     }
 
     protected boolean meetsPrecondition(Description description) {
-        Dbms dbms = container.get(c -> c.getDbms());
+        Dbms dbms = container.get(AppConfig::getDbms);
         Run runAtClass = description.getTestClass().getAnnotation(Run.class);
         if (isRunnable(runAtClass, dbms)) {
             Run runAtMethod = description.getAnnotation(Run.class);
@@ -66,7 +66,7 @@ public class Sandbox implements TestRule {
     }
 
     protected void executeInTransaction(Statement statement) throws Throwable {
-        TransactionManager tm = container.get(c -> c.getTransactionManager());
+        TransactionManager tm = container.get(AppConfig::getTransactionManager);
         tm.required(() -> {
             try {
                 statement.evaluate();

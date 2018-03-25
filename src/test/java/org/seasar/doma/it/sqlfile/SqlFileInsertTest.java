@@ -41,13 +41,13 @@ public class SqlFileInsertTest {
     public void test() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(99));
+        department.setDepartmentId(new Identity<>(99));
         department.setDepartmentNo(99);
         department.setDepartmentName("hoge");
         int result = dao.insertBySqlFile(department);
         assertEquals(1, result);
 
-        department = dao.selectById(Integer.valueOf(99));
+        department = dao.selectById(99);
         assertEquals(Integer.valueOf(99),
                 department.getDepartmentId().getValue());
         assertEquals(Integer.valueOf(99), department.getDepartmentNo());
@@ -56,13 +56,13 @@ public class SqlFileInsertTest {
     @Test
     public void testImmutable() throws Exception {
         DeptDao dao = container.get(DeptDao::get);
-        Dept dept = new Dept(new Identity<Dept>(99), 99, "hoge", null, null);
+        Dept dept = new Dept(new Identity<>(99), 99, "hoge", null, null);
         Result<Dept> result = dao.insertBySqlFile(dept);
         assertEquals(1, result.getCount());
         dept = result.getEntity();
         assertEquals("hoge_preI_postI", dept.getDepartmentName());
 
-        dept = dao.selectById(Integer.valueOf(99));
+        dept = dao.selectById(99);
         assertEquals(Integer.valueOf(99), dept.getDepartmentId().getValue());
         assertEquals(Integer.valueOf(99), dept.getDepartmentNo());
         assertEquals("hoge_preI", dept.getDepartmentName());

@@ -64,12 +64,12 @@ public class AutoBatchUpdateTest {
     public void test() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(1));
+        department.setDepartmentId(new Identity<>(1));
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
         department.setVersion(1);
         Department department2 = new Department();
-        department2.setDepartmentId(new Identity<Department>(2));
+        department2.setDepartmentId(new Identity<>(2));
         department2.setDepartmentNo(2);
         department2.setDepartmentName("foo");
         department2.setVersion(1);
@@ -99,8 +99,8 @@ public class AutoBatchUpdateTest {
     @Test
     public void testImmutable() throws Exception {
         DeptDao dao = container.get(DeptDao::get);
-        Dept dept = new Dept(new Identity<Dept>(1), 1, "hoge", null, 1);
-        Dept dept2 = new Dept(new Identity<Dept>(2), 2, "foo", null, 1);
+        Dept dept = new Dept(new Identity<>(1), 1, "hoge", null, 1);
+        Dept dept2 = new Dept(new Identity<>(2), 2, "foo", null, 1);
         BatchResult<Dept> result = dao.update(Arrays.asList(dept, dept2));
         int[] counts = result.getCounts();
         assertEquals(2, counts.length);
@@ -131,12 +131,12 @@ public class AutoBatchUpdateTest {
     public void testIncludeVersion() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(1));
+        department.setDepartmentId(new Identity<>(1));
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
         department.setVersion(100);
         Department department2 = new Department();
-        department2.setDepartmentId(new Identity<Department>(2));
+        department2.setDepartmentId(new Identity<>(2));
         department2.setDepartmentNo(2);
         department2.setDepartmentName("foo");
         department2.setVersion(200);
@@ -148,14 +148,14 @@ public class AutoBatchUpdateTest {
         assertEquals(Integer.valueOf(100), department.getVersion());
         assertEquals(Integer.valueOf(200), department2.getVersion());
 
-        department = dao.selectById(Integer.valueOf(1));
+        department = dao.selectById(1);
         assertEquals(Integer.valueOf(1),
                 department.getDepartmentId().getValue());
         assertEquals(Integer.valueOf(1), department.getDepartmentNo());
         assertEquals("hoge", department.getDepartmentName());
         assertNull(department.getLocation().getValue());
         assertEquals(Integer.valueOf(100), department.getVersion());
-        department = dao.selectById(Integer.valueOf(2));
+        department = dao.selectById(2);
         assertEquals(Integer.valueOf(2),
                 department.getDepartmentId().getValue());
         assertEquals(Integer.valueOf(2), department.getDepartmentNo());
@@ -251,7 +251,7 @@ public class AutoBatchUpdateTest {
     @Test
     public void testSqlExecutionSkip() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
-        int[] result = dao.update(new ArrayList<Department>());
+        int[] result = dao.update(new ArrayList<>());
         assertEquals(0, result.length);
     }
 

@@ -63,7 +63,7 @@ public class SqlFileSelectStreamTest {
     public void testStreamBySalary() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
         Long count = dao.streamBySalary(new BigDecimal(2000),
-                stream -> stream.count());
+                Stream::count);
         assertEquals(Long.valueOf(6), count);
     }
 
@@ -81,14 +81,14 @@ public class SqlFileSelectStreamTest {
     @Test
     public void testEntity() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
-        long count = dao.streamAll(s -> s.count());
+        long count = dao.streamAll(Stream::count);
         assertEquals(14L, count);
     }
 
     @Test
     public void testEntity_limitOffset() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
-        long count = dao.streamAll(s -> s.count(),
+        long count = dao.streamAll(Stream::count,
                 SelectOptions.get().limit(5).offset(3));
         assertEquals(5L, count);
     }
@@ -108,8 +108,8 @@ public class SqlFileSelectStreamTest {
     public void testDomain() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
         BigDecimal total = dao.streamAllSalary(s -> s.filter(Objects::nonNull)
-                .reduce(BigDecimal.ZERO, (x, y) -> x.add(y)));
-        assertTrue(new BigDecimal("29025").compareTo(total) == 0);
+                .reduce(BigDecimal.ZERO, BigDecimal::add));
+        assertEquals(0, new BigDecimal("29025").compareTo(total));
     }
 
     @Test
@@ -117,22 +117,22 @@ public class SqlFileSelectStreamTest {
         EmployeeDao dao = container.get(EmployeeDao::get);
         BigDecimal total = dao.streamAllSalary(
                 s -> s.filter(Objects::nonNull).reduce(BigDecimal.ZERO,
-                        (x, y) -> x.add(y)),
+                        BigDecimal::add),
                 SelectOptions.get().limit(5).offset(3));
-        assertTrue(new BigDecimal("6900").compareTo(total) == 0);
+        assertEquals(0, new BigDecimal("6900").compareTo(total));
     }
 
     @Test
     public void testMap() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
-        long count = dao.selectAllAsMapList(s -> s.count());
+        long count = dao.selectAllAsMapList(Stream::count);
         assertEquals(14L, count);
     }
 
     @Test
     public void testMap_limitOffset() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
-        long count = dao.selectAllAsMapList(s -> s.count(),
+        long count = dao.selectAllAsMapList(Stream::count,
                 SelectOptions.get().limit(5).offset(3));
         assertEquals(5L, count);
     }

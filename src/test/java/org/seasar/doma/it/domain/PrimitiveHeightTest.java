@@ -20,32 +20,30 @@ import static org.junit.Assert.assertEquals;
 import java.util.Optional;
 
 import org.junit.Test;
-import org.seasar.doma.internal.jdbc.scalar.Scalar;
 import org.seasar.doma.it.holder.PrimitiveHeight;
+import org.seasar.doma.jdbc.ConfigSupport;
 import org.seasar.doma.jdbc.holder.HolderDesc;
 import org.seasar.doma.jdbc.holder.HolderDescFactory;
 
 /**
  * @author nakamura-to
- * 
  */
 public class PrimitiveHeightTest {
 
     @Test
     public void testDefaultValue() throws Exception {
-        HolderDesc<Integer, PrimitiveHeight> domainType = HolderDescFactory
-                .getHolderDesc(PrimitiveHeight.class);
-        Scalar<Integer, PrimitiveHeight> scalar = domainType.createScalar();
-        PrimitiveHeight domain = scalar.get();
-        assertEquals(0, domain.getValue());
+        HolderDesc<Integer, PrimitiveHeight> holderDesc = HolderDescFactory
+                .getHolderDesc(PrimitiveHeight.class, ConfigSupport.defaultClassHelper);
+        var scalar = holderDesc.createScalar();
+        var holder = scalar.get();
+        assertEquals(0, holder.getValue());
     }
 
     @Test
     public void testDefaultValue_Optional() throws Exception {
-        HolderDesc<Integer, PrimitiveHeight> domainType = HolderDescFactory
-                .getHolderDesc(PrimitiveHeight.class);
-        Scalar<Integer, Optional<PrimitiveHeight>> scalar = domainType
-                .createOptionalScalar();
+        HolderDesc<Integer, PrimitiveHeight> holderDesc = HolderDescFactory
+                .getHolderDesc(PrimitiveHeight.class, ConfigSupport.defaultClassHelper);
+        var scalar = holderDesc.createOptionalScalar();
         Optional<PrimitiveHeight> optional = scalar.get();
         PrimitiveHeight domain = optional.get();
         assertEquals(0, domain.getValue());

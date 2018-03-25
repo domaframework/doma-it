@@ -59,7 +59,8 @@ public class AppConfig implements Config {
                 dataSource.getLocalTransaction(getJdbcLogger()));
     }
 
-    private DataSource createDataSource(String url, String user, String password) {
+    private DataSource createDataSource(String url, String user,
+            String password) {
         SimpleDataSource dataSource = new SimpleDataSource();
         dataSource.setUrl(url);
         dataSource.setUser(user);
@@ -86,10 +87,8 @@ public class AppConfig implements Config {
     public RequiresNewController getRequiresNewController() {
         return new RequiresNewController() {
             @Override
-            public <R> R requiresNew(Callback<R> callback) throws Throwable {
-                return transactionManager.requiresNew(() -> {
-                    return callback.execute();
-                });
+            public <R> R requiresNew(Callback<R> callback) {
+                return transactionManager.requiresNew(callback::execute);
             }
         };
     }

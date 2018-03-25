@@ -47,7 +47,7 @@ public class SqlFileUpdateTest {
     public void test() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(1));
+        department.setDepartmentId(new Identity<>(1));
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
         department.setVersion(1);
@@ -65,7 +65,7 @@ public class SqlFileUpdateTest {
     public void testPopulates() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(1));
+        department.setDepartmentId(new Identity<>(1));
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
         department.setVersion(1);
@@ -82,7 +82,7 @@ public class SqlFileUpdateTest {
     @Test
     public void testImmutable() throws Exception {
         DeptDao dao = container.get(DeptDao::get);
-        Dept dept = new Dept(new Identity<Dept>(1), 1, "hoge", null, 1);
+        Dept dept = new Dept(new Identity<>(1), 1, "hoge", null, 1);
         Result<Dept> result = dao.updateBySqlFile(dept);
         assertEquals(1, result.getCount());
         dept = result.getEntity();
@@ -125,11 +125,11 @@ public class SqlFileUpdateTest {
     public void test_nonEntity() throws Exception {
         DepartmentDao dao = container.get(DepartmentDao::get);
         Department department = new Department();
-        department.setDepartmentId(new Identity<Department>(1));
+        department.setDepartmentId(new Identity<>(1));
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
         department.setVersion(1);
-        int result = dao.updateBySqlFile_nonEntity(new Identity<Department>(1),
+        int result = dao.updateBySqlFile_nonEntity(new Identity<>(1),
                 1, "hoge", null, 1);
         assertEquals(1, result);
 
