@@ -23,6 +23,7 @@ import org.seasar.doma.BatchUpdate;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
+import org.seasar.doma.Sql;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.holder.Identity;
@@ -42,7 +43,8 @@ public interface DepartmentDao {
     @Insert
     int insert(Department entity);
 
-    @Insert(sqlFile = true)
+    @Sql(useFile = true)
+    @Insert
     int insertBySqlFile(Department entity);
 
     @Insert(excludeNull = true)
@@ -51,13 +53,16 @@ public interface DepartmentDao {
     @Update
     int update(Department entity);
 
-    @Update(sqlFile = true)
+    @Sql(useFile = true)
+    @Update
     int updateBySqlFile(Department entity);
 
-    @Update(sqlFile = true)
+    @Sql(useFile = true)
+    @Update
     int updateBySqlFileWithPopulate(Department entity);
 
-    @Update(sqlFile = true, ignoreVersion = true)
+    @Sql(useFile = true)
+    @Update(ignoreVersion = true)
     int updateBySqlFile_ignoreVersion(Department entity);
 
     @Update(excludeNull = true)
@@ -69,7 +74,8 @@ public interface DepartmentDao {
     @Update(suppressOptimisticLockException = true)
     int update_suppressOptimisticLockException(Department entity);
 
-    @Update(sqlFile = true)
+    @Sql(useFile = true)
+    @Update
     int updateBySqlFile_nonEntity(Identity<Department> departmentId,
             Integer departmentNo, String departmentName,
             Location<Department> location, Integer version);
@@ -77,16 +83,19 @@ public interface DepartmentDao {
     @BatchInsert
     int[] insert(List<Department> entity);
 
-    @BatchInsert(sqlFile = true)
+    @Sql(useFile = true)
+    @BatchInsert
     int[] insertBySqlFile(List<Department> entity);
 
     @BatchUpdate
     int[] update(List<Department> entity);
 
-    @BatchUpdate(sqlFile = true)
+    @Sql(useFile = true)
+    @BatchUpdate
     int[] updateBySqlFile(List<Department> entity);
 
-    @BatchUpdate(sqlFile = true, suppressOptimisticLockException = true)
+    @Sql(useFile = true)
+    @BatchUpdate(suppressOptimisticLockException = true)
     int[] updateBySqlFile_suppressOptimisticLockException(
             List<Department> entity);
 

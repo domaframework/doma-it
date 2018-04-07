@@ -25,6 +25,7 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
+import org.seasar.doma.Sql;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.jdbc.Config;
@@ -49,7 +50,8 @@ public interface StaffDao {
     @Update
     int update(Staff staff);
 
-    @Update(sqlFile = true)
+    @Sql(useFile = true)
+    @Update
     int updateBySqlFile(Staff staff);
 
     @Delete

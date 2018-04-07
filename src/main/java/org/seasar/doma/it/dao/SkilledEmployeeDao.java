@@ -15,41 +15,23 @@
  */
 package org.seasar.doma.it.dao;
 
-import java.util.List;
-
 import org.seasar.doma.AccessLevel;
-import org.seasar.doma.BatchDelete;
 import org.seasar.doma.Dao;
-import org.seasar.doma.Delete;
+import org.seasar.doma.Procedure;
 import org.seasar.doma.Select;
 import org.seasar.doma.Sql;
-import org.seasar.doma.it.entity.Person;
-import org.seasar.doma.jdbc.BatchResult;
+import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Config;
-import org.seasar.doma.jdbc.Result;
 
 @Dao(accessLevel = AccessLevel.PACKAGE)
-public interface PersonDao {
+public interface SkilledEmployeeDao {
 
-    static PersonDao get(Config config) {
-        return new PersonDaoImpl(config);
-    }
+  static SkilledEmployeeDao get(Config config) {
+    return new SkilledEmployeeDaoImpl(config);
+  }
 
-    @Select
-    Person selectById(Integer employeeId);
-
-    @Delete
-    Result<Person> delete(Person entity);
-
-    @BatchDelete
-    BatchResult<Person> delete(List<Person> entity);
-
-    @Sql(useFile = true)
-    @Delete
-    Result<Person> deleteBySqlFile(Person entity);
-
-    @Sql(useFile = true)
-    @BatchDelete
-    BatchResult<Person> deleteBySqlFile(List<Person> entity);
+  @Sql("select * from EMPLOYEE where EMPLOYEE_ID = /*employeeId*/0")
+  @Select
+  Employee selectById(Integer employeeId);
 
 }

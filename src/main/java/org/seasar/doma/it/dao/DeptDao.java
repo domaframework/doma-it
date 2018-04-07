@@ -23,6 +23,7 @@ import org.seasar.doma.BatchUpdate;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
+import org.seasar.doma.Sql;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.jdbc.BatchResult;
@@ -55,16 +56,19 @@ public interface DeptDao {
     @BatchUpdate
     BatchResult<Dept> update(List<Dept> entity);
 
-    @Insert(sqlFile = true)
+    @Sql(useFile = true)
+    @Insert
     Result<Dept> insertBySqlFile(Dept entity);
 
-    @Update(sqlFile = true)
+    @Sql(useFile = true)
+    @Update
     Result<Dept> updateBySqlFile(Dept entity);
 
-    @BatchInsert(sqlFile = true)
+    @Sql(useFile = true)
+    @BatchInsert
     BatchResult<Dept> insertBySqlFile(List<Dept> entity);
 
-    @BatchUpdate(sqlFile = true)
+    @BatchUpdate
     BatchResult<Dept> updateBySqlFile(List<Dept> entity);
 
 }

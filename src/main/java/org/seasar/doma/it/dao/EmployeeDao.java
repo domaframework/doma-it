@@ -29,6 +29,7 @@ import org.seasar.doma.Delete;
 import org.seasar.doma.MapKeyNamingType;
 import org.seasar.doma.Select;
 import org.seasar.doma.SelectType;
+import org.seasar.doma.Sql;
 import org.seasar.doma.Suppress;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Config;
@@ -140,7 +141,8 @@ public interface EmployeeDao {
     @Delete
     int delete(Employee entity);
 
-    @Delete(sqlFile = true)
+    @Sql(useFile = true)
+    @Delete
     int deleteBySqlFile(Employee entity);
 
     @Delete(ignoreVersion = true)
@@ -158,6 +160,7 @@ public interface EmployeeDao {
     @BatchDelete(suppressOptimisticLockException = true)
     int[] delete_suppressOptimisticLockException(List<Employee> entity);
 
-    @BatchDelete(sqlFile = true)
+    @Sql(useFile = true)
+    @BatchDelete
     int[] deleteBySqlFile(List<Employee> entity);
 }
