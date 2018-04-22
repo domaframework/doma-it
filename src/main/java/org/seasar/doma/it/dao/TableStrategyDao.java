@@ -15,12 +15,11 @@
  */
 package org.seasar.doma.it.dao;
 
+import java.util.List;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.it.entity.TableStrategy;
-
-import java.util.List;
 
 @Dao
 public interface TableStrategyDao {
