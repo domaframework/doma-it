@@ -26,35 +26,41 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Businessman;
+import org.seasar.doma.jdbc.AbstractDao;
+import org.seasar.doma.jdbc.Config;
 
 /** @author nakamura-to */
 @Dao
-public interface BusinessmanDao {
+public abstract class BusinessmanDao extends AbstractDao {
+
+  public BusinessmanDao(Config config) {
+    super(config);
+  }
 
   @Select
-  List<Businessman> selectAll();
+  public abstract List<Businessman> selectAll();
 
   @Select
-  Businessman selectById(OptionalInt id);
+  public abstract Businessman selectById(OptionalInt id);
 
   @Select
-  List<Businessman> selectByExample(Businessman businessman);
+  public abstract List<Businessman> selectByExample(Businessman businessman);
 
   @Insert
-  int insert(Businessman entity);
+  public abstract int insert(Businessman entity);
 
   @Update
-  int update(Businessman entity);
+  public abstract int update(Businessman entity);
 
   @Delete
-  int delete(Businessman entity);
+  public abstract int delete(Businessman entity);
 
   @BatchInsert
-  int[] insert(List<Businessman> entity);
+  public abstract int[] insert(List<Businessman> entity);
 
   @BatchUpdate
-  int[] update(List<Businessman> entity);
+  public abstract int[] update(List<Businessman> entity);
 
   @BatchDelete
-  int[] delete(List<Businessman> entity);
+  public abstract int[] delete(List<Businessman> entity);
 }
