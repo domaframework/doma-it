@@ -28,12 +28,8 @@ import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.NoId;
 import org.seasar.doma.jdbc.Config;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface NoIdDao {
-
-    static NoIdDao get(Config config) {
-        return new NoIdDaoImpl(config);
-    }
 
     @Insert
     int insert(NoId entity);

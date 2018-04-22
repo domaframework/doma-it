@@ -10,6 +10,7 @@ import org.seasar.doma.it.Dbms;
 import org.seasar.doma.it.Run;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.VeryLongCharactersNamedTableDao;
+import org.seasar.doma.it.dao.VeryLongCharactersNamedTableDaoImpl;
 import org.seasar.doma.it.entity.VeryLongCharactersNamedTable;
 
 @Run(onlyIf = { Dbms.POSTGRESQL },
@@ -24,7 +25,7 @@ public class LongNameSerialSequenceTest {
 
     @Test
     public void testInsert() throws Exception {
-    	VeryLongCharactersNamedTableDao dao = container.get(VeryLongCharactersNamedTableDao::get);
+    	VeryLongCharactersNamedTableDao dao = container.get(config -> new VeryLongCharactersNamedTableDaoImpl(config));
     	VeryLongCharactersNamedTable entity = new VeryLongCharactersNamedTable();
     	entity.setValue("foo");
     	dao.insert(entity);
@@ -32,7 +33,7 @@ public class LongNameSerialSequenceTest {
     
     @Test
     public void testBatchInsert() throws Exception {
-    	VeryLongCharactersNamedTableDao dao = container.get(VeryLongCharactersNamedTableDao::get);
+    	VeryLongCharactersNamedTableDao dao = container.get(config -> new VeryLongCharactersNamedTableDaoImpl(config));
     	VeryLongCharactersNamedTable entity1 = new VeryLongCharactersNamedTable();
     	entity1.setValue("foo");
     	VeryLongCharactersNamedTable entity2 = new VeryLongCharactersNamedTable();

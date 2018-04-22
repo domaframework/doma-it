@@ -34,14 +34,10 @@ import org.seasar.doma.jdbc.Config;
  * @author nakamura-to
  *
  */
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface WorkerDao {
 
-    public static WorkerDao get(Config config) {
-        return new WorkerDaoImpl(config);
-    }
-
-    @Select
+  @Select
     List<Worker> selectAll();
 
     @Select

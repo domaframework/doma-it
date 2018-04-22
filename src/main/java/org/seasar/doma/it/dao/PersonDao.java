@@ -28,12 +28,8 @@ import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Result;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface PersonDao {
-
-    static PersonDao get(Config config) {
-        return new PersonDaoImpl(config);
-    }
 
     @Select
     Person selectById(Integer employeeId);

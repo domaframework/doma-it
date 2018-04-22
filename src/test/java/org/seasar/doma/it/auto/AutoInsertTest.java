@@ -35,16 +35,27 @@ import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.BranchDao;
 import org.seasar.doma.it.dao.BranchDao.Branch;
 import org.seasar.doma.it.dao.BranchDao.BranchDetail;
+import org.seasar.doma.it.dao.BranchDaoImpl;
 import org.seasar.doma.it.dao.BusinessmanDao;
+import org.seasar.doma.it.dao.BusinessmanDaoImpl;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
+import org.seasar.doma.it.dao.CompKeyDepartmentDaoImpl;
 import org.seasar.doma.it.dao.DepartmentDao;
+import org.seasar.doma.it.dao.DepartmentDaoImpl;
 import org.seasar.doma.it.dao.DeptDao;
+import org.seasar.doma.it.dao.DeptDaoImpl;
 import org.seasar.doma.it.dao.IdentityStrategyDao;
+import org.seasar.doma.it.dao.IdentityStrategyDaoImpl;
 import org.seasar.doma.it.dao.NoIdDao;
+import org.seasar.doma.it.dao.NoIdDaoImpl;
 import org.seasar.doma.it.dao.SequenceStrategyDao;
+import org.seasar.doma.it.dao.SequenceStrategyDaoImpl;
 import org.seasar.doma.it.dao.StaffDao;
+import org.seasar.doma.it.dao.StaffDaoImpl;
 import org.seasar.doma.it.dao.TableStrategyDao;
+import org.seasar.doma.it.dao.TableStrategyDaoImpl;
 import org.seasar.doma.it.dao.WorkerDao;
+import org.seasar.doma.it.dao.WorkerDaoImpl;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
@@ -74,7 +85,7 @@ public class AutoInsertTest {
 
     @Test
     public void test() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = new Department();
         department.setDepartmentId(new Identity<>(99));
         department.setDepartmentNo(99);
@@ -95,7 +106,7 @@ public class AutoInsertTest {
 
     @Test
     public void testImmutable() throws Exception {
-        DeptDao dao = container.get(DeptDao::get);
+        DeptDao dao = container.get(config -> new DeptDaoImpl(config));
         Dept dept = new Dept(new Identity<>(99), 99, "hoge",
                 new Location<>("foo"), null);
         Result<Dept> result = dao.insert(dept);
@@ -114,7 +125,7 @@ public class AutoInsertTest {
 
     @Test
     public void test_UniqueConstraintException() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = new Department();
         department.setDepartmentId(new Identity<>(99));
         department.setDepartmentNo(99);
@@ -131,7 +142,7 @@ public class AutoInsertTest {
 
     @Test
     public void testExcludeNull() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = new Department();
         department.setDepartmentId(new Identity<>(99));
         department.setDepartmentNo(99);
@@ -151,7 +162,7 @@ public class AutoInsertTest {
 
     @Test
     public void testCompositeKey() throws Exception {
-        CompKeyDepartmentDao dao = container.get(CompKeyDepartmentDao::get);
+        CompKeyDepartmentDao dao = container.get(config -> new CompKeyDepartmentDaoImpl(config));
         CompKeyDepartment department = new CompKeyDepartment();
         department.setDepartmentId1(99);
         department.setDepartmentId2(99);
@@ -172,7 +183,7 @@ public class AutoInsertTest {
 
     @Test
     public void testIdNotAssigned() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = new Department();
         department.setDepartmentNo(99);
         department.setDepartmentName("hoge");
@@ -186,7 +197,7 @@ public class AutoInsertTest {
 
     @Test
     public void testId_Identity() throws Exception {
-        IdentityStrategyDao dao = container.get(IdentityStrategyDao::get);
+        IdentityStrategyDao dao = container.get(config -> new IdentityStrategyDaoImpl(config));
         for (int i = 0; i < 110; i++) {
             IdentityStrategy entity = new IdentityStrategy();
             dao.insert(entity);
@@ -197,7 +208,7 @@ public class AutoInsertTest {
     @Test
     @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER, Dbms.SQLITE })
     public void testId_sequence() throws Exception {
-        SequenceStrategyDao dao = container.get(SequenceStrategyDao::get);
+        SequenceStrategyDao dao = container.get(config -> new SequenceStrategyDaoImpl(config));
         for (int i = 0; i < 110; i++) {
             SequenceStrategy entity = new SequenceStrategy();
             dao.insert(entity);
@@ -210,7 +221,7 @@ public class AutoInsertTest {
     @Test
     @Run(unless = { Dbms.SQLITE })
     public void testId_table() throws Exception {
-        TableStrategyDao dao = container.get(TableStrategyDao::get);
+        TableStrategyDao dao = container.get(config -> new TableStrategyDaoImpl(config));
         for (int i = 0; i < 110; i++) {
             TableStrategy entity = new TableStrategy();
             dao.insert(entity);
@@ -220,7 +231,7 @@ public class AutoInsertTest {
 
     @Test
     public void testNoId() throws Exception {
-        NoIdDao dao = container.get(NoIdDao::get);
+        NoIdDao dao = container.get(config -> new NoIdDaoImpl(config));
         NoId entity = new NoId();
         entity.setValue1(1);
         entity.setValue2(2);
@@ -230,7 +241,7 @@ public class AutoInsertTest {
 
     @Test
     public void testOptional() throws Exception {
-        WorkerDao dao = container.get(WorkerDao::get);
+        WorkerDao dao = container.get(config -> new WorkerDaoImpl(config));
         Worker worker = new Worker();
         worker.employeeId = Optional.of(9999);
         worker.employeeNo = Optional.of(9999);
@@ -251,7 +262,7 @@ public class AutoInsertTest {
 
     @Test
     public void testOptionalInt() throws Exception {
-        BusinessmanDao dao = container.get(BusinessmanDao::get);
+        BusinessmanDao dao = container.get(config -> new BusinessmanDaoImpl(config));
         Businessman worker = new Businessman();
         worker.employeeId = OptionalInt.of(9999);
         worker.employeeNo = OptionalInt.of(9999);
@@ -272,7 +283,7 @@ public class AutoInsertTest {
 
     @Test
     public void testEmbeddable() throws Exception {
-        StaffDao dao = container.get(StaffDao::get);
+        StaffDao dao = container.get(config -> new StaffDaoImpl(config));
         Staff staff = new Staff();
         staff.employeeId = 9999;
         staff.employeeNo = 9999;
@@ -291,7 +302,7 @@ public class AutoInsertTest {
 
     @Test
     public void testEmbeddable_null() throws Exception {
-        StaffDao dao = container.get(StaffDao::get);
+        StaffDao dao = container.get(config -> new StaffDaoImpl(config));
         Staff staff = new Staff();
         staff.employeeId = 9999;
         staff.employeeNo = 9999;
@@ -308,7 +319,7 @@ public class AutoInsertTest {
 
     @Test
     public void testNestedEntity() throws Exception {
-        BranchDao dao = container.get(BranchDao::get);
+        BranchDao dao = container.get(config -> new BranchDaoImpl(config));
         {
             Branch branch = new Branch();
             branch.branchId = 99;

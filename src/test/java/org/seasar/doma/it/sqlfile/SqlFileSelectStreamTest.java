@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.EmployeeDao;
+import org.seasar.doma.it.dao.EmployeeDaoImpl;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.SelectOptions;
 
@@ -41,7 +42,7 @@ public class SqlFileSelectStreamTest {
 
     @Test
     public void testStreamAll() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         Long count = dao.streamAll(stream -> stream
                 .filter(e -> e.getEmployeeName() != null)
                 .filter(e -> e.getEmployeeName().startsWith("S")).count());
@@ -50,7 +51,7 @@ public class SqlFileSelectStreamTest {
 
     @Test
     public void testStreamAll_resultStream() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         Long count = null;
         try (Stream<Employee> stream = dao.streamAll()) {
             count = stream.filter(e -> e.getEmployeeName() != null)
@@ -61,7 +62,7 @@ public class SqlFileSelectStreamTest {
 
     @Test
     public void testStreamBySalary() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         Long count = dao.streamBySalary(new BigDecimal(2000),
                 Stream::count);
         assertEquals(Long.valueOf(6), count);
@@ -69,7 +70,7 @@ public class SqlFileSelectStreamTest {
 
     @Test
     public void testStreamBySalary_resultStream() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         Long count;
         try (Stream<Employee> stream = dao
                 .streamBySalary(new BigDecimal(2000))) {
@@ -80,14 +81,14 @@ public class SqlFileSelectStreamTest {
 
     @Test
     public void testEntity() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         long count = dao.streamAll(Stream::count);
         assertEquals(14L, count);
     }
 
     @Test
     public void testEntity_limitOffset() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         long count = dao.streamAll(Stream::count,
                 SelectOptions.get().limit(5).offset(3));
         assertEquals(5L, count);
@@ -95,7 +96,7 @@ public class SqlFileSelectStreamTest {
 
     @Test
     public void testEntity_limitOffset_resultStream() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         long count;
         try (Stream<Employee> stream = dao
                 .streamAll(SelectOptions.get().limit(5).offset(3))) {
@@ -106,7 +107,7 @@ public class SqlFileSelectStreamTest {
 
     @Test
     public void testDomain() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         BigDecimal total = dao.streamAllSalary(s -> s.filter(Objects::nonNull)
                 .reduce(BigDecimal.ZERO, BigDecimal::add));
         assertEquals(0, new BigDecimal("29025").compareTo(total));
@@ -114,7 +115,7 @@ public class SqlFileSelectStreamTest {
 
     @Test
     public void testDomain_limitOffset() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         BigDecimal total = dao.streamAllSalary(
                 s -> s.filter(Objects::nonNull).reduce(BigDecimal.ZERO,
                         BigDecimal::add),
@@ -124,14 +125,14 @@ public class SqlFileSelectStreamTest {
 
     @Test
     public void testMap() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         long count = dao.selectAllAsMapList(Stream::count);
         assertEquals(14L, count);
     }
 
     @Test
     public void testMap_limitOffset() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         long count = dao.selectAllAsMapList(Stream::count,
                 SelectOptions.get().limit(5).offset(3));
         assertEquals(5L, count);

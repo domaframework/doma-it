@@ -29,12 +29,8 @@ import org.seasar.doma.jdbc.Config;
  * @author nakamura-to
  *
  */
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface ProductDao {
-
-    static ProductDao get(Config config) {
-        return new ProductDaoImpl(config);
-    }
 
     @SQLXMLFactory
     SQLXML createSQLXML();

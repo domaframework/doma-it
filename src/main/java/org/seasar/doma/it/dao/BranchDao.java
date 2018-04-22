@@ -34,12 +34,8 @@ import org.seasar.doma.jdbc.Config;
  * @author nakamura-to
  *
  */
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface BranchDao {
-
-    public static BranchDao get(Config config) {
-        return new BranchDaoImpl(config);
-    }
 
     @Select
     Branch selectById(Integer branchId);

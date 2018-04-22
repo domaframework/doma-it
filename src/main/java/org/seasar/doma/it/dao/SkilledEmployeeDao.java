@@ -23,12 +23,8 @@ import org.seasar.doma.Sql;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Config;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface SkilledEmployeeDao {
-
-  static SkilledEmployeeDao get(Config config) {
-    return new SkilledEmployeeDaoImpl(config);
-  }
 
   @Sql("select * from EMPLOYEE where EMPLOYEE_ID = /*employeeId*/0")
   @Select

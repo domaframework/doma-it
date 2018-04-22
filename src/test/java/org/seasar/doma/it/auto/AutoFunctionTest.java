@@ -30,7 +30,9 @@ import org.seasar.doma.it.Dbms;
 import org.seasar.doma.it.Run;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.DepartmentDao;
+import org.seasar.doma.it.dao.DepartmentDaoImpl;
 import org.seasar.doma.it.dao.FunctionDao;
+import org.seasar.doma.it.dao.FunctionDaoImpl;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.ResultMappingException;
@@ -46,28 +48,28 @@ public class AutoFunctionTest {
 
     @Test
     public void testNoParam() throws Exception {
-        FunctionDao dao = container.get(FunctionDao::get);
+        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
         Integer result = dao.func_none_param();
         assertEquals(Integer.valueOf(10), result);
     }
 
     @Test
     public void testOneParam() throws Exception {
-        FunctionDao dao = container.get(FunctionDao::get);
+        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
         Integer result = dao.func_simpletype_param(10);
         assertEquals(Integer.valueOf(20), result);
     }
 
     @Test
     public void testOneParam_time() throws Exception {
-        FunctionDao dao = container.get(FunctionDao::get);
+        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
         Time result = dao.func_simpletype_time_param(Time.valueOf("12:34:56"));
         assertEquals(Time.valueOf("12:34:56"), result);
     }
 
     @Test
     public void testTwoParams() throws Exception {
-        FunctionDao dao = container.get(FunctionDao::get);
+        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
         Integer result = dao.func_dto_param(10,
                 20);
         assertEquals(Integer.valueOf(30), result);
@@ -75,7 +77,7 @@ public class AutoFunctionTest {
 
     @Test
     public void testTwoParams_time() throws Exception {
-        FunctionDao dao = container.get(FunctionDao::get);
+        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
         Time result = dao.func_dto_time_param(Time.valueOf("12:34:56"),
                 20);
         assertEquals(Time.valueOf("12:34:56"), result);
@@ -84,7 +86,7 @@ public class AutoFunctionTest {
     @Test
     @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSet() throws Exception {
-        FunctionDao dao = container.get(FunctionDao::get);
+        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
         List<Employee> result = dao.func_resultset(1);
         assertEquals(13, result.size());
     }
@@ -92,7 +94,7 @@ public class AutoFunctionTest {
     @Test
     @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSet_check() throws Exception {
-        FunctionDao dao = container.get(FunctionDao::get);
+        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
         try {
             dao.func_resultset_check(1);
             fail();
@@ -104,7 +106,7 @@ public class AutoFunctionTest {
     @Test
     @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSet_nocheck() throws Exception {
-        FunctionDao dao = container.get(FunctionDao::get);
+        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
         List<Employee> result = dao.func_resultset_nocheck(1);
         assertEquals(13, result.size());
     }
@@ -112,7 +114,7 @@ public class AutoFunctionTest {
     @Test
     @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSet_map() throws Exception {
-        FunctionDao dao = container.get(FunctionDao::get);
+        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
         List<Map<String, Object>> result = dao
                 .func_resultset_map(1);
         assertEquals(13, result.size());
@@ -121,10 +123,10 @@ public class AutoFunctionTest {
     @Test
     @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSetAndUpdate() throws Exception {
-        FunctionDao dao = container.get(FunctionDao::get);
+        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
         List<Employee> result = dao.func_resultset_update(1);
         assertEquals(13, result.size());
-        DepartmentDao departmentDao = container.get(DepartmentDao::get);
+        DepartmentDao departmentDao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = departmentDao.selectById(1);
         assertEquals("HOGE", department.getDepartmentName());
     }
@@ -132,10 +134,10 @@ public class AutoFunctionTest {
     @Test
     @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
     public void testResultSetAndUpdate2() throws Exception {
-        FunctionDao dao = container.get(FunctionDao::get);
+        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
         List<Employee> result = dao.func_resultset_update2(1);
         assertEquals(13, result.size());
-        DepartmentDao departmentDao = container.get(DepartmentDao::get);
+        DepartmentDao departmentDao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = departmentDao.selectById(1);
         assertEquals("HOGE", department.getDepartmentName());
     }

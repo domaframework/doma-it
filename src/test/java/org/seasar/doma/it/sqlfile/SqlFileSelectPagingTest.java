@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.EmployeeDao;
+import org.seasar.doma.it.dao.EmployeeDaoImpl;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.SelectOptions;
 
@@ -38,14 +39,14 @@ public class SqlFileSelectPagingTest {
 
     @Test
     public void testNoPaging() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         List<Employee> employees = dao.selectAll();
         assertEquals(14, employees.size());
     }
 
     @Test
     public void testLimitOffset() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         List<Employee> employees = dao
                 .selectAll(SelectOptions.get().limit(5).offset(3));
         assertEquals(5, employees.size());
@@ -58,7 +59,7 @@ public class SqlFileSelectPagingTest {
 
     @Test
     public void testLimitOffset_offsetIsZero() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         List<Employee> employees = dao
                 .selectAll(SelectOptions.get().limit(5).offset(0));
         assertEquals(5, employees.size());
@@ -71,7 +72,7 @@ public class SqlFileSelectPagingTest {
 
     @Test
     public void testLimitOffset_limitIsZero() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         List<Employee> employees = dao
                 .selectAll(SelectOptions.get().limit(0).offset(10));
         assertEquals(4, employees.size());
@@ -83,7 +84,7 @@ public class SqlFileSelectPagingTest {
 
     @Test
     public void testLimitOnly() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         List<Employee> employees = dao.selectAll(SelectOptions.get().limit(5));
         assertEquals(5, employees.size());
         assertEquals(Integer.valueOf(1), employees.get(0).getEmployeeId());
@@ -95,7 +96,7 @@ public class SqlFileSelectPagingTest {
 
     @Test
     public void testOffsetOnly() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         List<Employee> employees = dao
                 .selectAll(SelectOptions.get().offset(10));
         assertEquals(4, employees.size());

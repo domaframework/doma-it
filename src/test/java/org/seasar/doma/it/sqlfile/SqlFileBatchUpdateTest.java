@@ -26,7 +26,9 @@ import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.DepartmentDao;
+import org.seasar.doma.it.dao.DepartmentDaoImpl;
 import org.seasar.doma.it.dao.DeptDao;
+import org.seasar.doma.it.dao.DeptDaoImpl;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.it.holder.Identity;
@@ -43,7 +45,7 @@ public class SqlFileBatchUpdateTest {
 
     @Test
     public void test() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = new Department();
         department.setDepartmentId(new Identity<>(1));
         department.setDepartmentNo(1);
@@ -74,7 +76,7 @@ public class SqlFileBatchUpdateTest {
 
     @Test
     public void testImmutable() throws Exception {
-        DeptDao dao = container.get(DeptDao::get);
+        DeptDao dao = container.get(config -> new DeptDaoImpl(config));
         Dept dept = new Dept(new Identity<>(1), 1, "hoge", null, 1);
         Dept dept2 = new Dept(new Identity<>(2), 2, "foo", null, 1);
         BatchResult<Dept> result = dao
@@ -100,7 +102,7 @@ public class SqlFileBatchUpdateTest {
 
     @Test
     public void testOptimisticLockException() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(2);
@@ -117,7 +119,7 @@ public class SqlFileBatchUpdateTest {
 
     @Test
     public void testSuppressOptimisticLockException() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(2);

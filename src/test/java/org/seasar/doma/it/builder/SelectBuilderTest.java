@@ -18,6 +18,7 @@ import org.seasar.doma.MapKeyNamingType;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.EmployeeDao;
+import org.seasar.doma.it.dao.EmployeeDaoImpl;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.builder.SelectBuilder;
 
@@ -323,14 +324,14 @@ public class SelectBuilderTest {
 
     @Test
     public void testSelectBuilderInDao() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         List<Employee> employees = dao.selectWithBuilder();
         assertEquals(14, employees.size());
     }
 
     @Test
     public void testStreamBuilderInDao() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         try (Stream<Employee> employees = dao.streamWithBuilder()) {
             assertEquals(14, employees.count());
         }

@@ -5,14 +5,10 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Script;
 import org.seasar.doma.jdbc.Config;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface ScriptDao {
 
-    static ScriptDao get(Config config) {
-        return new ScriptDaoImpl(config);
-    }
-
-    @Script
+  @Script
     void create();
 
     @Script(haltOnError = false)

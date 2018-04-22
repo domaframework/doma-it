@@ -34,12 +34,8 @@ import org.seasar.doma.jdbc.Result;
  * @author taedium
  * 
  */
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface DeptDao {
-
-    static DeptDao get(Config config) {
-        return new DeptDaoImpl(config);
-    }
 
     @Select
     Dept selectById(Integer departmentId);

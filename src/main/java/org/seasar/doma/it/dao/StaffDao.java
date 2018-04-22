@@ -34,14 +34,10 @@ import org.seasar.doma.jdbc.Config;
  * @author nakamura-to
  *
  */
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface StaffDao {
 
-    static StaffDao get(Config config) {
-        return new StaffDaoImpl(config);
-    }
-
-    @Select
+  @Select
     Staff selectById(Integer employeeId);
 
     @Insert

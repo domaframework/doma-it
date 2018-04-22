@@ -28,6 +28,7 @@ import org.seasar.doma.it.Dbms;
 import org.seasar.doma.it.Run;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.ProductDao;
+import org.seasar.doma.it.dao.ProductDaoImpl;
 import org.seasar.doma.it.entity.Product;
 
 /**
@@ -46,7 +47,7 @@ public class SQLXMLTest {
 
     @Test
     public void testSelect() throws Exception {
-        ProductDao dao = container.get(ProductDao::get);
+        ProductDao dao = container.get(config -> new ProductDaoImpl(config));
 
         SQLXML sqlxml = dao.createSQLXML();
         sqlxml.setString("<test>hoge</test>");

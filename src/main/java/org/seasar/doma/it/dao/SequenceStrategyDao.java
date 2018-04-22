@@ -24,14 +24,10 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.it.entity.SequenceStrategy;
 import org.seasar.doma.jdbc.Config;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface SequenceStrategyDao {
 
-    static SequenceStrategyDao get(Config config) {
-        return new SequenceStrategyDaoImpl(config);
-    }
-
-    @Insert
+  @Insert
     int insert(SequenceStrategy entity);
 
     @BatchInsert

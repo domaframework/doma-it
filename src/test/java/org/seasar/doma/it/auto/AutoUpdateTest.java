@@ -32,13 +32,21 @@ import org.seasar.doma.it.dao.BranchDao;
 import org.seasar.doma.it.dao.BranchDao.Branch;
 import org.seasar.doma.it.dao.BranchDao.BranchDetail;
 import org.seasar.doma.it.dao.BranchDao.Location;
+import org.seasar.doma.it.dao.BranchDaoImpl;
 import org.seasar.doma.it.dao.BusinessmanDao;
+import org.seasar.doma.it.dao.BusinessmanDaoImpl;
 import org.seasar.doma.it.dao.CompKeyDepartmentDao;
+import org.seasar.doma.it.dao.CompKeyDepartmentDaoImpl;
 import org.seasar.doma.it.dao.DepartmentDao;
+import org.seasar.doma.it.dao.DepartmentDaoImpl;
 import org.seasar.doma.it.dao.DeptDao;
+import org.seasar.doma.it.dao.DeptDaoImpl;
 import org.seasar.doma.it.dao.NoIdDao;
+import org.seasar.doma.it.dao.NoIdDaoImpl;
 import org.seasar.doma.it.dao.StaffDao;
+import org.seasar.doma.it.dao.StaffDaoImpl;
 import org.seasar.doma.it.dao.WorkerDao;
+import org.seasar.doma.it.dao.WorkerDaoImpl;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
@@ -63,7 +71,7 @@ public class AutoUpdateTest {
 
     @Test
     public void test() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = dao.selectById(1);
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
@@ -82,7 +90,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testImmutable() throws Exception {
-        DeptDao dao = container.get(DeptDao::get);
+        DeptDao dao = container.get(config -> new DeptDaoImpl(config));
         Dept dept = dao.selectById(1);
         dept = new Dept(dept.getDepartmentId(), 1, "hoge", dept.getLocation(),
                 dept.getVersion());
@@ -102,7 +110,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testIgnoreVersion() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = dao.selectById(1);
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
@@ -122,7 +130,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testExcludeNull() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = dao.selectById(1);
         department.setDepartmentNo(1);
         department.setDepartmentName(null);
@@ -140,7 +148,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testCompositeKey() throws Exception {
-        CompKeyDepartmentDao dao = container.get(CompKeyDepartmentDao::get);
+        CompKeyDepartmentDao dao = container.get(config -> new CompKeyDepartmentDaoImpl(config));
         CompKeyDepartment department = dao.selectById(1, 1);
         department.setDepartmentNo(1);
         department.setDepartmentName("hoge");
@@ -160,7 +168,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testOptimisticLockException() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(1);
@@ -175,7 +183,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testSuppressOptimisticLockException() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(1);
@@ -187,7 +195,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testNoId() throws Exception {
-        NoIdDao dao = container.get(NoIdDao::get);
+        NoIdDao dao = container.get(config -> new NoIdDaoImpl(config));
         NoId entity = new NoId();
         entity.setValue1(1);
         entity.setValue2(2);
@@ -201,7 +209,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testSqlExecutionSkip() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = dao.selectById(1);
         int result = dao.update(department);
         assertEquals(0, result);
@@ -209,7 +217,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testOptional() throws Exception {
-        WorkerDao dao = container.get(WorkerDao::get);
+        WorkerDao dao = container.get(config -> new WorkerDaoImpl(config));
         Worker worker = dao.selectById(Optional.of(1));
         worker.employeeName = Optional.of("hoge");
         int result = dao.update(worker);
@@ -231,7 +239,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testOptionalInt() throws Exception {
-        BusinessmanDao dao = container.get(BusinessmanDao::get);
+        BusinessmanDao dao = container.get(config -> new BusinessmanDaoImpl(config));
         Businessman worker = dao.selectById(OptionalInt.of(1));
         worker.employeeName = Optional.of("hoge");
         int result = dao.update(worker);
@@ -252,7 +260,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testUpdate() throws Exception {
-        StaffDao dao = container.get(StaffDao::get);
+        StaffDao dao = container.get(config -> new StaffDaoImpl(config));
         Staff staff = dao.selectById(1);
         staff.employeeName = "hoge";
         staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate,
@@ -275,7 +283,7 @@ public class AutoUpdateTest {
 
     @Test
     public void testNestedEntity() throws Exception {
-        BranchDao dao = container.get(BranchDao::get);
+        BranchDao dao = container.get(config -> new BranchDaoImpl(config));
         {
             Branch branch = dao.selectById(1);
             assertNotNull(branch);

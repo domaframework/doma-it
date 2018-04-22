@@ -27,12 +27,8 @@ import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.jdbc.Config;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface CompKeyDepartmentDao {
-
-    static CompKeyDepartmentDao get(Config config) {
-        return new CompKeyDepartmentDaoImpl(config);
-    }
 
     @Select
     CompKeyDepartment selectById(Integer departmentId1, Integer departmentId2);

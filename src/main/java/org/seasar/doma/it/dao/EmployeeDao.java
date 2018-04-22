@@ -37,12 +37,8 @@ import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.builder.SelectBuilder;
 import org.seasar.doma.message.Message;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface EmployeeDao {
-
-    static EmployeeDao get(Config config) {
-        return new EmployeeDaoImpl(config);
-    }
 
     @Select
     List<Employee> selectByExample(Employee e);

@@ -12,12 +12,8 @@ import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.SalEmp;
 import org.seasar.doma.jdbc.Config;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface SalEmpDao {
-
-    static SalEmpDao get(Config config) {
-        return new SalEmpDaoImpl(config);
-    }
 
     @Select
     List<SalEmp> selectAll();

@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.EmployeeDao;
+import org.seasar.doma.it.dao.EmployeeDaoImpl;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.holder.Identity;
@@ -41,14 +42,14 @@ public class SqlFileSelectCollectorTest {
 
     @Test
     public void testCollectAll() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         Long count = dao.collectAll(Collectors.counting());
         assertEquals(Long.valueOf(14), count);
     }
 
     @Test
     public void testCollectAll2() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         Map<Identity<Department>, List<Employee>> group = dao
                 .collectAll(Collectors.groupingBy(Employee::getDepartmentId));
         System.out.println(group);

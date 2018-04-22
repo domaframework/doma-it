@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.seasar.doma.it.dao.ScriptDao;
+import org.seasar.doma.it.dao.ScriptDaoImpl;
 import org.seasar.doma.jdbc.dialect.Db2Dialect;
 import org.seasar.doma.jdbc.dialect.H2Dialect;
 import org.seasar.doma.jdbc.dialect.HsqldbDialect;
@@ -61,7 +62,7 @@ public class Container extends TestWatcher {
             Dbms dbms = determineDbms(url);
             config = createConfig(dbms, url, user, password);
             config.getTransactionManager().required(() -> {
-                ScriptDao dao = ScriptDao.get(config);
+                ScriptDao dao = new ScriptDaoImpl(config);
                 dao.create();
             });
         }

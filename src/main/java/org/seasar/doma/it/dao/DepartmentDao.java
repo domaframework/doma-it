@@ -30,12 +30,8 @@ import org.seasar.doma.it.holder.Identity;
 import org.seasar.doma.it.holder.Location;
 import org.seasar.doma.jdbc.Config;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface DepartmentDao {
-
-    static DepartmentDao get(Config config) {
-        return new DepartmentDaoImpl(config);
-    }
 
     @Select
     Department selectById(Integer departmentId);

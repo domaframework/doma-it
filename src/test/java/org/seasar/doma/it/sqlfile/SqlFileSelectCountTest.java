@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.EmployeeDao;
+import org.seasar.doma.it.dao.EmployeeDaoImpl;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.SelectOptions;
 
@@ -39,7 +40,7 @@ public class SqlFileSelectCountTest {
 
     @Test
     public void test() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         SelectOptions options = SelectOptions.get().count();
         List<Employee> employees = dao.selectAll(options);
         assertEquals(14, employees.size());
@@ -48,7 +49,7 @@ public class SqlFileSelectCountTest {
 
     @Test
     public void testCountUnspecified() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         SelectOptions options = SelectOptions.get();
         List<Employee> employees = dao.selectAll(options);
         assertEquals(14, employees.size());
@@ -57,7 +58,7 @@ public class SqlFileSelectCountTest {
 
     @Test
     public void testWhere() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         SelectOptions options = SelectOptions.get().count();
         Employee employee = dao.selectById(1, options);
         assertNotNull(employee);
@@ -66,7 +67,7 @@ public class SqlFileSelectCountTest {
 
     @Test
     public void testLimitOffset() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
+        EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
         SelectOptions options = SelectOptions.get().limit(5).offset(3).count();
         List<Employee> employees = dao.selectAll(options);
         assertEquals(5, employees.size());

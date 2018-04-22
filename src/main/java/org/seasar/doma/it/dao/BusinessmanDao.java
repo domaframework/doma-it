@@ -34,12 +34,8 @@ import org.seasar.doma.jdbc.Config;
  * @author nakamura-to
  *
  */
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface BusinessmanDao {
-
-    public static BusinessmanDao get(Config config) {
-        return new BusinessmanDaoImpl(config);
-    }
 
     @Select
     List<Businessman> selectAll();

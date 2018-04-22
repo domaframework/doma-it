@@ -24,8 +24,11 @@ import org.junit.Test;
 import org.seasar.doma.it.Container;
 import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.DepartmentDao;
+import org.seasar.doma.it.dao.DepartmentDaoImpl;
 import org.seasar.doma.it.dao.DeptDao;
+import org.seasar.doma.it.dao.DeptDaoImpl;
 import org.seasar.doma.it.dao.StaffDao;
+import org.seasar.doma.it.dao.StaffDaoImpl;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.it.entity.Staff;
@@ -45,7 +48,7 @@ public class SqlFileUpdateTest {
 
     @Test
     public void test() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = new Department();
         department.setDepartmentId(new Identity<>(1));
         department.setDepartmentNo(1);
@@ -63,7 +66,7 @@ public class SqlFileUpdateTest {
 
     @Test
     public void testPopulates() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = new Department();
         department.setDepartmentId(new Identity<>(1));
         department.setDepartmentNo(1);
@@ -81,7 +84,7 @@ public class SqlFileUpdateTest {
 
     @Test
     public void testImmutable() throws Exception {
-        DeptDao dao = container.get(DeptDao::get);
+        DeptDao dao = container.get(config -> new DeptDaoImpl(config));
         Dept dept = new Dept(new Identity<>(1), 1, "hoge", null, 1);
         Result<Dept> result = dao.updateBySqlFile(dept);
         assertEquals(1, result.getCount());
@@ -96,7 +99,7 @@ public class SqlFileUpdateTest {
 
     @Test
     public void testOptimisticLockException() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(1);
@@ -111,7 +114,7 @@ public class SqlFileUpdateTest {
 
     @Test
     public void testSuppressOptimisticLockException() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department1 = dao.selectById(1);
         department1.setDepartmentName("hoge");
         Department department2 = dao.selectById(1);
@@ -123,7 +126,7 @@ public class SqlFileUpdateTest {
 
     @Test
     public void test_nonEntity() throws Exception {
-        DepartmentDao dao = container.get(DepartmentDao::get);
+        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
         Department department = new Department();
         department.setDepartmentId(new Identity<>(1));
         department.setDepartmentNo(1);
@@ -142,7 +145,7 @@ public class SqlFileUpdateTest {
 
     @Test
     public void testEmbeddable() throws Exception {
-        StaffDao dao = container.get(StaffDao::get);
+        StaffDao dao = container.get(config -> new StaffDaoImpl(config));
         Staff staff = dao.selectById(1);
         staff.employeeName = "hoge";
         staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate,
