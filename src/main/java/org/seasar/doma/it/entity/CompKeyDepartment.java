@@ -25,70 +25,65 @@ import org.seasar.doma.Version;
 @Table(name = "COMP_KEY_DEPARTMENT")
 public class CompKeyDepartment {
 
-    @Id
-    Integer departmentId1;
+  @Id Integer departmentId1;
 
-    @Id
-    Integer departmentId2;
+  @Id Integer departmentId2;
 
-    Integer departmentNo;
+  Integer departmentNo;
 
-    String departmentName;
+  String departmentName;
 
-    String location;
+  String location;
 
-    @Version
-    Integer version;
+  @Version Integer version;
 
-    @OriginalStates
-    CompKeyDepartment originalStates;
+  @OriginalStates CompKeyDepartment originalStates;
 
-    public Integer getDepartmentId1() {
-        return departmentId1;
-    }
+  public Integer getDepartmentId1() {
+    return departmentId1;
+  }
 
-    public void setDepartmentId1(Integer departmentId1) {
-        this.departmentId1 = departmentId1;
-    }
+  public void setDepartmentId1(Integer departmentId1) {
+    this.departmentId1 = departmentId1;
+  }
 
-    public Integer getDepartmentId2() {
-        return departmentId2;
-    }
+  public Integer getDepartmentId2() {
+    return departmentId2;
+  }
 
-    public void setDepartmentId2(Integer departmentId2) {
-        this.departmentId2 = departmentId2;
-    }
+  public void setDepartmentId2(Integer departmentId2) {
+    this.departmentId2 = departmentId2;
+  }
 
-    public Integer getDepartmentNo() {
-        return departmentNo;
-    }
+  public Integer getDepartmentNo() {
+    return departmentNo;
+  }
 
-    public void setDepartmentNo(Integer departmentNo) {
-        this.departmentNo = departmentNo;
-    }
+  public void setDepartmentNo(Integer departmentNo) {
+    this.departmentNo = departmentNo;
+  }
 
-    public String getDepartmentName() {
-        return departmentName;
-    }
+  public String getDepartmentName() {
+    return departmentName;
+  }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
+  public void setDepartmentName(String departmentName) {
+    this.departmentName = departmentName;
+  }
 
-    public String getLocation() {
-        return location;
-    }
+  public String getLocation() {
+    return location;
+  }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+  public void setLocation(String location) {
+    this.location = location;
+  }
 
-    public Integer getVersion() {
-        return version;
-    }
+  public Integer getVersion() {
+    return version;
+  }
 
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
+  public void setVersion(Integer version) {
+    this.version = version;
+  }
 }

@@ -26,29 +26,27 @@ import org.seasar.doma.Table;
 @Table(name = "IDENTITY_STRATEGY")
 public class IdentityStrategy {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Integer id;
 
-    Integer value;
+  Integer value;
 
-    @OriginalStates
-    IdentityStrategy originalStates;
+  @OriginalStates IdentityStrategy originalStates;
 
-    public Integer getId() {
-        return id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public Integer getValue() {
-        return value;
-    }
+  public Integer getValue() {
+    return value;
+  }
 
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
+  public void setValue(Integer value) {
+    this.value = value;
+  }
 }

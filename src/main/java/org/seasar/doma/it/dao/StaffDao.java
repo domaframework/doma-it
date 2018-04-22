@@ -16,8 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.BatchUpdate;
@@ -28,38 +26,33 @@ import org.seasar.doma.Select;
 import org.seasar.doma.Sql;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Staff;
-import org.seasar.doma.jdbc.Config;
 
-/**
- * @author nakamura-to
- *
- */
+/** @author nakamura-to */
 @Dao
 public interface StaffDao {
 
   @Select
-    Staff selectById(Integer employeeId);
+  Staff selectById(Integer employeeId);
 
-    @Insert
-    int insert(Staff staff);
+  @Insert
+  int insert(Staff staff);
 
-    @Update
-    int update(Staff staff);
+  @Update
+  int update(Staff staff);
 
-    @Sql(useFile = true)
-    @Update
-    int updateBySqlFile(Staff staff);
+  @Sql(useFile = true)
+  @Update
+  int updateBySqlFile(Staff staff);
 
-    @Delete
-    int delete(Staff staff);
+  @Delete
+  int delete(Staff staff);
 
-    @BatchInsert
-    int[] insert(List<Staff> staff);
+  @BatchInsert
+  int[] insert(List<Staff> staff);
 
-    @BatchUpdate
-    int[] update(List<Staff> staff);
+  @BatchUpdate
+  int[] update(List<Staff> staff);
 
-    @BatchDelete
-    int[] delete(List<Staff> staff);
-
+  @BatchDelete
+  int[] delete(List<Staff> staff);
 }

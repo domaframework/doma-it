@@ -16,19 +16,14 @@
 package org.seasar.doma.it.entity;
 
 import java.sql.SQLXML;
-
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 
-/**
- * @author nakamura-to
- *
- */
+/** @author nakamura-to */
 @Entity
 public class Product {
 
-    @Id
-    public Integer id;
+  @Id public Integer id;
 
-    public SQLXML value;
+  public SQLXML value;
 }

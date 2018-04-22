@@ -17,20 +17,17 @@ package org.seasar.doma.it.holder;
 
 import org.seasar.doma.Holder;
 
-/**
- * @author nakamura-to
- * 
- */
+/** @author nakamura-to */
 @Holder(valueType = Integer.class, acceptNull = true)
 public class Weight {
 
-    private final Integer value;
+  private final Integer value;
 
-    public Weight(Integer value) {
-        this.value = value;
-    }
+  public Weight(Integer value) {
+    this.value = value;
+  }
 
-    public Integer getValue() {
-        return value;
-    }
+  public Integer getValue() {
+    return value;
+  }
 }

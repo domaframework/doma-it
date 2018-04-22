@@ -16,8 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
@@ -25,32 +23,27 @@ import org.seasar.doma.Select;
 import org.seasar.doma.Sql;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Emp;
-import org.seasar.doma.jdbc.Config;
 
-/**
- * @author taedium
- * 
- */
+/** @author taedium */
 @Dao
 public interface EmpDao {
 
-    @Select
-    List<Emp> selectAll();
+  @Select
+  List<Emp> selectAll();
 
-    @Select
-    Emp selectById(Integer id);
+  @Select
+  Emp selectById(Integer id);
 
-    @Sql(useFile = true)
-    @Update
-    int createTable();
+  @Sql(useFile = true)
+  @Update
+  int createTable();
 
-    @Insert
-    int insert(Emp e);
+  @Insert
+  int insert(Emp e);
 
-    @Update
-    int update(Emp e);
+  @Update
+  int update(Emp e);
 
-    @Delete
-    int delete(Emp e);
-
+  @Delete
+  int delete(Emp e);
 }

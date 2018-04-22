@@ -16,23 +16,19 @@
 package org.seasar.doma.it.entity;
 
 import java.sql.Date;
-
 import org.seasar.doma.Embeddable;
 import org.seasar.doma.it.holder.Salary;
 
-/**
- * @author nakamura-to
- *
- */
+/** @author nakamura-to */
 @Embeddable
 public class StaffInfo {
 
-    public final Date hiredate;
+  public final Date hiredate;
 
-    public final Salary salary;
+  public final Salary salary;
 
-    public StaffInfo(Date hiredate, Salary salary) {
-        this.hiredate = hiredate;
-        this.salary = salary;
-    }
+  public StaffInfo(Date hiredate, Salary salary) {
+    this.hiredate = hiredate;
+    this.salary = salary;
+  }
 }

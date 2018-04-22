@@ -17,20 +17,17 @@ package org.seasar.doma.it.holder;
 
 import org.seasar.doma.Holder;
 
-/**
- * @author nakamura-to
- * 
- */
+/** @author nakamura-to */
 @Holder(valueType = Integer.class)
 public class Height {
 
-    private final Integer value;
+  private final Integer value;
 
-    public Height(Integer value) {
-        this.value = value;
-    }
+  public Height(Integer value) {
+    this.value = value;
+  }
 
-    public Integer getValue() {
-        return value;
-    }
+  public Integer getValue() {
+    return value;
+  }
 }

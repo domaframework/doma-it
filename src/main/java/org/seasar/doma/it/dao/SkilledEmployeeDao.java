@@ -15,13 +15,10 @@
  */
 package org.seasar.doma.it.dao;
 
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.Dao;
-import org.seasar.doma.Procedure;
 import org.seasar.doma.Select;
 import org.seasar.doma.Sql;
 import org.seasar.doma.it.entity.Employee;
-import org.seasar.doma.jdbc.Config;
 
 @Dao
 public interface SkilledEmployeeDao {
@@ -29,5 +26,4 @@ public interface SkilledEmployeeDao {
   @Sql("select * from EMPLOYEE where EMPLOYEE_ID = /*employeeId*/0")
   @Select
   Employee selectById(Integer employeeId);
-
 }

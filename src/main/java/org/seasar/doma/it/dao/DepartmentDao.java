@@ -16,8 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.BatchUpdate;
 import org.seasar.doma.Dao;
@@ -28,76 +26,77 @@ import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.holder.Identity;
 import org.seasar.doma.it.holder.Location;
-import org.seasar.doma.jdbc.Config;
 
 @Dao
 public interface DepartmentDao {
 
-    @Select
-    Department selectById(Integer departmentId);
+  @Select
+  Department selectById(Integer departmentId);
 
-    @Insert
-    int insert(Department entity);
+  @Insert
+  int insert(Department entity);
 
-    @Sql(useFile = true)
-    @Insert
-    int insertBySqlFile(Department entity);
+  @Sql(useFile = true)
+  @Insert
+  int insertBySqlFile(Department entity);
 
-    @Insert(excludeNull = true)
-    int insert_excludeNull(Department entity);
+  @Insert(excludeNull = true)
+  int insert_excludeNull(Department entity);
 
-    @Update
-    int update(Department entity);
+  @Update
+  int update(Department entity);
 
-    @Sql(useFile = true)
-    @Update
-    int updateBySqlFile(Department entity);
+  @Sql(useFile = true)
+  @Update
+  int updateBySqlFile(Department entity);
 
-    @Sql(useFile = true)
-    @Update
-    int updateBySqlFileWithPopulate(Department entity);
+  @Sql(useFile = true)
+  @Update
+  int updateBySqlFileWithPopulate(Department entity);
 
-    @Sql(useFile = true)
-    @Update(ignoreVersion = true)
-    int updateBySqlFile_ignoreVersion(Department entity);
+  @Sql(useFile = true)
+  @Update(ignoreVersion = true)
+  int updateBySqlFile_ignoreVersion(Department entity);
 
-    @Update(excludeNull = true)
-    int update_excludeNull(Department entity);
+  @Update(excludeNull = true)
+  int update_excludeNull(Department entity);
 
-    @Update(ignoreVersion = true)
-    int update_ignoreVersion(Department entity);
+  @Update(ignoreVersion = true)
+  int update_ignoreVersion(Department entity);
 
-    @Update(suppressOptimisticLockException = true)
-    int update_suppressOptimisticLockException(Department entity);
+  @Update(suppressOptimisticLockException = true)
+  int update_suppressOptimisticLockException(Department entity);
 
-    @Sql(useFile = true)
-    @Update
-    int updateBySqlFile_nonEntity(Identity<Department> departmentId,
-            Integer departmentNo, String departmentName,
-            Location<Department> location, Integer version);
+  @Sql(useFile = true)
+  @Update
+  int updateBySqlFile_nonEntity(
+      Identity<Department> departmentId,
+      Integer departmentNo,
+      String departmentName,
+      Location<Department> location,
+      Integer version);
 
-    @BatchInsert
-    int[] insert(List<Department> entity);
+  @BatchInsert
+  int[] insert(List<Department> entity);
 
-    @Sql(useFile = true)
-    @BatchInsert
-    int[] insertBySqlFile(List<Department> entity);
+  @Sql(useFile = true)
+  @BatchInsert
+  int[] insertBySqlFile(List<Department> entity);
 
-    @BatchUpdate
-    int[] update(List<Department> entity);
+  @BatchUpdate
+  int[] update(List<Department> entity);
 
-    @Sql(useFile = true)
-    @BatchUpdate
-    int[] updateBySqlFile(List<Department> entity);
+  @Sql(useFile = true)
+  @BatchUpdate
+  int[] updateBySqlFile(List<Department> entity);
 
-    @Sql(useFile = true)
-    @BatchUpdate(suppressOptimisticLockException = true)
-    int[] updateBySqlFile_suppressOptimisticLockException(
-            List<Department> entity);
+  @Sql(useFile = true)
+  @BatchUpdate(suppressOptimisticLockException = true)
+  int[] updateBySqlFile_suppressOptimisticLockException(List<Department> entity);
 
-    @BatchUpdate(ignoreVersion = true)
-    int[] update_ignoreVersion(List<Department> entity);
+  @BatchUpdate(ignoreVersion = true)
+  int[] update_ignoreVersion(List<Department> entity);
 
-    @BatchUpdate(suppressOptimisticLockException = true)
-    int[] update_suppressOptimisticLockException(List<Department> entity);
+  @BatchUpdate(suppressOptimisticLockException = true)
+  int[] update_suppressOptimisticLockException(List<Department> entity);
 }

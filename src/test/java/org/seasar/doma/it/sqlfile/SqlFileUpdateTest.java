@@ -40,120 +40,113 @@ import org.seasar.doma.jdbc.Result;
 
 public class SqlFileUpdateTest {
 
-    @ClassRule
-    public static Container container = new Container();
+  @ClassRule public static Container container = new Container();
 
-    @Rule
-    public Sandbox sandbox = new Sandbox(container);
+  @Rule public Sandbox sandbox = new Sandbox(container);
 
-    @Test
-    public void test() throws Exception {
-        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
-        Department department = new Department();
-        department.setDepartmentId(new Identity<>(1));
-        department.setDepartmentNo(1);
-        department.setDepartmentName("hoge");
-        department.setVersion(1);
-        int result = dao.updateBySqlFile(department);
-        assertEquals(1, result);
+  @Test
+  public void test() throws Exception {
+    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    Department department = new Department();
+    department.setDepartmentId(new Identity<>(1));
+    department.setDepartmentNo(1);
+    department.setDepartmentName("hoge");
+    department.setVersion(1);
+    int result = dao.updateBySqlFile(department);
+    assertEquals(1, result);
 
-        department = dao.selectById(1);
-        assertEquals(Integer.valueOf(1),
-                department.getDepartmentId().getValue());
-        assertEquals("hoge", department.getDepartmentName());
-        assertEquals(Integer.valueOf(2), department.getVersion());
+    department = dao.selectById(1);
+    assertEquals(Integer.valueOf(1), department.getDepartmentId().getValue());
+    assertEquals("hoge", department.getDepartmentName());
+    assertEquals(Integer.valueOf(2), department.getVersion());
+  }
+
+  @Test
+  public void testPopulates() throws Exception {
+    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    Department department = new Department();
+    department.setDepartmentId(new Identity<>(1));
+    department.setDepartmentNo(1);
+    department.setDepartmentName("hoge");
+    department.setVersion(1);
+    int result = dao.updateBySqlFileWithPopulate(department);
+    assertEquals(1, result);
+
+    department = dao.selectById(1);
+    assertEquals(Integer.valueOf(1), department.getDepartmentId().getValue());
+    assertEquals("hoge", department.getDepartmentName());
+    assertEquals(Integer.valueOf(2), department.getVersion());
+  }
+
+  @Test
+  public void testImmutable() throws Exception {
+    DeptDao dao = container.get(config -> new DeptDaoImpl(config));
+    Dept dept = new Dept(new Identity<>(1), 1, "hoge", null, 1);
+    Result<Dept> result = dao.updateBySqlFile(dept);
+    assertEquals(1, result.getCount());
+    dept = result.getEntity();
+    assertEquals("hoge_preU_postU", dept.getDepartmentName());
+
+    dept = dao.selectById(1);
+    assertEquals(Integer.valueOf(1), dept.getDepartmentId().getValue());
+    assertEquals("hoge_preU", dept.getDepartmentName());
+    assertEquals(Integer.valueOf(2), dept.getVersion());
+  }
+
+  @Test
+  public void testOptimisticLockException() throws Exception {
+    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    Department department1 = dao.selectById(1);
+    department1.setDepartmentName("hoge");
+    Department department2 = dao.selectById(1);
+    department2.setDepartmentName("foo");
+    dao.updateBySqlFile(department1);
+    try {
+      dao.updateBySqlFile(department2);
+      fail();
+    } catch (OptimisticLockException expected) {
     }
+  }
 
-    @Test
-    public void testPopulates() throws Exception {
-        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
-        Department department = new Department();
-        department.setDepartmentId(new Identity<>(1));
-        department.setDepartmentNo(1);
-        department.setDepartmentName("hoge");
-        department.setVersion(1);
-        int result = dao.updateBySqlFileWithPopulate(department);
-        assertEquals(1, result);
+  @Test
+  public void testSuppressOptimisticLockException() throws Exception {
+    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    Department department1 = dao.selectById(1);
+    department1.setDepartmentName("hoge");
+    Department department2 = dao.selectById(1);
+    department2.setDepartmentName("foo");
+    dao.updateBySqlFile(department1);
+    int rows = dao.updateBySqlFile_ignoreVersion(department2);
+    assertEquals(0, rows);
+  }
 
-        department = dao.selectById(1);
-        assertEquals(Integer.valueOf(1),
-                department.getDepartmentId().getValue());
-        assertEquals("hoge", department.getDepartmentName());
-        assertEquals(Integer.valueOf(2), department.getVersion());
-    }
+  @Test
+  public void test_nonEntity() throws Exception {
+    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    Department department = new Department();
+    department.setDepartmentId(new Identity<>(1));
+    department.setDepartmentNo(1);
+    department.setDepartmentName("hoge");
+    department.setVersion(1);
+    int result = dao.updateBySqlFile_nonEntity(new Identity<>(1), 1, "hoge", null, 1);
+    assertEquals(1, result);
 
-    @Test
-    public void testImmutable() throws Exception {
-        DeptDao dao = container.get(config -> new DeptDaoImpl(config));
-        Dept dept = new Dept(new Identity<>(1), 1, "hoge", null, 1);
-        Result<Dept> result = dao.updateBySqlFile(dept);
-        assertEquals(1, result.getCount());
-        dept = result.getEntity();
-        assertEquals("hoge_preU_postU", dept.getDepartmentName());
+    department = dao.selectById(1);
+    assertEquals(Integer.valueOf(1), department.getDepartmentId().getValue());
+    assertEquals("hoge", department.getDepartmentName());
+    assertEquals(Integer.valueOf(2), department.getVersion());
+  }
 
-        dept = dao.selectById(1);
-        assertEquals(Integer.valueOf(1), dept.getDepartmentId().getValue());
-        assertEquals("hoge_preU", dept.getDepartmentName());
-        assertEquals(Integer.valueOf(2), dept.getVersion());
-    }
-
-    @Test
-    public void testOptimisticLockException() throws Exception {
-        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
-        Department department1 = dao.selectById(1);
-        department1.setDepartmentName("hoge");
-        Department department2 = dao.selectById(1);
-        department2.setDepartmentName("foo");
-        dao.updateBySqlFile(department1);
-        try {
-            dao.updateBySqlFile(department2);
-            fail();
-        } catch (OptimisticLockException expected) {
-        }
-    }
-
-    @Test
-    public void testSuppressOptimisticLockException() throws Exception {
-        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
-        Department department1 = dao.selectById(1);
-        department1.setDepartmentName("hoge");
-        Department department2 = dao.selectById(1);
-        department2.setDepartmentName("foo");
-        dao.updateBySqlFile(department1);
-        int rows = dao.updateBySqlFile_ignoreVersion(department2);
-        assertEquals(0, rows);
-    }
-
-    @Test
-    public void test_nonEntity() throws Exception {
-        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
-        Department department = new Department();
-        department.setDepartmentId(new Identity<>(1));
-        department.setDepartmentNo(1);
-        department.setDepartmentName("hoge");
-        department.setVersion(1);
-        int result = dao.updateBySqlFile_nonEntity(new Identity<>(1),
-                1, "hoge", null, 1);
-        assertEquals(1, result);
-
-        department = dao.selectById(1);
-        assertEquals(Integer.valueOf(1),
-                department.getDepartmentId().getValue());
-        assertEquals("hoge", department.getDepartmentName());
-        assertEquals(Integer.valueOf(2), department.getVersion());
-    }
-
-    @Test
-    public void testEmbeddable() throws Exception {
-        StaffDao dao = container.get(config -> new StaffDaoImpl(config));
-        Staff staff = dao.selectById(1);
-        staff.employeeName = "hoge";
-        staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate,
-                new Salary("5000"));
-        int result = dao.updateBySqlFile(staff);
-        assertEquals(1, result);
-        assertEquals(2, staff.version.intValue());
-        staff = dao.selectById(1);
-        assertEquals(5000L, staff.staffInfo.salary.getValue().longValue());
-    }
+  @Test
+  public void testEmbeddable() throws Exception {
+    StaffDao dao = container.get(config -> new StaffDaoImpl(config));
+    Staff staff = dao.selectById(1);
+    staff.employeeName = "hoge";
+    staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate, new Salary("5000"));
+    int result = dao.updateBySqlFile(staff);
+    assertEquals(1, result);
+    assertEquals(2, staff.version.intValue());
+    staff = dao.selectById(1);
+    assertEquals(5000L, staff.staffInfo.salary.getValue().longValue());
+  }
 }

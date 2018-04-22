@@ -18,7 +18,6 @@ package org.seasar.doma.it.sqlfile;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
-
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,62 +34,56 @@ import org.seasar.doma.jdbc.BatchResult;
 
 public class SqlFileBatchInsertTest {
 
-    @ClassRule
-    public static Container container = new Container();
+  @ClassRule public static Container container = new Container();
 
-    @Rule
-    public Sandbox sandbox = new Sandbox(container);
+  @Rule public Sandbox sandbox = new Sandbox(container);
 
-    @Test
-    public void test() throws Exception {
-        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
-        Department department = new Department();
-        department.setDepartmentId(new Identity<>(99));
-        department.setDepartmentNo(99);
-        department.setDepartmentName("hoge");
-        Department department2 = new Department();
-        department2.setDepartmentId(new Identity<>(98));
-        department2.setDepartmentNo(98);
-        department2.setDepartmentName("foo");
-        int[] result = dao
-                .insertBySqlFile(Arrays.asList(department, department2));
-        assertEquals(2, result.length);
-        assertEquals(1, result[0]);
-        assertEquals(1, result[1]);
+  @Test
+  public void test() throws Exception {
+    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    Department department = new Department();
+    department.setDepartmentId(new Identity<>(99));
+    department.setDepartmentNo(99);
+    department.setDepartmentName("hoge");
+    Department department2 = new Department();
+    department2.setDepartmentId(new Identity<>(98));
+    department2.setDepartmentNo(98);
+    department2.setDepartmentName("foo");
+    int[] result = dao.insertBySqlFile(Arrays.asList(department, department2));
+    assertEquals(2, result.length);
+    assertEquals(1, result[0]);
+    assertEquals(1, result[1]);
 
-        department = dao.selectById(99);
-        assertEquals(Integer.valueOf(99),
-                department.getDepartmentId().getValue());
-        assertEquals(Integer.valueOf(99), department.getDepartmentNo());
-        department = dao.selectById(98);
-        assertEquals(Integer.valueOf(98),
-                department.getDepartmentId().getValue());
-        assertEquals(Integer.valueOf(98), department.getDepartmentNo());
-    }
+    department = dao.selectById(99);
+    assertEquals(Integer.valueOf(99), department.getDepartmentId().getValue());
+    assertEquals(Integer.valueOf(99), department.getDepartmentNo());
+    department = dao.selectById(98);
+    assertEquals(Integer.valueOf(98), department.getDepartmentId().getValue());
+    assertEquals(Integer.valueOf(98), department.getDepartmentNo());
+  }
 
-    @Test
-    public void testImmutable() throws Exception {
-        DeptDao dao = container.get(config -> new DeptDaoImpl(config));
-        Dept dept = new Dept(new Identity<>(99), 99, "hoge", null, null);
-        Dept dept2 = new Dept(new Identity<>(98), 98, "foo", null, null);
-        BatchResult<Dept> result = dao
-                .insertBySqlFile(Arrays.asList(dept, dept2));
-        int[] counts = result.getCounts();
-        assertEquals(2, counts.length);
-        assertEquals(1, counts[0]);
-        assertEquals(1, counts[1]);
-        dept = result.getEntities().get(0);
-        assertEquals("hoge_preI_postI", dept.getDepartmentName());
-        dept2 = result.getEntities().get(1);
-        assertEquals("foo_preI_postI", dept2.getDepartmentName());
+  @Test
+  public void testImmutable() throws Exception {
+    DeptDao dao = container.get(config -> new DeptDaoImpl(config));
+    Dept dept = new Dept(new Identity<>(99), 99, "hoge", null, null);
+    Dept dept2 = new Dept(new Identity<>(98), 98, "foo", null, null);
+    BatchResult<Dept> result = dao.insertBySqlFile(Arrays.asList(dept, dept2));
+    int[] counts = result.getCounts();
+    assertEquals(2, counts.length);
+    assertEquals(1, counts[0]);
+    assertEquals(1, counts[1]);
+    dept = result.getEntities().get(0);
+    assertEquals("hoge_preI_postI", dept.getDepartmentName());
+    dept2 = result.getEntities().get(1);
+    assertEquals("foo_preI_postI", dept2.getDepartmentName());
 
-        dept = dao.selectById(99);
-        assertEquals(Integer.valueOf(99), dept.getDepartmentId().getValue());
-        assertEquals(Integer.valueOf(99), dept.getDepartmentNo());
-        assertEquals("hoge_preI", dept.getDepartmentName());
-        dept2 = dao.selectById(98);
-        assertEquals(Integer.valueOf(98), dept2.getDepartmentId().getValue());
-        assertEquals(Integer.valueOf(98), dept2.getDepartmentNo());
-        assertEquals("foo_preI", dept2.getDepartmentName());
-    }
+    dept = dao.selectById(99);
+    assertEquals(Integer.valueOf(99), dept.getDepartmentId().getValue());
+    assertEquals(Integer.valueOf(99), dept.getDepartmentNo());
+    assertEquals("hoge_preI", dept.getDepartmentName());
+    dept2 = dao.selectById(98);
+    assertEquals(Integer.valueOf(98), dept2.getDepartmentId().getValue());
+    assertEquals(Integer.valueOf(98), dept2.getDepartmentNo());
+    assertEquals("foo_preI", dept2.getDepartmentName());
+  }
 }

@@ -25,29 +25,26 @@ import org.seasar.doma.jdbc.ConfigSupport;
 import org.seasar.doma.jdbc.holder.HolderDesc;
 import org.seasar.doma.jdbc.holder.HolderDescFactory;
 
-/**
- * @author nakamura-to
- * 
- */
+/** @author nakamura-to */
 public class WeightTest {
 
-    @Test
-    public void testDefaultValue() throws Exception {
-        HolderDesc<Integer, Weight> holderDesc = HolderDescFactory
-                .getHolderDesc(Weight.class, ConfigSupport.defaultClassHelper);
-        var scalar = holderDesc.createScalar();
-        var holder = scalar.get();
-        assertNotNull(holder);
-        assertNull(holder.getValue());
-    }
+  @Test
+  public void testDefaultValue() throws Exception {
+    HolderDesc<Integer, Weight> holderDesc =
+        HolderDescFactory.getHolderDesc(Weight.class, ConfigSupport.defaultClassHelper);
+    var scalar = holderDesc.createScalar();
+    var holder = scalar.get();
+    assertNotNull(holder);
+    assertNull(holder.getValue());
+  }
 
-    @Test
-    public void testDefaultValue_Optional() throws Exception {
-        HolderDesc<Integer, Weight> holderDesc = HolderDescFactory
-                .getHolderDesc(Weight.class, ConfigSupport.defaultClassHelper);
-        var scalar = holderDesc.createOptionalScalar();
-        var optional = scalar.get();
-        assertNotNull(optional);
-        assertFalse(optional.isPresent());
-    }
+  @Test
+  public void testDefaultValue_Optional() throws Exception {
+    HolderDesc<Integer, Weight> holderDesc =
+        HolderDescFactory.getHolderDesc(Weight.class, ConfigSupport.defaultClassHelper);
+    var scalar = holderDesc.createOptionalScalar();
+    var optional = scalar.get();
+    assertNotNull(optional);
+    assertFalse(optional.isPresent());
+  }
 }

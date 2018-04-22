@@ -5,13 +5,13 @@ import org.seasar.doma.Holder;
 @Holder(valueType = Integer.class)
 public class Identity<T> {
 
-    private final Integer value;
+  private final Integer value;
 
-    public Identity(Integer value) {
-        this.value = value;
-    }
+  public Identity(Integer value) {
+    this.value = value;
+  }
 
-    public Integer getValue() {
-        return this.value;
-    }
+  public Integer getValue() {
+    return this.value;
+  }
 }

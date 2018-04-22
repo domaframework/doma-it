@@ -1,3 +1,15 @@
+plugins {
+    id "com.github.sherter.google-java-format" version "0.6"
+}
+
+repositories {
+    jcenter()
+}
+
+googleJavaFormat {
+    toolVersion = '1.5'
+}
+
 apply plugin: 'java'
 
 version = '3.0-beta-1-SNAPSHOT' 
@@ -8,7 +20,10 @@ compileJava.dependsOn processResources
 compileJava {
     options.encoding = 'UTF-8'
 }
- 
+
+compileJava.dependsOn 'googleJavaFormat'
+
+
 compileTestJava {
     options.encoding = 'UTF-8'
 }

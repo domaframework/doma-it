@@ -16,20 +16,17 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.it.entity.IdentityStrategy;
-import org.seasar.doma.jdbc.Config;
 
 @Dao
 public interface IdentityStrategyDao {
 
-    @Insert
-    int insert(IdentityStrategy entity);
+  @Insert
+  int insert(IdentityStrategy entity);
 
-    @BatchInsert
-    int[] insert(List<IdentityStrategy> entities);
+  @BatchInsert
+  int[] insert(List<IdentityStrategy> entities);
 }

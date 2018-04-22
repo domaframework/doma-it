@@ -6,5 +6,5 @@ import org.seasar.doma.it.holder.Age;
 @Entity
 public class Emp2 extends Emp {
 
-    Age age;
+  Age age;
 }

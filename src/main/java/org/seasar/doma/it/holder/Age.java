@@ -2,13 +2,13 @@ package org.seasar.doma.it.holder;
 
 public class Age {
 
-    private final int value;
+  private final int value;
 
-    public Age(final int value) {
-        this.value = value;
-    }
+  public Age(final int value) {
+    this.value = value;
+  }
 
-    public int getValue() {
-        return this.value;
-    }
+  public int getValue() {
+    return this.value;
+  }
 }

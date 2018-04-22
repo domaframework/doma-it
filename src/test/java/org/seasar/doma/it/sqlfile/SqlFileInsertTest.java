@@ -33,40 +33,37 @@ import org.seasar.doma.jdbc.Result;
 
 public class SqlFileInsertTest {
 
-    @ClassRule
-    public static Container container = new Container();
+  @ClassRule public static Container container = new Container();
 
-    @Rule
-    public Sandbox sandbox = new Sandbox(container);
+  @Rule public Sandbox sandbox = new Sandbox(container);
 
-    @Test
-    public void test() throws Exception {
-        DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
-        Department department = new Department();
-        department.setDepartmentId(new Identity<>(99));
-        department.setDepartmentNo(99);
-        department.setDepartmentName("hoge");
-        int result = dao.insertBySqlFile(department);
-        assertEquals(1, result);
+  @Test
+  public void test() throws Exception {
+    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    Department department = new Department();
+    department.setDepartmentId(new Identity<>(99));
+    department.setDepartmentNo(99);
+    department.setDepartmentName("hoge");
+    int result = dao.insertBySqlFile(department);
+    assertEquals(1, result);
 
-        department = dao.selectById(99);
-        assertEquals(Integer.valueOf(99),
-                department.getDepartmentId().getValue());
-        assertEquals(Integer.valueOf(99), department.getDepartmentNo());
-    }
+    department = dao.selectById(99);
+    assertEquals(Integer.valueOf(99), department.getDepartmentId().getValue());
+    assertEquals(Integer.valueOf(99), department.getDepartmentNo());
+  }
 
-    @Test
-    public void testImmutable() throws Exception {
-        DeptDao dao = container.get(config -> new DeptDaoImpl(config));
-        Dept dept = new Dept(new Identity<>(99), 99, "hoge", null, null);
-        Result<Dept> result = dao.insertBySqlFile(dept);
-        assertEquals(1, result.getCount());
-        dept = result.getEntity();
-        assertEquals("hoge_preI_postI", dept.getDepartmentName());
+  @Test
+  public void testImmutable() throws Exception {
+    DeptDao dao = container.get(config -> new DeptDaoImpl(config));
+    Dept dept = new Dept(new Identity<>(99), 99, "hoge", null, null);
+    Result<Dept> result = dao.insertBySqlFile(dept);
+    assertEquals(1, result.getCount());
+    dept = result.getEntity();
+    assertEquals("hoge_preI_postI", dept.getDepartmentName());
 
-        dept = dao.selectById(99);
-        assertEquals(Integer.valueOf(99), dept.getDepartmentId().getValue());
-        assertEquals(Integer.valueOf(99), dept.getDepartmentNo());
-        assertEquals("hoge_preI", dept.getDepartmentName());
-    }
+    dept = dao.selectById(99);
+    assertEquals(Integer.valueOf(99), dept.getDepartmentId().getValue());
+    assertEquals(Integer.valueOf(99), dept.getDepartmentNo());
+    assertEquals("hoge_preI", dept.getDepartmentName());
+  }
 }

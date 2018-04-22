@@ -20,30 +20,24 @@ import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 import org.seasar.doma.Version;
 
-/**
- * @author nakamura-to
- *
- */
+/** @author nakamura-to */
 @Entity
 @Table(name = "EMPLOYEE")
 public class Staff {
 
-    @Id
-    public Integer employeeId;
+  @Id public Integer employeeId;
 
-    public Integer employeeNo;
+  public Integer employeeNo;
 
-    public String employeeName;
+  public String employeeName;
 
-    public Integer managerId;
+  public Integer managerId;
 
-    public StaffInfo staffInfo;
+  public StaffInfo staffInfo;
 
-    public Integer departmentId;
+  public Integer departmentId;
 
-    public Integer addressId;
+  public Integer addressId;
 
-    @Version
-    public Integer version;
-
+  @Version public Integer version;
 }

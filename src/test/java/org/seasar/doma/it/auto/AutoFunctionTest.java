@@ -21,7 +21,6 @@ import static org.junit.Assert.fail;
 import java.sql.Time;
 import java.util.List;
 import java.util.Map;
-
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,109 +36,103 @@ import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.ResultMappingException;
 
-@Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.DB2, Dbms.SQLITE })
+@Run(unless = {Dbms.HSQLDB, Dbms.H2, Dbms.DB2, Dbms.SQLITE})
 public class AutoFunctionTest {
 
-    @ClassRule
-    public static Container container = new Container();
+  @ClassRule public static Container container = new Container();
 
-    @Rule
-    public Sandbox sandbox = new Sandbox(container);
+  @Rule public Sandbox sandbox = new Sandbox(container);
 
-    @Test
-    public void testNoParam() throws Exception {
-        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
-        Integer result = dao.func_none_param();
-        assertEquals(Integer.valueOf(10), result);
+  @Test
+  public void testNoParam() throws Exception {
+    FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
+    Integer result = dao.func_none_param();
+    assertEquals(Integer.valueOf(10), result);
+  }
+
+  @Test
+  public void testOneParam() throws Exception {
+    FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
+    Integer result = dao.func_simpletype_param(10);
+    assertEquals(Integer.valueOf(20), result);
+  }
+
+  @Test
+  public void testOneParam_time() throws Exception {
+    FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
+    Time result = dao.func_simpletype_time_param(Time.valueOf("12:34:56"));
+    assertEquals(Time.valueOf("12:34:56"), result);
+  }
+
+  @Test
+  public void testTwoParams() throws Exception {
+    FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
+    Integer result = dao.func_dto_param(10, 20);
+    assertEquals(Integer.valueOf(30), result);
+  }
+
+  @Test
+  public void testTwoParams_time() throws Exception {
+    FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
+    Time result = dao.func_dto_time_param(Time.valueOf("12:34:56"), 20);
+    assertEquals(Time.valueOf("12:34:56"), result);
+  }
+
+  @Test
+  @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
+  public void testResultSet() throws Exception {
+    FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
+    List<Employee> result = dao.func_resultset(1);
+    assertEquals(13, result.size());
+  }
+
+  @Test
+  @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
+  public void testResultSet_check() throws Exception {
+    FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
+    try {
+      dao.func_resultset_check(1);
+      fail();
+    } catch (ResultMappingException ignored) {
+      System.err.println(ignored);
     }
+  }
 
-    @Test
-    public void testOneParam() throws Exception {
-        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
-        Integer result = dao.func_simpletype_param(10);
-        assertEquals(Integer.valueOf(20), result);
-    }
+  @Test
+  @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
+  public void testResultSet_nocheck() throws Exception {
+    FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
+    List<Employee> result = dao.func_resultset_nocheck(1);
+    assertEquals(13, result.size());
+  }
 
-    @Test
-    public void testOneParam_time() throws Exception {
-        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
-        Time result = dao.func_simpletype_time_param(Time.valueOf("12:34:56"));
-        assertEquals(Time.valueOf("12:34:56"), result);
-    }
+  @Test
+  @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
+  public void testResultSet_map() throws Exception {
+    FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
+    List<Map<String, Object>> result = dao.func_resultset_map(1);
+    assertEquals(13, result.size());
+  }
 
-    @Test
-    public void testTwoParams() throws Exception {
-        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
-        Integer result = dao.func_dto_param(10,
-                20);
-        assertEquals(Integer.valueOf(30), result);
-    }
+  @Test
+  @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
+  public void testResultSetAndUpdate() throws Exception {
+    FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
+    List<Employee> result = dao.func_resultset_update(1);
+    assertEquals(13, result.size());
+    DepartmentDao departmentDao = container.get(config -> new DepartmentDaoImpl(config));
+    Department department = departmentDao.selectById(1);
+    assertEquals("HOGE", department.getDepartmentName());
+  }
 
-    @Test
-    public void testTwoParams_time() throws Exception {
-        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
-        Time result = dao.func_dto_time_param(Time.valueOf("12:34:56"),
-                20);
-        assertEquals(Time.valueOf("12:34:56"), result);
-    }
-
-    @Test
-    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
-    public void testResultSet() throws Exception {
-        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
-        List<Employee> result = dao.func_resultset(1);
-        assertEquals(13, result.size());
-    }
-
-    @Test
-    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
-    public void testResultSet_check() throws Exception {
-        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
-        try {
-            dao.func_resultset_check(1);
-            fail();
-        } catch (ResultMappingException ignored) {
-            System.err.println(ignored);
-        }
-    }
-
-    @Test
-    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
-    public void testResultSet_nocheck() throws Exception {
-        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
-        List<Employee> result = dao.func_resultset_nocheck(1);
-        assertEquals(13, result.size());
-    }
-
-    @Test
-    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
-    public void testResultSet_map() throws Exception {
-        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
-        List<Map<String, Object>> result = dao
-                .func_resultset_map(1);
-        assertEquals(13, result.size());
-    }
-
-    @Test
-    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
-    public void testResultSetAndUpdate() throws Exception {
-        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
-        List<Employee> result = dao.func_resultset_update(1);
-        assertEquals(13, result.size());
-        DepartmentDao departmentDao = container.get(config -> new DepartmentDaoImpl(config));
-        Department department = departmentDao.selectById(1);
-        assertEquals("HOGE", department.getDepartmentName());
-    }
-
-    @Test
-    @Run(unless = { Dbms.MYSQL, Dbms.SQLSERVER })
-    public void testResultSetAndUpdate2() throws Exception {
-        FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
-        List<Employee> result = dao.func_resultset_update2(1);
-        assertEquals(13, result.size());
-        DepartmentDao departmentDao = container.get(config -> new DepartmentDaoImpl(config));
-        Department department = departmentDao.selectById(1);
-        assertEquals("HOGE", department.getDepartmentName());
-    }
-
+  @Test
+  @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
+  public void testResultSetAndUpdate2() throws Exception {
+    FunctionDao dao = container.get(config -> new FunctionDaoImpl(config));
+    List<Employee> result = dao.func_resultset_update2(1);
+    assertEquals(13, result.size());
+    DepartmentDao departmentDao = container.get(config -> new DepartmentDaoImpl(config));
+    Department department = departmentDao.selectById(1);
+    assertEquals("HOGE", department.getDepartmentName());
+  }
 }
