@@ -46,7 +46,7 @@ public class SqlFileUpdateTest {
 
   @Test
   public void test() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = new Department();
     department.setDepartmentId(new Identity<>(1));
     department.setDepartmentNo(1);
@@ -63,7 +63,7 @@ public class SqlFileUpdateTest {
 
   @Test
   public void testPopulates() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = new Department();
     department.setDepartmentId(new Identity<>(1));
     department.setDepartmentNo(1);
@@ -80,7 +80,7 @@ public class SqlFileUpdateTest {
 
   @Test
   public void testImmutable() throws Exception {
-    DeptDao dao = container.get(config -> new DeptDaoImpl(config));
+    DeptDao dao = container.get(DeptDaoImpl::new);
     Dept dept = new Dept(new Identity<>(1), 1, "hoge", null, 1);
     Result<Dept> result = dao.updateBySqlFile(dept);
     assertEquals(1, result.getCount());
@@ -95,7 +95,7 @@ public class SqlFileUpdateTest {
 
   @Test
   public void testOptimisticLockException() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department1 = dao.selectById(1);
     department1.setDepartmentName("hoge");
     Department department2 = dao.selectById(1);
@@ -110,7 +110,7 @@ public class SqlFileUpdateTest {
 
   @Test
   public void testSuppressOptimisticLockException() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department1 = dao.selectById(1);
     department1.setDepartmentName("hoge");
     Department department2 = dao.selectById(1);
@@ -122,7 +122,7 @@ public class SqlFileUpdateTest {
 
   @Test
   public void test_nonEntity() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = new Department();
     department.setDepartmentId(new Identity<>(1));
     department.setDepartmentNo(1);
@@ -139,7 +139,7 @@ public class SqlFileUpdateTest {
 
   @Test
   public void testEmbeddable() throws Exception {
-    StaffDao dao = container.get(config -> new StaffDaoImpl(config));
+    StaffDao dao = container.get(StaffDaoImpl::new);
     Staff staff = dao.selectById(1);
     staff.employeeName = "hoge";
     staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate, new Salary("5000"));

@@ -68,7 +68,7 @@ public class AutoUpdateTest {
 
   @Test
   public void test() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = dao.selectById(1);
     department.setDepartmentNo(1);
     department.setDepartmentName("hoge");
@@ -86,7 +86,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testImmutable() throws Exception {
-    DeptDao dao = container.get(config -> new DeptDaoImpl(config));
+    DeptDao dao = container.get(DeptDaoImpl::new);
     Dept dept = dao.selectById(1);
     dept = new Dept(dept.getDepartmentId(), 1, "hoge", dept.getLocation(), dept.getVersion());
     Result<Dept> result = dao.update(dept);
@@ -105,7 +105,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testIgnoreVersion() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = dao.selectById(1);
     department.setDepartmentNo(1);
     department.setDepartmentName("hoge");
@@ -124,7 +124,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testExcludeNull() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = dao.selectById(1);
     department.setDepartmentNo(1);
     department.setDepartmentName(null);
@@ -141,7 +141,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testCompositeKey() throws Exception {
-    CompKeyDepartmentDao dao = container.get(config -> new CompKeyDepartmentDaoImpl(config));
+    CompKeyDepartmentDao dao = container.get(CompKeyDepartmentDaoImpl::new);
     CompKeyDepartment department = dao.selectById(1, 1);
     department.setDepartmentNo(1);
     department.setDepartmentName("hoge");
@@ -161,7 +161,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testOptimisticLockException() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department1 = dao.selectById(1);
     department1.setDepartmentName("hoge");
     Department department2 = dao.selectById(1);
@@ -176,7 +176,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testSuppressOptimisticLockException() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department1 = dao.selectById(1);
     department1.setDepartmentName("hoge");
     Department department2 = dao.selectById(1);
@@ -188,7 +188,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testNoId() throws Exception {
-    NoIdDao dao = container.get(config -> new NoIdDaoImpl(config));
+    NoIdDao dao = container.get(NoIdDaoImpl::new);
     NoId entity = new NoId();
     entity.setValue1(1);
     entity.setValue2(2);
@@ -202,7 +202,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testSqlExecutionSkip() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = dao.selectById(1);
     int result = dao.update(department);
     assertEquals(0, result);
@@ -210,7 +210,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testOptional() throws Exception {
-    WorkerDao dao = container.get(config -> new WorkerDaoImpl(config));
+    WorkerDao dao = container.get(WorkerDaoImpl::new);
     Worker worker = dao.selectById(Optional.of(1));
     worker.employeeName = Optional.of("hoge");
     int result = dao.update(worker);
@@ -230,7 +230,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testOptionalInt() throws Exception {
-    BusinessmanDao dao = container.get(config -> new BusinessmanDaoImpl(config));
+    BusinessmanDao dao = container.get(BusinessmanDaoImpl::new);
     Businessman worker = dao.selectById(OptionalInt.of(1));
     worker.employeeName = Optional.of("hoge");
     int result = dao.update(worker);
@@ -250,7 +250,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testUpdate() throws Exception {
-    StaffDao dao = container.get(config -> new StaffDaoImpl(config));
+    StaffDao dao = container.get(StaffDaoImpl::new);
     Staff staff = dao.selectById(1);
     staff.employeeName = "hoge";
     staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate, new Salary("5000"));
@@ -271,7 +271,7 @@ public class AutoUpdateTest {
 
   @Test
   public void testNestedEntity() throws Exception {
-    BranchDao dao = container.get(config -> new BranchDaoImpl(config));
+    BranchDao dao = container.get(BranchDaoImpl::new);
     {
       Branch branch = dao.selectById(1);
       assertNotNull(branch);

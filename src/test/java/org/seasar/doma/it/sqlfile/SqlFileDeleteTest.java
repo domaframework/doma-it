@@ -24,7 +24,7 @@ public class SqlFileDeleteTest {
 
   @Test
   public void test() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee = new Employee();
     employee.setEmployeeId(1);
     employee.setVersion(1);
@@ -37,7 +37,7 @@ public class SqlFileDeleteTest {
 
   @Test
   public void testImmutable() throws Exception {
-    PersonDao dao = container.get(config -> new PersonDaoImpl(config));
+    PersonDao dao = container.get(PersonDaoImpl::new);
     Person person = new Person(1, null, null, null, null, null, null, null, 1);
     Result<Person> result = dao.deleteBySqlFile(person);
     assertEquals(1, result.getCount());

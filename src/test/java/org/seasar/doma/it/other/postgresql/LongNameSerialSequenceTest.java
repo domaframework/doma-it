@@ -34,7 +34,7 @@ public class LongNameSerialSequenceTest {
   @Test
   public void testInsert() throws Exception {
     VeryLongCharactersNamedTableDao dao =
-        container.get(config -> new VeryLongCharactersNamedTableDaoImpl(config));
+        container.get(VeryLongCharactersNamedTableDaoImpl::new);
     VeryLongCharactersNamedTable entity = new VeryLongCharactersNamedTable();
     entity.setValue("foo");
     dao.insert(entity);
@@ -43,7 +43,7 @@ public class LongNameSerialSequenceTest {
   @Test
   public void testBatchInsert() throws Exception {
     VeryLongCharactersNamedTableDao dao =
-        container.get(config -> new VeryLongCharactersNamedTableDaoImpl(config));
+        container.get(VeryLongCharactersNamedTableDaoImpl::new);
     VeryLongCharactersNamedTable entity1 = new VeryLongCharactersNamedTable();
     entity1.setValue("foo");
     VeryLongCharactersNamedTable entity2 = new VeryLongCharactersNamedTable();

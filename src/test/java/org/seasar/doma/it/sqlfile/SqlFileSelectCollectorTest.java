@@ -39,14 +39,14 @@ public class SqlFileSelectCollectorTest {
 
   @Test
   public void testCollectAll() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Long count = dao.collectAll(Collectors.counting());
     assertEquals(Long.valueOf(14), count);
   }
 
   @Test
   public void testCollectAll2() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Map<Identity<Department>, List<Employee>> group =
         dao.collectAll(Collectors.groupingBy(Employee::getDepartmentId));
     System.out.println(group);

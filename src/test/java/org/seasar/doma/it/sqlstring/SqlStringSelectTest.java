@@ -17,7 +17,7 @@ public class SqlStringSelectTest {
 
   @Test
   public void testSelectById() throws Exception {
-    var dao = container.get(config -> new SkilledEmployeeDaoImpl(config));
+    var dao = container.get(SkilledEmployeeDaoImpl::new);
     var employee = dao.selectById(1);
     assertNotNull(employee);
   }

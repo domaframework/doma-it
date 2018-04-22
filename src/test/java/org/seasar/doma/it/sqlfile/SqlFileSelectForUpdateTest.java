@@ -42,7 +42,7 @@ public class SqlFileSelectForUpdateTest {
   @Test
   @Run(unless = {Dbms.H2, Dbms.POSTGRESQL, Dbms.ORACLE, Dbms.MYSQL, Dbms.DB2, Dbms.SQLSERVER})
   public void testUnsupported() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     try {
       dao.selectById(1, SelectOptions.get().forUpdate());
       fail();
@@ -54,7 +54,7 @@ public class SqlFileSelectForUpdateTest {
   @Test
   @Run(unless = {Dbms.HSQLDB, Dbms.SQLITE})
   public void testForUpdate() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee = dao.selectById(1, SelectOptions.get().forUpdate());
     assertNotNull(employee);
   }
@@ -72,7 +72,7 @@ public class SqlFileSelectForUpdateTest {
     }
   )
   public void testForUpdateWithColumns() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee =
         dao.selectById(1, SelectOptions.get().forUpdate("employee_name", "address_id"));
     assertNotNull(employee);
@@ -83,7 +83,7 @@ public class SqlFileSelectForUpdateTest {
     unless = {Dbms.HSQLDB, Dbms.H2, Dbms.ORACLE, Dbms.MYSQL, Dbms.DB2, Dbms.SQLSERVER, Dbms.SQLITE}
   )
   public void testForUpdateWithTables() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee = dao.selectById(1, SelectOptions.get().forUpdate("employee"));
     assertNotNull(employee);
   }
@@ -91,7 +91,7 @@ public class SqlFileSelectForUpdateTest {
   @Test
   @Run(unless = {Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL, Dbms.DB2, Dbms.SQLITE})
   public void testForUpdateNowait() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee = dao.selectById(1, SelectOptions.get().forUpdateNowait());
     assertNotNull(employee);
   }
@@ -109,7 +109,7 @@ public class SqlFileSelectForUpdateTest {
     }
   )
   public void testForUpdateNowaitWithColumns() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee =
         dao.selectById(1, SelectOptions.get().forUpdateNowait("employee_name", "address_id"));
     assertNotNull(employee);
@@ -128,7 +128,7 @@ public class SqlFileSelectForUpdateTest {
     }
   )
   public void testForUpdateWait() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee = dao.selectById(1, SelectOptions.get().forUpdateWait(10));
     assertNotNull(employee);
   }
@@ -146,7 +146,7 @@ public class SqlFileSelectForUpdateTest {
     }
   )
   public void testForUpdateWaitWithColumns() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee =
         dao.selectById(1, SelectOptions.get().forUpdateWait(10, "employee_name", "address_id"));
     assertNotNull(employee);

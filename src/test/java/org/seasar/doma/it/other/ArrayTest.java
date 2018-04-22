@@ -27,7 +27,7 @@ public class ArrayTest {
 
   @Test
   public void testSelect() throws Exception {
-    SalEmpDao dao = container.get(config -> new SalEmpDaoImpl(config));
+    SalEmpDao dao = container.get(SalEmpDaoImpl::new);
     List<SalEmp> entities = dao.selectAll();
     assertEquals(2, entities.size());
     SalEmp entity = entities.get(0);
@@ -40,7 +40,7 @@ public class ArrayTest {
 
   @Test
   public void testSelect_2DimesionalArray() throws Exception {
-    SalEmpDao dao = container.get(config -> new SalEmpDaoImpl(config));
+    SalEmpDao dao = container.get(SalEmpDaoImpl::new);
     List<SalEmp> entities = dao.selectAll();
     assertEquals(2, entities.size());
     SalEmp entity = entities.get(0);
@@ -65,7 +65,7 @@ public class ArrayTest {
 
   @Test
   public void testInsert() throws Exception {
-    SalEmpDao dao = container.get(config -> new SalEmpDaoImpl(config));
+    SalEmpDao dao = container.get(SalEmpDaoImpl::new);
     Integer[] array = new Integer[] {10, 20, 30, 40};
     SalEmp entity = new SalEmp();
     entity.setName("hoge");
@@ -79,7 +79,7 @@ public class ArrayTest {
 
   @Test
   public void testInsert_2DimesionalArray() throws Exception {
-    SalEmpDao dao = container.get(config -> new SalEmpDaoImpl(config));
+    SalEmpDao dao = container.get(SalEmpDaoImpl::new);
     String[][] array = new String[][] {{"aaa", "bbb"}, {"ccc", "ddd"}};
     SalEmp entity = new SalEmp();
     entity.setName("hoge");
@@ -100,7 +100,7 @@ public class ArrayTest {
 
   @Test
   public void testUpdate() throws Exception {
-    SalEmpDao dao = container.get(config -> new SalEmpDaoImpl(config));
+    SalEmpDao dao = container.get(SalEmpDaoImpl::new);
     List<SalEmp> entities = dao.selectAll();
     assertEquals(2, entities.size());
     SalEmp entity = entities.get(0);
@@ -117,7 +117,7 @@ public class ArrayTest {
 
   @Test
   public void testUpdate_2DimesionalArray() throws Exception {
-    SalEmpDao dao = container.get(config -> new SalEmpDaoImpl(config));
+    SalEmpDao dao = container.get(SalEmpDaoImpl::new);
     List<SalEmp> entities = dao.selectAll();
     assertEquals(2, entities.size());
     SalEmp entity = entities.get(0);

@@ -47,25 +47,25 @@ public class AutoProcedureTest {
 
   @Test
   public void testNoParam() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     dao.proc_none_param();
   }
 
   @Test
   public void testOneParam() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     dao.proc_simpletype_param(10);
   }
 
   @Test
   public void testOneParam_time() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     dao.proc_simpletype_time_param(Time.valueOf("12:34:56"));
   }
 
   @Test
   public void testIn_InOut_Out() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     Integer param1 = 10;
     Reference<Integer> param2 = new Reference<>(20);
     Reference<Integer> param3 = new Reference<>();
@@ -77,7 +77,7 @@ public class AutoProcedureTest {
 
   @Test
   public void testIn_InOut_Out_time() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     Time param1 = Time.valueOf("12:34:56");
     Reference<Time> param2 = new Reference<>(Time.valueOf("01:23:45"));
     Reference<Time> param3 = new Reference<>();
@@ -89,7 +89,7 @@ public class AutoProcedureTest {
 
   @Test
   public void testResultSet() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     List<Employee> employees = new ArrayList<>();
     dao.proc_resultset(employees, 1);
     assertEquals(13, employees.size());
@@ -97,7 +97,7 @@ public class AutoProcedureTest {
 
   @Test
   public void testResultSet_check() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     List<Employee> employees = new ArrayList<>();
     try {
       dao.proc_resultset_check(employees, 1);
@@ -109,7 +109,7 @@ public class AutoProcedureTest {
 
   @Test
   public void testResultSet_nocheck() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     List<Employee> employees = new ArrayList<>();
     dao.proc_resultset_nocheck(employees, 1);
     assertEquals(13, employees.size());
@@ -117,7 +117,7 @@ public class AutoProcedureTest {
 
   @Test
   public void testResultSet_map() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     List<Map<String, Object>> employees = new ArrayList<>();
     dao.proc_resultset_map(employees, 1);
     assertEquals(13, employees.size());
@@ -125,7 +125,7 @@ public class AutoProcedureTest {
 
   @Test
   public void testResultSet_Out() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     List<Employee> employees = new ArrayList<>();
     Reference<Integer> count = new Reference<>();
     dao.proc_resultset_out(employees, 1, count);
@@ -135,29 +135,29 @@ public class AutoProcedureTest {
 
   @Test
   public void testResultSetAndUpdate() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     List<Employee> employees = new ArrayList<>();
     dao.proc_resultset_update(employees, 1);
     assertEquals(13, employees.size());
-    DepartmentDao departmentDao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao departmentDao = container.get(DepartmentDaoImpl::new);
     Department department = departmentDao.selectById(1);
     assertEquals("HOGE", department.getDepartmentName());
   }
 
   @Test
   public void testResultSetAndUpdate2() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     List<Employee> employees = new ArrayList<>();
     dao.proc_resultset_update2(employees, 1);
     assertEquals(13, employees.size());
-    DepartmentDao departmentDao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao departmentDao = container.get(DepartmentDaoImpl::new);
     Department department = departmentDao.selectById(1);
     assertEquals("HOGE", department.getDepartmentName());
   }
 
   @Test
   public void testResultSets() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     List<Employee> employees = new ArrayList<>();
     List<Department> departments = new ArrayList<>();
     dao.proc_resultsets(employees, departments, 1, 1);
@@ -167,7 +167,7 @@ public class AutoProcedureTest {
 
   @Test
   public void testResultSetAndUpdate_Out() throws Exception {
-    ProcedureDao dao = container.get(config -> new ProcedureDaoImpl(config));
+    ProcedureDao dao = container.get(ProcedureDaoImpl::new);
     List<Employee> employees = new ArrayList<>();
     List<Department> departments = new ArrayList<>();
     Reference<Integer> count = new Reference<>();

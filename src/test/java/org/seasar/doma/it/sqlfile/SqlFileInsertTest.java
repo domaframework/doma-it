@@ -39,7 +39,7 @@ public class SqlFileInsertTest {
 
   @Test
   public void test() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = new Department();
     department.setDepartmentId(new Identity<>(99));
     department.setDepartmentNo(99);
@@ -54,7 +54,7 @@ public class SqlFileInsertTest {
 
   @Test
   public void testImmutable() throws Exception {
-    DeptDao dao = container.get(config -> new DeptDaoImpl(config));
+    DeptDao dao = container.get(DeptDaoImpl::new);
     Dept dept = new Dept(new Identity<>(99), 99, "hoge", null, null);
     Result<Dept> result = dao.insertBySqlFile(dept);
     assertEquals(1, result.getCount());

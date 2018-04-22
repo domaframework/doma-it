@@ -66,7 +66,7 @@ public class AutoBatchUpdateTest {
 
   @Test
   public void test() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = new Department();
     department.setDepartmentId(new Identity<>(1));
     department.setDepartmentNo(1);
@@ -100,7 +100,7 @@ public class AutoBatchUpdateTest {
 
   @Test
   public void testImmutable() throws Exception {
-    DeptDao dao = container.get(config -> new DeptDaoImpl(config));
+    DeptDao dao = container.get(DeptDaoImpl::new);
     Dept dept = new Dept(new Identity<>(1), 1, "hoge", null, 1);
     Dept dept2 = new Dept(new Identity<>(2), 2, "foo", null, 1);
     BatchResult<Dept> result = dao.update(Arrays.asList(dept, dept2));
@@ -131,7 +131,7 @@ public class AutoBatchUpdateTest {
 
   @Test
   public void testIncludeVersion() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = new Department();
     department.setDepartmentId(new Identity<>(1));
     department.setDepartmentNo(1);
@@ -164,7 +164,7 @@ public class AutoBatchUpdateTest {
   }
 
   public void testCompositeKey() throws Exception {
-    CompKeyDepartmentDao dao = container.get(config -> new CompKeyDepartmentDaoImpl(config));
+    CompKeyDepartmentDao dao = container.get(CompKeyDepartmentDaoImpl::new);
     CompKeyDepartment department = new CompKeyDepartment();
     department.setDepartmentId1(1);
     department.setDepartmentId2(1);
@@ -201,7 +201,7 @@ public class AutoBatchUpdateTest {
 
   @Test
   public void testOptimisticLockException() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department1 = dao.selectById(1);
     department1.setDepartmentName("hoge");
     Department department2 = dao.selectById(2);
@@ -218,7 +218,7 @@ public class AutoBatchUpdateTest {
 
   @Test
   public void testSuppressOptimisticLockException() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department1 = dao.selectById(1);
     department1.setDepartmentName("hoge");
     Department department2 = dao.selectById(2);
@@ -231,7 +231,7 @@ public class AutoBatchUpdateTest {
 
   @Test
   public void testNoId() throws Exception {
-    NoIdDao dao = container.get(config -> new NoIdDaoImpl(config));
+    NoIdDao dao = container.get(NoIdDaoImpl::new);
     NoId entity = new NoId();
     entity.setValue1(1);
     entity.setValue2(2);
@@ -248,14 +248,14 @@ public class AutoBatchUpdateTest {
 
   @Test
   public void testSqlExecutionSkip() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     int[] result = dao.update(new ArrayList<>());
     assertEquals(0, result.length);
   }
 
   @Test
   public void testOptional() throws Exception {
-    WorkerDao dao = container.get(config -> new WorkerDaoImpl(config));
+    WorkerDao dao = container.get(WorkerDaoImpl::new);
     Worker worker = new Worker();
     worker.employeeId = Optional.of(1);
     worker.employeeNo = Optional.of(5555);
@@ -283,7 +283,7 @@ public class AutoBatchUpdateTest {
 
   @Test
   public void testOptionalInt() throws Exception {
-    BusinessmanDao dao = container.get(config -> new BusinessmanDaoImpl(config));
+    BusinessmanDao dao = container.get(BusinessmanDaoImpl::new);
     Businessman worker = new Businessman();
     worker.employeeId = OptionalInt.of(1);
     worker.employeeNo = OptionalInt.of(5555);
@@ -311,7 +311,7 @@ public class AutoBatchUpdateTest {
 
   @Test
   public void testEmbeddable() throws Exception {
-    StaffDao dao = container.get(config -> new StaffDaoImpl(config));
+    StaffDao dao = container.get(StaffDaoImpl::new);
     Staff staff = new Staff();
     staff.employeeId = 1;
     staff.employeeNo = 9998;

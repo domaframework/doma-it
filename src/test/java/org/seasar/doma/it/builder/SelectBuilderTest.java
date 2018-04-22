@@ -282,14 +282,14 @@ public class SelectBuilderTest {
 
   @Test
   public void testSelectBuilderInDao() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     List<Employee> employees = dao.selectWithBuilder();
     assertEquals(14, employees.size());
   }
 
   @Test
   public void testStreamBuilderInDao() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     try (Stream<Employee> employees = dao.streamWithBuilder()) {
       assertEquals(14, employees.count());
     }

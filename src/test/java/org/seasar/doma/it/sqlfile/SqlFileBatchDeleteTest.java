@@ -25,7 +25,7 @@ public class SqlFileBatchDeleteTest {
 
   @Test
   public void test() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee = new Employee();
     employee.setEmployeeId(1);
     employee.setVersion(1);
@@ -45,7 +45,7 @@ public class SqlFileBatchDeleteTest {
 
   @Test
   public void testImmutable() throws Exception {
-    PersonDao dao = container.get(config -> new PersonDaoImpl(config));
+    PersonDao dao = container.get(PersonDaoImpl::new);
     Person person = new Person(1, null, null, null, null, null, null, null, 1);
     Person person2 = new Person(2, null, null, null, null, null, null, null, 1);
     BatchResult<Person> result = dao.deleteBySqlFile(Arrays.asList(person, person2));

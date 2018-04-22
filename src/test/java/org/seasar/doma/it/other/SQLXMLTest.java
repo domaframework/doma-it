@@ -42,7 +42,7 @@ public class SQLXMLTest {
 
   @Test
   public void testSelect() throws Exception {
-    ProductDao dao = container.get(config -> new ProductDaoImpl(config));
+    ProductDao dao = container.get(ProductDaoImpl::new);
 
     SQLXML sqlxml = dao.createSQLXML();
     sqlxml.setString("<test>hoge</test>");

@@ -42,7 +42,7 @@ public class SqlFileBatchUpdateTest {
 
   @Test
   public void test() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = new Department();
     department.setDepartmentId(new Identity<>(1));
     department.setDepartmentNo(1);
@@ -70,7 +70,7 @@ public class SqlFileBatchUpdateTest {
 
   @Test
   public void testImmutable() throws Exception {
-    DeptDao dao = container.get(config -> new DeptDaoImpl(config));
+    DeptDao dao = container.get(DeptDaoImpl::new);
     Dept dept = new Dept(new Identity<>(1), 1, "hoge", null, 1);
     Dept dept2 = new Dept(new Identity<>(2), 2, "foo", null, 1);
     BatchResult<Dept> result = dao.updateBySqlFile(Arrays.asList(dept, dept2));
@@ -95,7 +95,7 @@ public class SqlFileBatchUpdateTest {
 
   @Test
   public void testOptimisticLockException() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department1 = dao.selectById(1);
     department1.setDepartmentName("hoge");
     Department department2 = dao.selectById(2);
@@ -112,7 +112,7 @@ public class SqlFileBatchUpdateTest {
 
   @Test
   public void testSuppressOptimisticLockException() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department1 = dao.selectById(1);
     department1.setDepartmentName("hoge");
     Department department2 = dao.selectById(2);

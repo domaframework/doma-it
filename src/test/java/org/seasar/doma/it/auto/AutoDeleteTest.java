@@ -60,7 +60,7 @@ public class AutoDeleteTest {
 
   @Test
   public void test() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee = new Employee();
     employee.setEmployeeId(1);
     employee.setVersion(1);
@@ -73,7 +73,7 @@ public class AutoDeleteTest {
 
   @Test
   public void testImmutable() throws Exception {
-    PersonDao dao = container.get(config -> new PersonDaoImpl(config));
+    PersonDao dao = container.get(PersonDaoImpl::new);
     Person person = new Person(1, null, null, null, null, null, null, null, 1);
     Result<Person> result = dao.delete(person);
     assertEquals(1, result.getCount());
@@ -86,7 +86,7 @@ public class AutoDeleteTest {
 
   @Test
   public void testIgnoreVersion() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee = new Employee();
     employee.setEmployeeId(1);
     employee.setVersion(99);
@@ -99,7 +99,7 @@ public class AutoDeleteTest {
 
   @Test
   public void testCompositeKey() throws Exception {
-    CompKeyEmployeeDao dao = container.get(config -> new CompKeyEmployeeDaoImpl(config));
+    CompKeyEmployeeDao dao = container.get(CompKeyEmployeeDaoImpl::new);
     CompKeyEmployee employee = new CompKeyEmployee();
     employee.setEmployeeId1(1);
     employee.setEmployeeId2(1);
@@ -113,7 +113,7 @@ public class AutoDeleteTest {
 
   @Test
   public void testOptimisticLockException() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee1 = dao.selectById(1);
     employee1.setEmployeeName("hoge");
     Employee employee2 = dao.selectById(1);
@@ -128,7 +128,7 @@ public class AutoDeleteTest {
 
   @Test
   public void testSuppressOptimisticLockException() throws Exception {
-    EmployeeDao dao = container.get(config -> new EmployeeDaoImpl(config));
+    EmployeeDao dao = container.get(EmployeeDaoImpl::new);
     Employee employee1 = dao.selectById(1);
     employee1.setEmployeeName("hoge");
     Employee employee2 = dao.selectById(1);
@@ -139,7 +139,7 @@ public class AutoDeleteTest {
 
   @Test
   public void testNoId() throws Exception {
-    NoIdDao dao = container.get(config -> new NoIdDaoImpl(config));
+    NoIdDao dao = container.get(NoIdDaoImpl::new);
     NoId entity = new NoId();
     entity.setValue1(1);
     entity.setValue2(2);
@@ -153,7 +153,7 @@ public class AutoDeleteTest {
 
   @Test
   public void testOptional() throws Exception {
-    WorkerDao dao = container.get(config -> new WorkerDaoImpl(config));
+    WorkerDao dao = container.get(WorkerDaoImpl::new);
     Worker employee = new Worker();
     employee.employeeId = Optional.of(1);
     employee.version = Optional.of(1);
@@ -166,7 +166,7 @@ public class AutoDeleteTest {
 
   @Test
   public void testOptionalInt() throws Exception {
-    BusinessmanDao dao = container.get(config -> new BusinessmanDaoImpl(config));
+    BusinessmanDao dao = container.get(BusinessmanDaoImpl::new);
     Businessman employee = new Businessman();
     employee.employeeId = OptionalInt.of(1);
     employee.version = OptionalInt.of(1);
@@ -179,7 +179,7 @@ public class AutoDeleteTest {
 
   @Test
   public void testEmbeddable() throws Exception {
-    StaffDao dao = container.get(config -> new StaffDaoImpl(config));
+    StaffDao dao = container.get(StaffDaoImpl::new);
     Staff staff = new Staff();
     staff.employeeId = 1;
     staff.version = 1;

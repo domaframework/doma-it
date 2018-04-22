@@ -77,7 +77,7 @@ public class AutoBatchInsertTest {
 
   @Test
   public void test() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = new Department();
     department.setDepartmentId(new Identity<>(99));
     department.setDepartmentNo(99);
@@ -109,7 +109,7 @@ public class AutoBatchInsertTest {
 
   @Test
   public void testImmutable() throws Exception {
-    DeptDao dao = container.get(config -> new DeptDaoImpl(config));
+    DeptDao dao = container.get(DeptDaoImpl::new);
     Dept dept = new Dept(new Identity<>(99), 99, "hoge", null, null);
     Dept dept2 = new Dept(new Identity<>(98), 98, "foo", null, null);
     BatchResult<Dept> result = dao.insert(Arrays.asList(dept, dept2));
@@ -141,7 +141,7 @@ public class AutoBatchInsertTest {
 
   @Test
   public void testCompositeKey() throws Exception {
-    CompKeyDepartmentDao dao = container.get(config -> new CompKeyDepartmentDaoImpl(config));
+    CompKeyDepartmentDao dao = container.get(CompKeyDepartmentDaoImpl::new);
     CompKeyDepartment department = new CompKeyDepartment();
     department.setDepartmentId1(99);
     department.setDepartmentId2(99);
@@ -177,7 +177,7 @@ public class AutoBatchInsertTest {
 
   @Test
   public void testIdNotAssigned() throws Exception {
-    DepartmentDao dao = container.get(config -> new DepartmentDaoImpl(config));
+    DepartmentDao dao = container.get(DepartmentDaoImpl::new);
     Department department = new Department();
     department.setDepartmentNo(99);
     department.setDepartmentName("hoge");
@@ -195,7 +195,7 @@ public class AutoBatchInsertTest {
   @Test
   @Run(unless = {Dbms.ORACLE})
   public void testId_Identity() throws Exception {
-    IdentityStrategyDao dao = container.get(config -> new IdentityStrategyDaoImpl(config));
+    IdentityStrategyDao dao = container.get(IdentityStrategyDaoImpl::new);
     for (int i = 0; i < 110; i++) {
       IdentityStrategy entity = new IdentityStrategy();
       IdentityStrategy entity2 = new IdentityStrategy();
@@ -212,7 +212,7 @@ public class AutoBatchInsertTest {
   @Test
   @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER, Dbms.SQLITE})
   public void testId_sequence() throws Exception {
-    SequenceStrategyDao dao = container.get(config -> new SequenceStrategyDaoImpl(config));
+    SequenceStrategyDao dao = container.get(SequenceStrategyDaoImpl::new);
     for (int i = 0; i < 110; i++) {
       SequenceStrategy entity = new SequenceStrategy();
       SequenceStrategy entity2 = new SequenceStrategy();
@@ -231,7 +231,7 @@ public class AutoBatchInsertTest {
   @Test
   @Run(unless = {Dbms.SQLITE})
   public void testId_table() throws Exception {
-    TableStrategyDao dao = container.get(config -> new TableStrategyDaoImpl(config));
+    TableStrategyDao dao = container.get(TableStrategyDaoImpl::new);
     for (int i = 0; i < 110; i++) {
       TableStrategy entity = new TableStrategy();
       TableStrategy entity2 = new TableStrategy();
@@ -247,7 +247,7 @@ public class AutoBatchInsertTest {
 
   @Test
   public void testNoId() throws Exception {
-    NoIdDao dao = container.get(config -> new NoIdDaoImpl(config));
+    NoIdDao dao = container.get(NoIdDaoImpl::new);
     NoId entity = new NoId();
     entity.setValue1(1);
     entity.setValue2(2);
@@ -262,7 +262,7 @@ public class AutoBatchInsertTest {
 
   @Test
   public void testOptional() throws Exception {
-    WorkerDao dao = container.get(config -> new WorkerDaoImpl(config));
+    WorkerDao dao = container.get(WorkerDaoImpl::new);
     Worker worker = new Worker();
     worker.employeeId = Optional.of(9998);
     worker.employeeNo = Optional.of(9998);
@@ -288,7 +288,7 @@ public class AutoBatchInsertTest {
 
   @Test
   public void testOptionalInt() throws Exception {
-    BusinessmanDao dao = container.get(config -> new BusinessmanDaoImpl(config));
+    BusinessmanDao dao = container.get(BusinessmanDaoImpl::new);
     Businessman worker = new Businessman();
     worker.employeeId = OptionalInt.of(9998);
     worker.employeeNo = OptionalInt.of(9998);
@@ -314,7 +314,7 @@ public class AutoBatchInsertTest {
 
   @Test
   public void testEmbeddable() throws Exception {
-    StaffDao dao = container.get(config -> new StaffDaoImpl(config));
+    StaffDao dao = container.get(StaffDaoImpl::new);
     Staff staff = new Staff();
     staff.employeeId = 9998;
     staff.employeeNo = 9998;
