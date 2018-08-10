@@ -116,7 +116,7 @@ public class ArrayTest {
 
         entities = dao.selectAll();
         entity = entities.get(0);
-        assertEquals(new Integer(10), ((Integer[]) entity.getPayByQuarter()
+        assertEquals(Integer.valueOf(10), ((Integer[]) entity.getPayByQuarter()
                 .getArray())[0]);
     }
 

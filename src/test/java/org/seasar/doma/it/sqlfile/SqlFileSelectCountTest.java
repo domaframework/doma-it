@@ -71,11 +71,11 @@ public class SqlFileSelectCountTest {
         List<Employee> employees = dao.selectAll(options);
         assertEquals(5, employees.size());
         assertEquals(14, options.getCount());
-        assertEquals(new Integer(4), employees.get(0).getEmployeeId());
-        assertEquals(new Integer(5), employees.get(1).getEmployeeId());
-        assertEquals(new Integer(6), employees.get(2).getEmployeeId());
-        assertEquals(new Integer(7), employees.get(3).getEmployeeId());
-        assertEquals(new Integer(8), employees.get(4).getEmployeeId());
+        assertEquals(Integer.valueOf(4), employees.get(0).getEmployeeId());
+        assertEquals(Integer.valueOf(5), employees.get(1).getEmployeeId());
+        assertEquals(Integer.valueOf(6), employees.get(2).getEmployeeId());
+        assertEquals(Integer.valueOf(7), employees.get(3).getEmployeeId());
+        assertEquals(Integer.valueOf(8), employees.get(4).getEmployeeId());
     }
 
 }

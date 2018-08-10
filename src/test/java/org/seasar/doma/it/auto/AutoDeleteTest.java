@@ -65,7 +65,7 @@ public class AutoDeleteTest {
         int result = dao.delete(employee);
         assertEquals(1, result);
 
-        employee = dao.selectById(new Integer(1));
+        employee = dao.selectById(Integer.valueOf(1));
         assertNull(employee);
     }
 
@@ -79,7 +79,7 @@ public class AutoDeleteTest {
         person = result.getEntity();
         assertEquals("null_preD_postD", person.getEmployeeName());
 
-        person = dao.selectById(new Integer(1));
+        person = dao.selectById(Integer.valueOf(1));
         assertNull(person);
     }
 
@@ -92,7 +92,7 @@ public class AutoDeleteTest {
         int result = dao.delete_ignoreVersion(employee);
         assertEquals(1, result);
 
-        employee = dao.selectById(new Integer(1));
+        employee = dao.selectById(Integer.valueOf(1));
         assertNull(employee);
     }
 
@@ -106,16 +106,16 @@ public class AutoDeleteTest {
         int result = dao.delete(employee);
         assertEquals(1, result);
 
-        employee = dao.selectById(new Integer(1), new Integer(1));
+        employee = dao.selectById(Integer.valueOf(1), Integer.valueOf(1));
         assertNull(employee);
     }
 
     @Test
     public void testOptimisticLockException() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee1 = dao.selectById(new Integer(1));
+        Employee employee1 = dao.selectById(Integer.valueOf(1));
         employee1.setEmployeeName("hoge");
-        Employee employee2 = dao.selectById(new Integer(1));
+        Employee employee2 = dao.selectById(Integer.valueOf(1));
         employee2.setEmployeeName("foo");
         dao.delete(employee1);
         try {

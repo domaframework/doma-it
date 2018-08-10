@@ -45,13 +45,13 @@ public class SqlFileSelectTest {
         List<Employee> list = dao.selectWithOptionalOrderBy("S",
                 "order by EMPLOYEE_ID");
         assertEquals(2, list.size());
-        assertEquals(new Integer(1), list.get(0).getEmployeeId());
-        assertEquals(new Integer(8), list.get(1).getEmployeeId());
+        assertEquals(Integer.valueOf(1), list.get(0).getEmployeeId());
+        assertEquals(Integer.valueOf(8), list.get(1).getEmployeeId());
 
         list = dao.selectWithOptionalOrderBy("S", "order by EMPLOYEE_ID desc");
         assertEquals(2, list.size());
-        assertEquals(new Integer(8), list.get(0).getEmployeeId());
-        assertEquals(new Integer(1), list.get(1).getEmployeeId());
+        assertEquals(Integer.valueOf(8), list.get(0).getEmployeeId());
+        assertEquals(Integer.valueOf(1), list.get(1).getEmployeeId());
     }
 
     @Test
@@ -187,11 +187,11 @@ public class SqlFileSelectTest {
         BranchDao dao = container.get(BranchDao::get);
         Branch branch = dao.selectById(1);
         assertNotNull(branch);
-        assertEquals(new Integer(1), branch.branchId);
-        assertEquals(new Integer(1), branch.version);
+        assertEquals(Integer.valueOf(1), branch.branchId);
+        assertEquals(Integer.valueOf(1), branch.version);
         BranchDetail branchDetail = branch.branchDetail;
         assertNotNull(branchDetail);
-        assertEquals(new Integer(10), branchDetail.branchNo);
+        assertEquals(Integer.valueOf(10), branchDetail.branchNo);
         assertEquals("ACCOUNTING", branchDetail.branchName);
         Location location = branchDetail.location;
         assertNotNull(location);

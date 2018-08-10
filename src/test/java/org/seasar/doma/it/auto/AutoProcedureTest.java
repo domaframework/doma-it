@@ -71,9 +71,9 @@ public class AutoProcedureTest {
         Reference<Integer> param2 = new Reference<>(20);
         Reference<Integer> param3 = new Reference<>();
         dao.proc_dto_param(param1, param2, param3);
-        assertEquals(new Integer(10), param1);
-        assertEquals(new Integer(30), param2.get());
-        assertEquals(new Integer(10), param3.get());
+        assertEquals(Integer.valueOf(10), param1);
+        assertEquals(Integer.valueOf(30), param2.get());
+        assertEquals(Integer.valueOf(10), param3.get());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class AutoProcedureTest {
         Reference<Integer> count = new Reference<>();
         dao.proc_resultset_out(employees, 1, count);
         assertEquals(13, employees.size());
-        assertEquals(new Integer(14), count.get());
+        assertEquals(Integer.valueOf(14), count.get());
     }
 
     @Test
@@ -175,6 +175,6 @@ public class AutoProcedureTest {
         dao.proc_resultsets_updates_out(employees, departments, 1, 1, count);
         assertEquals(13, employees.size());
         assertEquals(3, departments.size());
-        assertEquals(new Integer(14), count.get());
+        assertEquals(Integer.valueOf(14), count.get());
     }
 }

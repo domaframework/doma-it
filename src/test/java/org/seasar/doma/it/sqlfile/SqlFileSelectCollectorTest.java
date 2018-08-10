@@ -43,7 +43,7 @@ public class SqlFileSelectCollectorTest {
     public void testCollectAll() throws Exception {
         EmployeeDao dao = container.get(EmployeeDao::get);
         Long count = dao.collectAll(Collectors.counting());
-        assertEquals(new Long(14), count);
+        assertEquals(Long.valueOf(14), count);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class SqlFileSelectCollectorTest {
     // EmployeeDao dao = container.get(EmployeeDao::get);
     // Long count = dao.streamBySalary(new BigDecimal(2000),
     // stream -> stream.count());
-    // assertEquals(new Long(6), count);
+    // assertEquals(Long.valueOf(6), count);
     // }
     //
     // @Test

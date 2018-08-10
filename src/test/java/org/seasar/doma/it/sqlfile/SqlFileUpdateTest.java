@@ -55,9 +55,9 @@ public class SqlFileUpdateTest {
         assertEquals(1, result);
 
         department = dao.selectById(1);
-        assertEquals(new Integer(1), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1), department.getDepartmentId().getValue());
         assertEquals("hoge", department.getDepartmentName());
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
     }
 
     @Test
@@ -72,9 +72,9 @@ public class SqlFileUpdateTest {
         assertEquals(1, result);
 
         department = dao.selectById(1);
-        assertEquals(new Integer(1), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1), department.getDepartmentId().getValue());
         assertEquals("hoge", department.getDepartmentName());
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
     }
 
     @Test
@@ -87,9 +87,9 @@ public class SqlFileUpdateTest {
         assertEquals("hoge_preU_postU", dept.getDepartmentName());
 
         dept = dao.selectById(1);
-        assertEquals(new Integer(1), dept.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1), dept.getDepartmentId().getValue());
         assertEquals("hoge_preU", dept.getDepartmentName());
-        assertEquals(new Integer(2), dept.getVersion());
+        assertEquals(Integer.valueOf(2), dept.getVersion());
     }
 
     @Test
@@ -132,9 +132,9 @@ public class SqlFileUpdateTest {
         assertEquals(1, result);
 
         department = dao.selectById(1);
-        assertEquals(new Integer(1), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1), department.getDepartmentId().getValue());
         assertEquals("hoge", department.getDepartmentName());
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
     }
 
     @Test

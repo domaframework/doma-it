@@ -61,13 +61,13 @@ public class SqlFileBatchUpdateTest {
         assertEquals(1, result[1]);
 
         department = dao.selectById(1);
-        assertEquals(new Integer(1), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1), department.getDepartmentId().getValue());
         assertEquals("hoge", department.getDepartmentName());
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
         department = dao.selectById(2);
-        assertEquals(new Integer(2), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(2), department.getDepartmentId().getValue());
         assertEquals("foo", department.getDepartmentName());
-        assertEquals(new Integer(2), department.getVersion());
+        assertEquals(Integer.valueOf(2), department.getVersion());
     }
 
     @Test
@@ -87,13 +87,13 @@ public class SqlFileBatchUpdateTest {
         assertEquals("foo_preU_postU", dept2.getDepartmentName());
 
         dept = dao.selectById(1);
-        assertEquals(new Integer(1), dept.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(1), dept.getDepartmentId().getValue());
         assertEquals("hoge_preU", dept.getDepartmentName());
-        assertEquals(new Integer(2), dept.getVersion());
+        assertEquals(Integer.valueOf(2), dept.getVersion());
         dept2 = dao.selectById(2);
-        assertEquals(new Integer(2), dept2.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(2), dept2.getDepartmentId().getValue());
         assertEquals("foo_preU", dept2.getDepartmentName());
-        assertEquals(new Integer(2), dept2.getVersion());
+        assertEquals(Integer.valueOf(2), dept2.getVersion());
     }
 
     @Test
