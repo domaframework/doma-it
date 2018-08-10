@@ -47,9 +47,9 @@ public class SqlFileInsertTest {
         int result = dao.insertBySqlFile(department);
         assertEquals(1, result);
 
-        department = dao.selectById(new Integer(99));
-        assertEquals(new Integer(99), department.getDepartmentId().getValue());
-        assertEquals(new Integer(99), department.getDepartmentNo());
+        department = dao.selectById(Integer.valueOf(99));
+        assertEquals(Integer.valueOf(99), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(99), department.getDepartmentNo());
     }
 
     @Test
@@ -61,9 +61,9 @@ public class SqlFileInsertTest {
         dept = result.getEntity();
         assertEquals("hoge_preI_postI", dept.getDepartmentName());
 
-        dept = dao.selectById(new Integer(99));
-        assertEquals(new Integer(99), dept.getDepartmentId().getValue());
-        assertEquals(new Integer(99), dept.getDepartmentNo());
+        dept = dao.selectById(Integer.valueOf(99));
+        assertEquals(Integer.valueOf(99), dept.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(99), dept.getDepartmentNo());
         assertEquals("hoge_preI", dept.getDepartmentName());
     }
 }

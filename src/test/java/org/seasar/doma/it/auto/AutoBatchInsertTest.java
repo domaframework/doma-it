@@ -83,21 +83,21 @@ public class AutoBatchInsertTest {
         assertEquals(2, result.length);
         assertEquals(1, result[0]);
         assertEquals(1, result[1]);
-        assertEquals(new Integer(1), department.getVersion());
-        assertEquals(new Integer(1), department2.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department2.getVersion());
 
         department = dao.selectById(99);
-        assertEquals(new Integer(99), department.getDepartmentId().getValue());
-        assertEquals(new Integer(99), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(99), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(99), department.getDepartmentNo());
         assertEquals("hoge", department.getDepartmentName());
         assertNull(department.getLocation().getValue());
-        assertEquals(new Integer(1), department.getVersion());
-        department = dao.selectById(new Integer(98));
-        assertEquals(new Integer(98), department.getDepartmentId().getValue());
-        assertEquals(new Integer(98), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(1), department.getVersion());
+        department = dao.selectById(Integer.valueOf(98));
+        assertEquals(Integer.valueOf(98), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(98), department.getDepartmentNo());
         assertEquals("foo", department.getDepartmentName());
         assertNull(department.getLocation().getValue());
-        assertEquals(new Integer(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
     }
 
     @Test
@@ -112,24 +112,24 @@ public class AutoBatchInsertTest {
         assertEquals(1, counts[1]);
         dept = result.getEntities().get(0);
         dept2 = result.getEntities().get(1);
-        assertEquals(new Integer(1), dept.getVersion());
+        assertEquals(Integer.valueOf(1), dept.getVersion());
         assertEquals("hoge_preI_postI", dept.getDepartmentName());
-        assertEquals(new Integer(1), dept2.getVersion());
-        assertEquals(new Integer(1), dept.getVersion());
+        assertEquals(Integer.valueOf(1), dept2.getVersion());
+        assertEquals(Integer.valueOf(1), dept.getVersion());
         assertEquals("foo_preI_postI", dept2.getDepartmentName());
 
         dept = dao.selectById(99);
-        assertEquals(new Integer(99), dept.getDepartmentId().getValue());
-        assertEquals(new Integer(99), dept.getDepartmentNo());
+        assertEquals(Integer.valueOf(99), dept.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(99), dept.getDepartmentNo());
         assertEquals("hoge_preI", dept.getDepartmentName());
         assertNull(dept.getLocation().getValue());
-        assertEquals(new Integer(1), dept.getVersion());
-        dept = dao.selectById(new Integer(98));
-        assertEquals(new Integer(98), dept.getDepartmentId().getValue());
-        assertEquals(new Integer(98), dept.getDepartmentNo());
+        assertEquals(Integer.valueOf(1), dept.getVersion());
+        dept = dao.selectById(Integer.valueOf(98));
+        assertEquals(Integer.valueOf(98), dept.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(98), dept.getDepartmentNo());
         assertEquals("foo_preI", dept.getDepartmentName());
         assertNull(dept.getLocation().getValue());
-        assertEquals(new Integer(1), dept.getVersion());
+        assertEquals(Integer.valueOf(1), dept.getVersion());
     }
 
     @Test
@@ -149,23 +149,23 @@ public class AutoBatchInsertTest {
         assertEquals(2, result.length);
         assertEquals(1, result[0]);
         assertEquals(1, result[1]);
-        assertEquals(new Integer(1), department.getVersion());
-        assertEquals(new Integer(1), department2.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department2.getVersion());
 
-        department = dao.selectById(new Integer(99), new Integer(99));
-        assertEquals(new Integer(99), department.getDepartmentId1());
-        assertEquals(new Integer(99), department.getDepartmentId2());
-        assertEquals(new Integer(99), department.getDepartmentNo());
+        department = dao.selectById(Integer.valueOf(99), Integer.valueOf(99));
+        assertEquals(Integer.valueOf(99), department.getDepartmentId1());
+        assertEquals(Integer.valueOf(99), department.getDepartmentId2());
+        assertEquals(Integer.valueOf(99), department.getDepartmentNo());
         assertEquals("hoge", department.getDepartmentName());
         assertNull(department.getLocation());
-        assertEquals(new Integer(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
         department = dao.selectById(98, 98);
-        assertEquals(new Integer(98), department.getDepartmentId1());
-        assertEquals(new Integer(98), department.getDepartmentId2());
-        assertEquals(new Integer(98), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(98), department.getDepartmentId1());
+        assertEquals(Integer.valueOf(98), department.getDepartmentId2());
+        assertEquals(Integer.valueOf(98), department.getDepartmentNo());
         assertEquals("hoge", department.getDepartmentName());
         assertNull(department.getLocation());
-        assertEquals(new Integer(1), department.getVersion());
+        assertEquals(Integer.valueOf(1), department.getVersion());
     }
 
     @Test
@@ -266,17 +266,17 @@ public class AutoBatchInsertTest {
         assertEquals(2, result.length);
         assertEquals(1, result[0]);
         assertEquals(1, result[1]);
-        assertEquals(new Integer(1), worker.version.get());
-        assertEquals(new Integer(1), worker2.version.get());
+        assertEquals(Integer.valueOf(1), worker.version.get());
+        assertEquals(Integer.valueOf(1), worker2.version.get());
 
         worker = dao.selectById(Optional.of(9998));
-        assertEquals(new Integer(9998), worker.employeeId.get());
-        assertEquals(new Integer(9998), worker.employeeNo.get());
-        assertEquals(new Integer(1), worker.version.get());
+        assertEquals(Integer.valueOf(9998), worker.employeeId.get());
+        assertEquals(Integer.valueOf(9998), worker.employeeNo.get());
+        assertEquals(Integer.valueOf(1), worker.version.get());
         worker = dao.selectById(Optional.of(9999));
-        assertEquals(new Integer(9999), worker.employeeId.get());
-        assertEquals(new Integer(9999), worker.employeeNo.get());
-        assertEquals(new Integer(1), worker.version.get());
+        assertEquals(Integer.valueOf(9999), worker.employeeId.get());
+        assertEquals(Integer.valueOf(9999), worker.employeeNo.get());
+        assertEquals(Integer.valueOf(1), worker.version.get());
     }
 
     @Test

@@ -45,7 +45,7 @@ public class SqlFileSelectStreamTest {
         Long count = dao.streamAll(stream -> stream
                 .filter(e -> e.getEmployeeName() != null)
                 .filter(e -> e.getEmployeeName().startsWith("S")).count());
-        assertEquals(new Long(2), count);
+        assertEquals(Long.valueOf(2), count);
     }
 
     @Test
@@ -56,7 +56,7 @@ public class SqlFileSelectStreamTest {
             count = stream.filter(e -> e.getEmployeeName() != null)
                     .filter(e -> e.getEmployeeName().startsWith("S")).count();
         }
-        assertEquals(new Long(2), count);
+        assertEquals(Long.valueOf(2), count);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class SqlFileSelectStreamTest {
         EmployeeDao dao = container.get(EmployeeDao::get);
         Long count = dao.streamBySalary(new BigDecimal(2000),
                 stream -> stream.count());
-        assertEquals(new Long(6), count);
+        assertEquals(Long.valueOf(6), count);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class SqlFileSelectStreamTest {
         try (Stream<Employee> stream = dao.streamBySalary(new BigDecimal(2000))) {
             count = stream.count();
         }
-        assertEquals(new Long(6), count);
+        assertEquals(Long.valueOf(6), count);
     }
 
     @Test

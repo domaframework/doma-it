@@ -57,11 +57,11 @@ public class SqlFileBatchInsertTest {
         assertEquals(1, result[1]);
 
         department = dao.selectById(99);
-        assertEquals(new Integer(99), department.getDepartmentId().getValue());
-        assertEquals(new Integer(99), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(99), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(99), department.getDepartmentNo());
         department = dao.selectById(98);
-        assertEquals(new Integer(98), department.getDepartmentId().getValue());
-        assertEquals(new Integer(98), department.getDepartmentNo());
+        assertEquals(Integer.valueOf(98), department.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(98), department.getDepartmentNo());
     }
 
     @Test
@@ -81,12 +81,12 @@ public class SqlFileBatchInsertTest {
         assertEquals("foo_preI_postI", dept2.getDepartmentName());
 
         dept = dao.selectById(99);
-        assertEquals(new Integer(99), dept.getDepartmentId().getValue());
-        assertEquals(new Integer(99), dept.getDepartmentNo());
+        assertEquals(Integer.valueOf(99), dept.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(99), dept.getDepartmentNo());
         assertEquals("hoge_preI", dept.getDepartmentName());
         dept2 = dao.selectById(98);
-        assertEquals(new Integer(98), dept2.getDepartmentId().getValue());
-        assertEquals(new Integer(98), dept2.getDepartmentNo());
+        assertEquals(Integer.valueOf(98), dept2.getDepartmentId().getValue());
+        assertEquals(Integer.valueOf(98), dept2.getDepartmentNo());
         assertEquals("foo_preI", dept2.getDepartmentName());
     }
 }
