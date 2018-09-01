@@ -1,7 +1,6 @@
 apply plugin: 'eclipse'
  
 eclipse {
-    jdt.file.withProperties { it['org.eclipse.jdt.core.compiler.processAnnotations'] = 'enabled' }
     classpath {
         file {
             whenMerged { classpath ->
