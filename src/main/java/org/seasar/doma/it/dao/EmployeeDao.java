@@ -30,6 +30,7 @@ import org.seasar.doma.MapKeyNamingType;
 import org.seasar.doma.Select;
 import org.seasar.doma.SelectType;
 import org.seasar.doma.Suppress;
+import org.seasar.doma.it.domain.Hiredate;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.SelectOptions;
@@ -91,6 +92,12 @@ public interface EmployeeDao {
 
     @Select(ensureResultMapping = false)
     List<Employee> selectOnlyNameWithoutMappingCheck();
+
+    @Select
+    List<Employee> selectByHiredate(Hiredate hiredate);
+
+    @Select
+    List<Employee> selectByHiredates(List<Hiredate> hiredates);
 
     @Select(strategy = SelectType.STREAM)
     <R> R streamAll(Function<Stream<Employee>, R> mapper);
