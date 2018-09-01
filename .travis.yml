@@ -8,9 +8,6 @@ branches:
   only:
     - master
 
-before_install:
-  - wget https://raw.githubusercontent.com/sormuras/bach/master/install-jdk.sh
-
 env:
   - DB=h2 JDBC_URL= JDBC_USER= JDBC_PASSWORD=
   - DB=hsqldb JDBC_URL=jdbc:hsqldb:mem:doma_it JDBC_USER=sa JDBC_PASSWORD=
@@ -21,13 +18,7 @@ jdk:
   - oraclejdk8
   - oraclejdk9
   - oraclejdk10
-
-matrix:
-  include:
-    - env: JDK_RELEASE='OpenJDK 10' DB=h2 JDBC_URL= JDBC_USER= JDBC_PASSWORD=
-      install: . ./install-jdk.sh -F 10
-  allow_failures:
-    - jdk: oraclejdk10
+  - openjdk11
 
 before_script:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS doma_it;'; fi"
