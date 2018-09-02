@@ -27,10 +27,6 @@ test {
     systemProperty 'password', jdbcPassword
 }
 
-wrapper {
-    gradleVersion = '4.11-20180809235910+0000'
-}
-
 repositories {
     mavenCentral()
     mavenLocal()
