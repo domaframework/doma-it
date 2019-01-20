@@ -30,6 +30,7 @@ import org.seasar.doma.MapKeyNamingType;
 import org.seasar.doma.Select;
 import org.seasar.doma.SelectType;
 import org.seasar.doma.Suppress;
+import org.seasar.doma.experimental.Sql;
 import org.seasar.doma.it.domain.Hiredate;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Config;
@@ -56,6 +57,7 @@ public interface EmployeeDao {
     @Select
     Employee selectById(Integer employeeId, SelectOptions options);
 
+    @Sql("select * from EMPLOYEE where EMPLOYEE_NAME in /*names*/('aaa', 'bbb')")
     @Select
     List<Employee> selectByNames(List<String> names);
 
