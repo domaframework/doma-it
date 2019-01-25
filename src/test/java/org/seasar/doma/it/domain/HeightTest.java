@@ -20,35 +20,28 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Optional;
-
 import org.junit.Test;
 import org.seasar.doma.internal.jdbc.scalar.Scalar;
 import org.seasar.doma.jdbc.domain.DomainType;
 import org.seasar.doma.jdbc.domain.DomainTypeFactory;
 
-/**
- * @author nakamura-to
- * 
- */
+/** @author nakamura-to */
 public class HeightTest {
 
-    @Test
-    public void testDefaultValue() throws Exception {
-        DomainType<Integer, Height> domainType = DomainTypeFactory
-                .getDomainType(Height.class);
-        Scalar<Integer, Height> scalar = domainType.createScalar();
-        Height domain = scalar.get();
-        assertNull(domain);
-    }
+  @Test
+  public void testDefaultValue() throws Exception {
+    DomainType<Integer, Height> domainType = DomainTypeFactory.getDomainType(Height.class);
+    Scalar<Integer, Height> scalar = domainType.createScalar();
+    Height domain = scalar.get();
+    assertNull(domain);
+  }
 
-    @Test
-    public void testDefaultValue_Optional() throws Exception {
-        DomainType<Integer, Height> domainType = DomainTypeFactory
-                .getDomainType(Height.class);
-        Scalar<Integer, Optional<Height>> scalar = domainType
-                .createOptionalScalar();
-        Optional<Height> optional = scalar.get();
-        assertNotNull(optional);
-        assertFalse(optional.isPresent());
-    }
+  @Test
+  public void testDefaultValue_Optional() throws Exception {
+    DomainType<Integer, Height> domainType = DomainTypeFactory.getDomainType(Height.class);
+    Scalar<Integer, Optional<Height>> scalar = domainType.createOptionalScalar();
+    Optional<Height> optional = scalar.get();
+    assertNotNull(optional);
+    assertFalse(optional.isPresent());
+  }
 }

@@ -4,15 +4,14 @@ import java.sql.Date;
 
 public class HiredateImpl implements Hiredate {
 
-    private final Date value;
+  private final Date value;
 
-    public HiredateImpl(final Date value) {
-        this.value = value;
-    }
+  public HiredateImpl(final Date value) {
+    this.value = value;
+  }
 
-    @Override
-    public Date getValue() {
-        return this.value;
-    }
-
+  @Override
+  public Date getValue() {
+    return this.value;
+  }
 }

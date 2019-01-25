@@ -16,65 +16,62 @@
 package org.seasar.doma.it;
 
 import java.util.Arrays;
-
 import org.junit.internal.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.seasar.doma.jdbc.tx.TransactionManager;
 
-/**
- * @author nakamura-to
- *
- */
+/** @author nakamura-to */
 public class Sandbox implements TestRule {
 
-    private Container container;
+  private Container container;
 
-    public Sandbox(Container container) {
-        this.container = container;
-    }
+  public Sandbox(Container container) {
+    this.container = container;
+  }
 
-    @Override
-    public Statement apply(Statement base, Description description) {
-        return new Statement() {
+  @Override
+  public Statement apply(Statement base, Description description) {
+    return new Statement() {
 
-            @Override
-            public void evaluate() throws Throwable {
-                if (meetsPrecondition(description)) {
-                    executeInTransaction(base);
-                } else {
-                    throw new AssumptionViolatedException("skip");
-                }
-            }
-        };
-    }
-
-    protected boolean meetsPrecondition(Description description) {
-        Dbms dbms = container.get(c -> c.getDbms());
-        Run runAtClass = description.getTestClass().getAnnotation(Run.class);
-        if (isRunnable(runAtClass, dbms)) {
-            Run runAtMethod = description.getAnnotation(Run.class);
-            return isRunnable(runAtMethod, dbms);
+      @Override
+      public void evaluate() throws Throwable {
+        if (meetsPrecondition(description)) {
+          executeInTransaction(base);
+        } else {
+          throw new AssumptionViolatedException("skip");
         }
-        return false;
-    }
+      }
+    };
+  }
 
-    protected boolean isRunnable(Run run, Dbms dbms) {
-        return run == null || Arrays.asList(run.onlyIf()).contains(dbms)
-                || !Arrays.asList(run.unless()).contains(dbms);
+  protected boolean meetsPrecondition(Description description) {
+    Dbms dbms = container.get(c -> c.getDbms());
+    Run runAtClass = description.getTestClass().getAnnotation(Run.class);
+    if (isRunnable(runAtClass, dbms)) {
+      Run runAtMethod = description.getAnnotation(Run.class);
+      return isRunnable(runAtMethod, dbms);
     }
+    return false;
+  }
 
-    protected void executeInTransaction(Statement statement) throws Throwable {
-        TransactionManager tm = container.get(c -> c.getTransactionManager());
-        tm.required(() -> {
-            try {
-                statement.evaluate();
-            } catch (Throwable th) {
-                throw new RuntimeException(th);
-            }
-            tm.setRollbackOnly();
+  protected boolean isRunnable(Run run, Dbms dbms) {
+    return run == null
+        || Arrays.asList(run.onlyIf()).contains(dbms)
+        || !Arrays.asList(run.unless()).contains(dbms);
+  }
+
+  protected void executeInTransaction(Statement statement) throws Throwable {
+    TransactionManager tm = container.get(c -> c.getTransactionManager());
+    tm.required(
+        () -> {
+          try {
+            statement.evaluate();
+          } catch (Throwable th) {
+            throw new RuntimeException(th);
+          }
+          tm.setRollbackOnly();
         });
-    }
-
+  }
 }

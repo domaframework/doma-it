@@ -20,38 +20,31 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Optional;
-
 import org.junit.Test;
 import org.seasar.doma.internal.jdbc.scalar.Scalar;
 import org.seasar.doma.jdbc.ClassHelper;
 import org.seasar.doma.jdbc.domain.DomainType;
 import org.seasar.doma.jdbc.domain.DomainTypeFactory;
 
-/**
- * @author nakamura-to
- * 
- */
+/** @author nakamura-to */
 public class WeightTest {
 
-    @Test
-    public void testDefaultValue() throws Exception {
-        DomainType<Integer, Weight> domainType = DomainTypeFactory
-                .getDomainType(Weight.class, new ClassHelper() {
-                });
-        Scalar<Integer, Weight> scalar = domainType.createScalar();
-        Weight domain = scalar.get();
-        assertNotNull(domain);
-        assertNull(domain.getValue());
-    }
+  @Test
+  public void testDefaultValue() throws Exception {
+    DomainType<Integer, Weight> domainType =
+        DomainTypeFactory.getDomainType(Weight.class, new ClassHelper() {});
+    Scalar<Integer, Weight> scalar = domainType.createScalar();
+    Weight domain = scalar.get();
+    assertNotNull(domain);
+    assertNull(domain.getValue());
+  }
 
-    @Test
-    public void testDefaultValue_Optional() throws Exception {
-        DomainType<Integer, Weight> domainType = DomainTypeFactory
-                .getDomainType(Weight.class);
-        Scalar<Integer, Optional<Weight>> scalar = domainType
-                .createOptionalScalar();
-        Optional<Weight> optional = scalar.get();
-        assertNotNull(optional);
-        assertFalse(optional.isPresent());
-    }
+  @Test
+  public void testDefaultValue_Optional() throws Exception {
+    DomainType<Integer, Weight> domainType = DomainTypeFactory.getDomainType(Weight.class);
+    Scalar<Integer, Optional<Weight>> scalar = domainType.createOptionalScalar();
+    Optional<Weight> optional = scalar.get();
+    assertNotNull(optional);
+    assertFalse(optional.isPresent());
+  }
 }

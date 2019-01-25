@@ -21,7 +21,6 @@ import static org.junit.Assert.fail;
 
 import java.util.Optional;
 import java.util.OptionalInt;
-
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -50,158 +49,154 @@ import org.seasar.doma.message.Message;
 
 public class AutoDeleteTest {
 
-    @ClassRule
-    public static Container container = new Container();
+  @ClassRule public static Container container = new Container();
 
-    @Rule
-    public Sandbox sandbox = new Sandbox(container);
+  @Rule public Sandbox sandbox = new Sandbox(container);
 
-    @Test
-    public void test() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee = new Employee();
-        employee.setEmployeeId(1);
-        employee.setVersion(1);
-        int result = dao.delete(employee);
-        assertEquals(1, result);
+  @Test
+  public void test() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Employee employee = new Employee();
+    employee.setEmployeeId(1);
+    employee.setVersion(1);
+    int result = dao.delete(employee);
+    assertEquals(1, result);
 
-        employee = dao.selectById(Integer.valueOf(1));
-        assertNull(employee);
+    employee = dao.selectById(Integer.valueOf(1));
+    assertNull(employee);
+  }
+
+  @Test
+  public void testImmutable() throws Exception {
+    PersonDao dao = container.get(PersonDao::get);
+    Person person = new Person(1, null, null, null, null, null, null, null, 1);
+    Result<Person> result = dao.delete(person);
+    assertEquals(1, result.getCount());
+    person = result.getEntity();
+    assertEquals("null_preD_postD", person.getEmployeeName());
+
+    person = dao.selectById(Integer.valueOf(1));
+    assertNull(person);
+  }
+
+  @Test
+  public void testIgnoreVersion() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Employee employee = new Employee();
+    employee.setEmployeeId(1);
+    employee.setVersion(99);
+    int result = dao.delete_ignoreVersion(employee);
+    assertEquals(1, result);
+
+    employee = dao.selectById(Integer.valueOf(1));
+    assertNull(employee);
+  }
+
+  @Test
+  public void testCompositeKey() throws Exception {
+    CompKeyEmployeeDao dao = container.get(CompKeyEmployeeDao::get);
+    CompKeyEmployee employee = new CompKeyEmployee();
+    employee.setEmployeeId1(1);
+    employee.setEmployeeId2(1);
+    employee.setVersion(1);
+    int result = dao.delete(employee);
+    assertEquals(1, result);
+
+    employee = dao.selectById(Integer.valueOf(1), Integer.valueOf(1));
+    assertNull(employee);
+  }
+
+  @Test
+  public void testOptimisticLockException() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Employee employee1 = dao.selectById(Integer.valueOf(1));
+    employee1.setEmployeeName("hoge");
+    Employee employee2 = dao.selectById(Integer.valueOf(1));
+    employee2.setEmployeeName("foo");
+    dao.delete(employee1);
+    try {
+      dao.delete(employee2);
+      fail();
+    } catch (OptimisticLockException expected) {
     }
+  }
 
-    @Test
-    public void testImmutable() throws Exception {
-        PersonDao dao = container.get(PersonDao::get);
-        Person person = new Person(1, null, null, null, null, null, null, null,
-                1);
-        Result<Person> result = dao.delete(person);
-        assertEquals(1, result.getCount());
-        person = result.getEntity();
-        assertEquals("null_preD_postD", person.getEmployeeName());
+  @Test
+  public void testSuppressOptimisticLockException() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Employee employee1 = dao.selectById(1);
+    employee1.setEmployeeName("hoge");
+    Employee employee2 = dao.selectById(1);
+    employee2.setEmployeeName("foo");
+    dao.delete(employee1);
+    dao.delete_suppressOptimisticLockException(employee2);
+  }
 
-        person = dao.selectById(Integer.valueOf(1));
-        assertNull(person);
+  @Test
+  public void testNoId() throws Exception {
+    NoIdDao dao = container.get(NoIdDao::get);
+    NoId entity = new NoId();
+    entity.setValue1(1);
+    entity.setValue2(2);
+    try {
+      dao.delete(entity);
+      fail();
+    } catch (JdbcException expected) {
+      assertEquals(Message.DOMA2022, expected.getMessageResource());
     }
+  }
 
-    @Test
-    public void testIgnoreVersion() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee = new Employee();
-        employee.setEmployeeId(1);
-        employee.setVersion(99);
-        int result = dao.delete_ignoreVersion(employee);
-        assertEquals(1, result);
+  @Test
+  public void testOptional() throws Exception {
+    WorkerDao dao = container.get(WorkerDao::get);
+    Worker employee = new Worker();
+    employee.employeeId = Optional.of(1);
+    employee.version = Optional.of(1);
+    int result = dao.delete(employee);
+    assertEquals(1, result);
 
-        employee = dao.selectById(Integer.valueOf(1));
-        assertNull(employee);
+    employee = dao.selectById(Optional.of(1));
+    assertNull(employee);
+  }
+
+  @Test
+  public void testOptionalInt() throws Exception {
+    BusinessmanDao dao = container.get(BusinessmanDao::get);
+    Businessman employee = new Businessman();
+    employee.employeeId = OptionalInt.of(1);
+    employee.version = OptionalInt.of(1);
+    int result = dao.delete(employee);
+    assertEquals(1, result);
+
+    employee = dao.selectById(OptionalInt.of(1));
+    assertNull(employee);
+  }
+
+  @Test
+  public void testEmbeddable() throws Exception {
+    StaffDao dao = container.get(StaffDao::get);
+    Staff staff = new Staff();
+    staff.employeeId = 1;
+    staff.version = 1;
+    int result = dao.delete(staff);
+    assertEquals(1, result);
+
+    staff = dao.selectById(1);
+    assertNull(staff);
+  }
+
+  @Test
+  public void testTenantId() throws Exception {
+    SalesmanDao dao = container.get(SalesmanDao::get);
+    Salesman salesman = dao.selectById(1);
+    Integer tenantId = salesman.departmentId;
+    salesman.departmentId = -1;
+    try {
+      dao.delete(salesman);
+      fail();
+    } catch (OptimisticLockException expected) {
     }
-
-    @Test
-    public void testCompositeKey() throws Exception {
-        CompKeyEmployeeDao dao = container.get(CompKeyEmployeeDao::get);
-        CompKeyEmployee employee = new CompKeyEmployee();
-        employee.setEmployeeId1(1);
-        employee.setEmployeeId2(1);
-        employee.setVersion(1);
-        int result = dao.delete(employee);
-        assertEquals(1, result);
-
-        employee = dao.selectById(Integer.valueOf(1), Integer.valueOf(1));
-        assertNull(employee);
-    }
-
-    @Test
-    public void testOptimisticLockException() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee1 = dao.selectById(Integer.valueOf(1));
-        employee1.setEmployeeName("hoge");
-        Employee employee2 = dao.selectById(Integer.valueOf(1));
-        employee2.setEmployeeName("foo");
-        dao.delete(employee1);
-        try {
-            dao.delete(employee2);
-            fail();
-        } catch (OptimisticLockException expected) {
-        }
-    }
-
-    @Test
-    public void testSuppressOptimisticLockException() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee1 = dao.selectById(1);
-        employee1.setEmployeeName("hoge");
-        Employee employee2 = dao.selectById(1);
-        employee2.setEmployeeName("foo");
-        dao.delete(employee1);
-        dao.delete_suppressOptimisticLockException(employee2);
-    }
-
-    @Test
-    public void testNoId() throws Exception {
-        NoIdDao dao = container.get(NoIdDao::get);
-        NoId entity = new NoId();
-        entity.setValue1(1);
-        entity.setValue2(2);
-        try {
-            dao.delete(entity);
-            fail();
-        } catch (JdbcException expected) {
-            assertEquals(Message.DOMA2022, expected.getMessageResource());
-        }
-    }
-
-    @Test
-    public void testOptional() throws Exception {
-        WorkerDao dao = container.get(WorkerDao::get);
-        Worker employee = new Worker();
-        employee.employeeId = Optional.of(1);
-        employee.version = Optional.of(1);
-        int result = dao.delete(employee);
-        assertEquals(1, result);
-
-        employee = dao.selectById(Optional.of(1));
-        assertNull(employee);
-    }
-
-    @Test
-    public void testOptionalInt() throws Exception {
-        BusinessmanDao dao = container.get(BusinessmanDao::get);
-        Businessman employee = new Businessman();
-        employee.employeeId = OptionalInt.of(1);
-        employee.version = OptionalInt.of(1);
-        int result = dao.delete(employee);
-        assertEquals(1, result);
-
-        employee = dao.selectById(OptionalInt.of(1));
-        assertNull(employee);
-    }
-
-    @Test
-    public void testEmbeddable() throws Exception {
-        StaffDao dao = container.get(StaffDao::get);
-        Staff staff = new Staff();
-        staff.employeeId = 1;
-        staff.version = 1;
-        int result = dao.delete(staff);
-        assertEquals(1, result);
-
-        staff = dao.selectById(1);
-        assertNull(staff);
-    }
-
-    @Test
-    public void testTenantId() throws Exception {
-        SalesmanDao dao = container.get(SalesmanDao::get);
-        Salesman salesman = dao.selectById(1);
-        Integer tenantId = salesman.departmentId;
-        salesman.departmentId = -1;
-        try {
-            dao.delete(salesman);
-            fail();
-        } catch (OptimisticLockException expected) {
-        }
-        salesman.departmentId = tenantId;
-        dao.delete(salesman);
-    }
-
+    salesman.departmentId = tenantId;
+    dao.delete(salesman);
+  }
 }

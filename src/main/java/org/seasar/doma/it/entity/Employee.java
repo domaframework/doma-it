@@ -25,99 +25,95 @@ import org.seasar.doma.it.domain.Salary;
 @Entity
 public class Employee {
 
-    @Id
-    private Integer employeeId;
+  @Id private Integer employeeId;
 
-    private Integer employeeNo;
+  private Integer employeeNo;
 
-    private String employeeName;
+  private String employeeName;
 
-    private Integer managerId;
+  private Integer managerId;
 
-    private java.sql.Date hiredate;
+  private java.sql.Date hiredate;
 
-    private Salary salary;
+  private Salary salary;
 
-    private Identity<Department> departmentId;
+  private Identity<Department> departmentId;
 
-    private Integer addressId;
+  private Integer addressId;
 
-    @Version
-    private Integer version;
+  @Version private Integer version;
 
-    @OriginalStates
-    private Employee originalStates;
+  @OriginalStates private Employee originalStates;
 
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
+  public Integer getEmployeeId() {
+    return employeeId;
+  }
 
-    public void setEmployeeId(Integer employee_id) {
-        this.employeeId = employee_id;
-    }
+  public void setEmployeeId(Integer employee_id) {
+    this.employeeId = employee_id;
+  }
 
-    public Integer getEmployeeNo() {
-        return employeeNo;
-    }
+  public Integer getEmployeeNo() {
+    return employeeNo;
+  }
 
-    public void setEmployeeNo(Integer employeeNo) {
-        this.employeeNo = employeeNo;
-    }
+  public void setEmployeeNo(Integer employeeNo) {
+    this.employeeNo = employeeNo;
+  }
 
-    public String getEmployeeName() {
-        return employeeName;
-    }
+  public String getEmployeeName() {
+    return employeeName;
+  }
 
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
-    }
+  public void setEmployeeName(String employeeName) {
+    this.employeeName = employeeName;
+  }
 
-    public Integer getManagerId() {
-        return managerId;
-    }
+  public Integer getManagerId() {
+    return managerId;
+  }
 
-    public void setManagerId(Integer managerId) {
-        this.managerId = managerId;
-    }
+  public void setManagerId(Integer managerId) {
+    this.managerId = managerId;
+  }
 
-    public java.sql.Date getHiredate() {
-        return hiredate;
-    }
+  public java.sql.Date getHiredate() {
+    return hiredate;
+  }
 
-    public void setHiredate(java.sql.Date hiredate) {
-        this.hiredate = hiredate;
-    }
+  public void setHiredate(java.sql.Date hiredate) {
+    this.hiredate = hiredate;
+  }
 
-    public Salary getSalary() {
-        return salary;
-    }
+  public Salary getSalary() {
+    return salary;
+  }
 
-    public void setSalary(Salary salary) {
-        this.salary = salary;
-    }
+  public void setSalary(Salary salary) {
+    this.salary = salary;
+  }
 
-    public Identity<Department> getDepartmentId() {
-        return departmentId;
-    }
+  public Identity<Department> getDepartmentId() {
+    return departmentId;
+  }
 
-    public void setDepartmentId(Identity<Department> departmentId) {
-        this.departmentId = departmentId;
-    }
+  public void setDepartmentId(Identity<Department> departmentId) {
+    this.departmentId = departmentId;
+  }
 
-    public Integer getAddressId() {
-        return addressId;
-    }
+  public Integer getAddressId() {
+    return addressId;
+  }
 
-    public void setAddressId(Integer addressId) {
-        this.addressId = addressId;
-    }
+  public void setAddressId(Integer addressId) {
+    this.addressId = addressId;
+  }
 
-    public Integer getVersion() {
-        return version;
-    }
+  public Integer getVersion() {
+    return version;
+  }
 
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
+  public void setVersion(Integer version) {
+    this.version = version;
+  }
 }

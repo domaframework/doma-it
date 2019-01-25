@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-
 import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.BatchInsert;
@@ -31,25 +30,25 @@ import org.seasar.doma.jdbc.Config;
 @Dao(accessLevel = AccessLevel.PACKAGE)
 public interface NoIdDao {
 
-    static NoIdDao get(Config config) {
-        return new NoIdDaoImpl(config);
-    }
+  static NoIdDao get(Config config) {
+    return new NoIdDaoImpl(config);
+  }
 
-    @Insert
-    int insert(NoId entity);
+  @Insert
+  int insert(NoId entity);
 
-    @Update
-    int update(NoId entity);
+  @Update
+  int update(NoId entity);
 
-    @Delete
-    int delete(NoId entity);
+  @Delete
+  int delete(NoId entity);
 
-    @BatchInsert
-    int[] insert(List<NoId> entities);
+  @BatchInsert
+  int[] insert(List<NoId> entities);
 
-    @BatchUpdate
-    int[] update(List<NoId> entities);
+  @BatchUpdate
+  int[] update(List<NoId> entities);
 
-    @BatchDelete
-    int[] delete(List<NoId> entities);
+  @BatchDelete
+  int[] delete(List<NoId> entities);
 }

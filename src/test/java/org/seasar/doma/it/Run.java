@@ -20,15 +20,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-/**
- * @author nakamura-to
- *
- */
-@Target({ ElementType.TYPE, ElementType.METHOD })
+/** @author nakamura-to */
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Run {
 
-    Dbms[] onlyIf() default {};
+  Dbms[] onlyIf() default {};
 
-    Dbms[] unless() default {};
+  Dbms[] unless() default {};
 }

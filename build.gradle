@@ -1,3 +1,13 @@
+plugins {
+    id 'com.diffplug.gradle.spotless' version '3.16.0'
+}
+
+spotless {
+    java {
+        googleJavaFormat('1.6')
+    }
+}
+
 apply plugin: 'java'
 
 version = '2.23.0-SNAPSHOT' 

@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-
 import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.BatchUpdate;
@@ -30,22 +29,22 @@ import org.seasar.doma.jdbc.Config;
 @Dao(accessLevel = AccessLevel.PACKAGE)
 public interface CompKeyDepartmentDao {
 
-    static CompKeyDepartmentDao get(Config config) {
-        return new CompKeyDepartmentDaoImpl(config);
-    }
+  static CompKeyDepartmentDao get(Config config) {
+    return new CompKeyDepartmentDaoImpl(config);
+  }
 
-    @Select
-    CompKeyDepartment selectById(Integer departmentId1, Integer departmentId2);
+  @Select
+  CompKeyDepartment selectById(Integer departmentId1, Integer departmentId2);
 
-    @Insert
-    int insert(CompKeyDepartment entity);
+  @Insert
+  int insert(CompKeyDepartment entity);
 
-    @Update
-    int update(CompKeyDepartment entity);
+  @Update
+  int update(CompKeyDepartment entity);
 
-    @BatchInsert
-    int[] insert(List<CompKeyDepartment> entities);
+  @BatchInsert
+  int[] insert(List<CompKeyDepartment> entities);
 
-    @BatchUpdate
-    int[] update(List<CompKeyDepartment> entities);
+  @BatchUpdate
+  int[] update(List<CompKeyDepartment> entities);
 }

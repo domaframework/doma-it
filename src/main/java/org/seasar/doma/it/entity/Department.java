@@ -25,59 +25,55 @@ import org.seasar.doma.it.domain.Location;
 @Entity
 public class Department {
 
-    @Id
-    Identity<Department> departmentId;
+  @Id Identity<Department> departmentId;
 
-    Integer departmentNo;
+  Integer departmentNo;
 
-    String departmentName;
+  String departmentName;
 
-    Location<Department> location;
+  Location<Department> location;
 
-    @Version
-    Integer version;
+  @Version Integer version;
 
-    @OriginalStates
-    Department originalStates;
+  @OriginalStates Department originalStates;
 
-    public Identity<Department> getDepartmentId() {
-        return departmentId;
-    }
+  public Identity<Department> getDepartmentId() {
+    return departmentId;
+  }
 
-    public void setDepartmentId(Identity<Department> departmentId) {
-        this.departmentId = departmentId;
-    }
+  public void setDepartmentId(Identity<Department> departmentId) {
+    this.departmentId = departmentId;
+  }
 
-    public Integer getDepartmentNo() {
-        return departmentNo;
-    }
+  public Integer getDepartmentNo() {
+    return departmentNo;
+  }
 
-    public void setDepartmentNo(Integer departmentNo) {
-        this.departmentNo = departmentNo;
-    }
+  public void setDepartmentNo(Integer departmentNo) {
+    this.departmentNo = departmentNo;
+  }
 
-    public String getDepartmentName() {
-        return departmentName;
-    }
+  public String getDepartmentName() {
+    return departmentName;
+  }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
-    }
+  public void setDepartmentName(String departmentName) {
+    this.departmentName = departmentName;
+  }
 
-    public Location<Department> getLocation() {
-        return location;
-    }
+  public Location<Department> getLocation() {
+    return location;
+  }
 
-    public void setLocation(Location<Department> location) {
-        this.location = location;
-    }
+  public void setLocation(Location<Department> location) {
+    this.location = location;
+  }
 
-    public Integer getVersion() {
-        return version;
-    }
+  public Integer getVersion() {
+    return version;
+  }
 
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
+  public void setVersion(Integer version) {
+    this.version = version;
+  }
 }

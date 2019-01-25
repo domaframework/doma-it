@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
-
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,51 +30,48 @@ import org.seasar.doma.jdbc.SelectOptions;
 
 public class SqlFileSelectCountTest {
 
-    @ClassRule
-    public static Container container = new Container();
+  @ClassRule public static Container container = new Container();
 
-    @Rule
-    public Sandbox sandbox = new Sandbox(container);
+  @Rule public Sandbox sandbox = new Sandbox(container);
 
-    @Test
-    public void test() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        SelectOptions options = SelectOptions.get().count();
-        List<Employee> employees = dao.selectAll(options);
-        assertEquals(14, employees.size());
-        assertEquals(14, options.getCount());
-    }
+  @Test
+  public void test() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    SelectOptions options = SelectOptions.get().count();
+    List<Employee> employees = dao.selectAll(options);
+    assertEquals(14, employees.size());
+    assertEquals(14, options.getCount());
+  }
 
-    @Test
-    public void testCountUnspecified() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        SelectOptions options = SelectOptions.get();
-        List<Employee> employees = dao.selectAll(options);
-        assertEquals(14, employees.size());
-        assertEquals(-1, options.getCount());
-    }
+  @Test
+  public void testCountUnspecified() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    SelectOptions options = SelectOptions.get();
+    List<Employee> employees = dao.selectAll(options);
+    assertEquals(14, employees.size());
+    assertEquals(-1, options.getCount());
+  }
 
-    @Test
-    public void testWhere() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        SelectOptions options = SelectOptions.get().count();
-        Employee employee = dao.selectById(1, options);
-        assertNotNull(employee);
-        assertEquals(1, options.getCount());
-    }
+  @Test
+  public void testWhere() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    SelectOptions options = SelectOptions.get().count();
+    Employee employee = dao.selectById(1, options);
+    assertNotNull(employee);
+    assertEquals(1, options.getCount());
+  }
 
-    @Test
-    public void testLimitOffset() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        SelectOptions options = SelectOptions.get().limit(5).offset(3).count();
-        List<Employee> employees = dao.selectAll(options);
-        assertEquals(5, employees.size());
-        assertEquals(14, options.getCount());
-        assertEquals(Integer.valueOf(4), employees.get(0).getEmployeeId());
-        assertEquals(Integer.valueOf(5), employees.get(1).getEmployeeId());
-        assertEquals(Integer.valueOf(6), employees.get(2).getEmployeeId());
-        assertEquals(Integer.valueOf(7), employees.get(3).getEmployeeId());
-        assertEquals(Integer.valueOf(8), employees.get(4).getEmployeeId());
-    }
-
+  @Test
+  public void testLimitOffset() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    SelectOptions options = SelectOptions.get().limit(5).offset(3).count();
+    List<Employee> employees = dao.selectAll(options);
+    assertEquals(5, employees.size());
+    assertEquals(14, options.getCount());
+    assertEquals(Integer.valueOf(4), employees.get(0).getEmployeeId());
+    assertEquals(Integer.valueOf(5), employees.get(1).getEmployeeId());
+    assertEquals(Integer.valueOf(6), employees.get(2).getEmployeeId());
+    assertEquals(Integer.valueOf(7), employees.get(3).getEmployeeId());
+    assertEquals(Integer.valueOf(8), employees.get(4).getEmployeeId());
+  }
 }

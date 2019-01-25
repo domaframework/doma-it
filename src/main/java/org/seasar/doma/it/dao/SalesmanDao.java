@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-
 import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.BatchUpdate;
@@ -27,33 +26,29 @@ import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Salesman;
 import org.seasar.doma.jdbc.Config;
 
-/**
- * @author nakamura
- *
- */
+/** @author nakamura */
 @Dao(accessLevel = AccessLevel.PACKAGE)
 public interface SalesmanDao {
 
-    static SalesmanDao get(Config config) {
-        return new SalesmanDaoImpl(config);
-    }
+  static SalesmanDao get(Config config) {
+    return new SalesmanDaoImpl(config);
+  }
 
-    @Select
-    Salesman selectById(Integer id);
+  @Select
+  Salesman selectById(Integer id);
 
-    @Select
-    List<Salesman> selectAll();
+  @Select
+  List<Salesman> selectAll();
 
-    @Update
-    int update(Salesman salesman);
+  @Update
+  int update(Salesman salesman);
 
-    @BatchUpdate
-    int[] update(List<Salesman> salesman);
+  @BatchUpdate
+  int[] update(List<Salesman> salesman);
 
-    @Delete
-    int delete(Salesman salesman);
+  @Delete
+  int delete(Salesman salesman);
 
-    @BatchDelete
-    int[] delete(List<Salesman> salesman);
-
+  @BatchDelete
+  int[] delete(List<Salesman> salesman);
 }

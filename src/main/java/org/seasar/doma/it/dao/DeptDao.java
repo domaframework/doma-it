@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-
 import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.BatchUpdate;
@@ -29,42 +28,38 @@ import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Result;
 
-/**
- * @author taedium
- * 
- */
+/** @author taedium */
 @Dao(accessLevel = AccessLevel.PACKAGE)
 public interface DeptDao {
 
-    static DeptDao get(Config config) {
-        return new DeptDaoImpl(config);
-    }
+  static DeptDao get(Config config) {
+    return new DeptDaoImpl(config);
+  }
 
-    @Select
-    Dept selectById(Integer departmentId);
+  @Select
+  Dept selectById(Integer departmentId);
 
-    @Insert
-    Result<Dept> insert(Dept d);
+  @Insert
+  Result<Dept> insert(Dept d);
 
-    @Update
-    Result<Dept> update(Dept d);
+  @Update
+  Result<Dept> update(Dept d);
 
-    @BatchInsert
-    BatchResult<Dept> insert(List<Dept> entity);
+  @BatchInsert
+  BatchResult<Dept> insert(List<Dept> entity);
 
-    @BatchUpdate
-    BatchResult<Dept> update(List<Dept> entity);
+  @BatchUpdate
+  BatchResult<Dept> update(List<Dept> entity);
 
-    @Insert(sqlFile = true)
-    Result<Dept> insertBySqlFile(Dept entity);
+  @Insert(sqlFile = true)
+  Result<Dept> insertBySqlFile(Dept entity);
 
-    @Update(sqlFile = true)
-    Result<Dept> updateBySqlFile(Dept entity);
+  @Update(sqlFile = true)
+  Result<Dept> updateBySqlFile(Dept entity);
 
-    @BatchInsert(sqlFile = true)
-    BatchResult<Dept> insertBySqlFile(List<Dept> entity);
+  @BatchInsert(sqlFile = true)
+  BatchResult<Dept> insertBySqlFile(List<Dept> entity);
 
-    @BatchUpdate(sqlFile = true)
-    BatchResult<Dept> updateBySqlFile(List<Dept> entity);
-
+  @BatchUpdate(sqlFile = true)
+  BatchResult<Dept> updateBySqlFile(List<Dept> entity);
 }

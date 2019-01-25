@@ -4,6 +4,5 @@ import java.sql.Date;
 
 public interface Hiredate {
 
-    public Date getValue();
-
+  public Date getValue();
 }

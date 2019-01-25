@@ -27,30 +27,28 @@ import org.seasar.doma.Table;
 @Table(name = "SEQUENCE_STRATEGY")
 public class SequenceStrategy {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(sequence = "SEQUENCE_STRATEGY_ID", allocationSize = 50)
-    Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @SequenceGenerator(sequence = "SEQUENCE_STRATEGY_ID", allocationSize = 50)
+  Integer id;
 
-    String value;
+  String value;
 
-    @OriginalStates
-    SequenceStrategy originalStates;
+  @OriginalStates SequenceStrategy originalStates;
 
-    public Integer getId() {
-        return id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public String getValue() {
+    return value;
+  }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
+  public void setValue(String value) {
+    this.value = value;
+  }
 }

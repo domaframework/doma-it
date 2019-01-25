@@ -18,37 +18,31 @@ package org.seasar.doma.it.entity;
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 import org.seasar.doma.Version;
 
-/**
- * @author nakamura-to
- *
- */
+/** @author nakamura-to */
 @Entity
 @Table(name = "EMPLOYEE")
 public class Businessman {
 
-    @Id
-    public OptionalInt employeeId;
+  @Id public OptionalInt employeeId;
 
-    public OptionalInt employeeNo;
+  public OptionalInt employeeNo;
 
-    public Optional<String> employeeName;
+  public Optional<String> employeeName;
 
-    public OptionalInt managerId;
+  public OptionalInt managerId;
 
-    public Optional<java.sql.Date> hiredate;
+  public Optional<java.sql.Date> hiredate;
 
-    public OptionalLong salary;
+  public OptionalLong salary;
 
-    public OptionalInt departmentId;
+  public OptionalInt departmentId;
 
-    public OptionalInt addressId;
+  public OptionalInt addressId;
 
-    @Version
-    public OptionalInt version;
+  @Version public OptionalInt version;
 }

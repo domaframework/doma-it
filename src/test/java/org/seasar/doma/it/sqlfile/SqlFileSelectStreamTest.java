@@ -21,7 +21,6 @@ import static org.junit.Assert.assertTrue;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.stream.Stream;
-
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,105 +32,108 @@ import org.seasar.doma.jdbc.SelectOptions;
 
 public class SqlFileSelectStreamTest {
 
-    @ClassRule
-    public static Container container = new Container();
+  @ClassRule public static Container container = new Container();
 
-    @Rule
-    public Sandbox sandbox = new Sandbox(container);
+  @Rule public Sandbox sandbox = new Sandbox(container);
 
-    @Test
-    public void testStreamAll() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Long count = dao.streamAll(stream -> stream
-                .filter(e -> e.getEmployeeName() != null)
-                .filter(e -> e.getEmployeeName().startsWith("S")).count());
-        assertEquals(Long.valueOf(2), count);
+  @Test
+  public void testStreamAll() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Long count =
+        dao.streamAll(
+            stream ->
+                stream
+                    .filter(e -> e.getEmployeeName() != null)
+                    .filter(e -> e.getEmployeeName().startsWith("S"))
+                    .count());
+    assertEquals(Long.valueOf(2), count);
+  }
+
+  @Test
+  public void testStreamAll_resultStream() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Long count = null;
+    try (Stream<Employee> stream = dao.streamAll()) {
+      count =
+          stream
+              .filter(e -> e.getEmployeeName() != null)
+              .filter(e -> e.getEmployeeName().startsWith("S"))
+              .count();
     }
+    assertEquals(Long.valueOf(2), count);
+  }
 
-    @Test
-    public void testStreamAll_resultStream() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Long count = null;
-        try (Stream<Employee> stream = dao.streamAll()) {
-            count = stream.filter(e -> e.getEmployeeName() != null)
-                    .filter(e -> e.getEmployeeName().startsWith("S")).count();
-        }
-        assertEquals(Long.valueOf(2), count);
-    }
+  @Test
+  public void testStreamBySalary() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Long count = dao.streamBySalary(new BigDecimal(2000), stream -> stream.count());
+    assertEquals(Long.valueOf(6), count);
+  }
 
-    @Test
-    public void testStreamBySalary() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Long count = dao.streamBySalary(new BigDecimal(2000),
-                stream -> stream.count());
-        assertEquals(Long.valueOf(6), count);
+  @Test
+  public void testStreamBySalary_resultStream() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Long count;
+    try (Stream<Employee> stream = dao.streamBySalary(new BigDecimal(2000))) {
+      count = stream.count();
     }
+    assertEquals(Long.valueOf(6), count);
+  }
 
-    @Test
-    public void testStreamBySalary_resultStream() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Long count;
-        try (Stream<Employee> stream = dao.streamBySalary(new BigDecimal(2000))) {
-            count = stream.count();
-        }
-        assertEquals(Long.valueOf(6), count);
-    }
+  @Test
+  public void testEntity() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    long count = dao.streamAll(s -> s.count());
+    assertEquals(14L, count);
+  }
 
-    @Test
-    public void testEntity() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        long count = dao.streamAll(s -> s.count());
-        assertEquals(14L, count);
-    }
+  @Test
+  public void testEntity_limitOffset() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    long count = dao.streamAll(s -> s.count(), SelectOptions.get().limit(5).offset(3));
+    assertEquals(5L, count);
+  }
 
-    @Test
-    public void testEntity_limitOffset() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        long count = dao.streamAll(s -> s.count(), SelectOptions.get().limit(5)
-                .offset(3));
-        assertEquals(5L, count);
+  @Test
+  public void testEntity_limitOffset_resultStream() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    long count;
+    try (Stream<Employee> stream = dao.streamAll(SelectOptions.get().limit(5).offset(3))) {
+      count = stream.count();
     }
+    assertEquals(5L, count);
+  }
 
-    @Test
-    public void testEntity_limitOffset_resultStream() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        long count;
-        try (Stream<Employee> stream = dao.streamAll(SelectOptions.get()
-                .limit(5).offset(3))) {
-            count = stream.count();
-        }
-        assertEquals(5L, count);
-    }
+  @Test
+  public void testDomain() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    BigDecimal total =
+        dao.streamAllSalary(
+            s -> s.filter(Objects::nonNull).reduce(BigDecimal.ZERO, (x, y) -> x.add(y)));
+    assertTrue(new BigDecimal("29025").compareTo(total) == 0);
+  }
 
-    @Test
-    public void testDomain() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        BigDecimal total = dao.streamAllSalary(s -> s.filter(Objects::nonNull)
-                .reduce(BigDecimal.ZERO, (x, y) -> x.add(y)));
-        assertTrue(new BigDecimal("29025").compareTo(total) == 0);
-    }
+  @Test
+  public void testDomain_limitOffset() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    BigDecimal total =
+        dao.streamAllSalary(
+            s -> s.filter(Objects::nonNull).reduce(BigDecimal.ZERO, (x, y) -> x.add(y)),
+            SelectOptions.get().limit(5).offset(3));
+    assertTrue(new BigDecimal("6900").compareTo(total) == 0);
+  }
 
-    @Test
-    public void testDomain_limitOffset() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        BigDecimal total = dao.streamAllSalary(s -> s.filter(Objects::nonNull)
-                .reduce(BigDecimal.ZERO, (x, y) -> x.add(y)), SelectOptions
-                .get().limit(5).offset(3));
-        assertTrue(new BigDecimal("6900").compareTo(total) == 0);
-    }
+  @Test
+  public void testMap() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    long count = dao.selectAllAsMapList(s -> s.count());
+    assertEquals(14L, count);
+  }
 
-    @Test
-    public void testMap() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        long count = dao.selectAllAsMapList(s -> s.count());
-        assertEquals(14L, count);
-    }
-
-    @Test
-    public void testMap_limitOffset() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        long count = dao.selectAllAsMapList(s -> s.count(), SelectOptions.get()
-                .limit(5).offset(3));
-        assertEquals(5L, count);
-    }
+  @Test
+  public void testMap_limitOffset() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    long count = dao.selectAllAsMapList(s -> s.count(), SelectOptions.get().limit(5).offset(3));
+    assertEquals(5L, count);
+  }
 }

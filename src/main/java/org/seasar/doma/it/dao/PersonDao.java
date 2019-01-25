@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-
 import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.Dao;
@@ -30,23 +29,22 @@ import org.seasar.doma.jdbc.Result;
 @Dao(accessLevel = AccessLevel.PACKAGE)
 public interface PersonDao {
 
-    static PersonDao get(Config config) {
-        return new PersonDaoImpl(config);
-    }
+  static PersonDao get(Config config) {
+    return new PersonDaoImpl(config);
+  }
 
-    @Select
-    Person selectById(Integer employeeId);
+  @Select
+  Person selectById(Integer employeeId);
 
-    @Delete
-    Result<Person> delete(Person entity);
+  @Delete
+  Result<Person> delete(Person entity);
 
-    @BatchDelete
-    BatchResult<Person> delete(List<Person> entity);
+  @BatchDelete
+  BatchResult<Person> delete(List<Person> entity);
 
-    @Delete(sqlFile = true)
-    Result<Person> deleteBySqlFile(Person entity);
+  @Delete(sqlFile = true)
+  Result<Person> deleteBySqlFile(Person entity);
 
-    @BatchDelete(sqlFile = true)
-    BatchResult<Person> deleteBySqlFile(List<Person> entity);
-
+  @BatchDelete(sqlFile = true)
+  BatchResult<Person> deleteBySqlFile(List<Person> entity);
 }

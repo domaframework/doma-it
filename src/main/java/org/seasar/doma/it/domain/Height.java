@@ -17,20 +17,17 @@ package org.seasar.doma.it.domain;
 
 import org.seasar.doma.Domain;
 
-/**
- * @author nakamura-to
- * 
- */
+/** @author nakamura-to */
 @Domain(valueType = Integer.class)
 public class Height {
 
-    private final Integer value;
+  private final Integer value;
 
-    public Height(Integer value) {
-        this.value = value;
-    }
+  public Height(Integer value) {
+    this.value = value;
+  }
 
-    public Integer getValue() {
-        return value;
-    }
+  public Integer getValue() {
+    return value;
+  }
 }

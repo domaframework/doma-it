@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-
 import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.BatchUpdate;
@@ -32,67 +31,69 @@ import org.seasar.doma.jdbc.Config;
 @Dao(accessLevel = AccessLevel.PACKAGE)
 public interface DepartmentDao {
 
-    static DepartmentDao get(Config config) {
-        return new DepartmentDaoImpl(config);
-    }
+  static DepartmentDao get(Config config) {
+    return new DepartmentDaoImpl(config);
+  }
 
-    @Select
-    Department selectById(Integer departmentId);
+  @Select
+  Department selectById(Integer departmentId);
 
-    @Insert
-    int insert(Department entity);
+  @Insert
+  int insert(Department entity);
 
-    @Insert(sqlFile = true)
-    int insertBySqlFile(Department entity);
+  @Insert(sqlFile = true)
+  int insertBySqlFile(Department entity);
 
-    @Insert(excludeNull = true)
-    int insert_excludeNull(Department entity);
+  @Insert(excludeNull = true)
+  int insert_excludeNull(Department entity);
 
-    @Update
-    int update(Department entity);
+  @Update
+  int update(Department entity);
 
-    @Update(sqlFile = true)
-    int updateBySqlFile(Department entity);
+  @Update(sqlFile = true)
+  int updateBySqlFile(Department entity);
 
-    @Update(sqlFile = true)
-    int updateBySqlFileWithPopulate(Department entity);
+  @Update(sqlFile = true)
+  int updateBySqlFileWithPopulate(Department entity);
 
-    @Update(sqlFile = true, ignoreVersion = true)
-    int updateBySqlFile_ignoreVersion(Department entity);
+  @Update(sqlFile = true, ignoreVersion = true)
+  int updateBySqlFile_ignoreVersion(Department entity);
 
-    @Update(excludeNull = true)
-    int update_excludeNull(Department entity);
+  @Update(excludeNull = true)
+  int update_excludeNull(Department entity);
 
-    @Update(ignoreVersion = true)
-    int update_ignoreVersion(Department entity);
+  @Update(ignoreVersion = true)
+  int update_ignoreVersion(Department entity);
 
-    @Update(suppressOptimisticLockException = true)
-    int update_suppressOptimisticLockException(Department entity);
+  @Update(suppressOptimisticLockException = true)
+  int update_suppressOptimisticLockException(Department entity);
 
-    @Update(sqlFile = true)
-    int updateBySqlFile_nonEntity(Identity<Department> departmentId,
-            Integer departmentNo, String departmentName,
-            Location<Department> location, Integer version);
+  @Update(sqlFile = true)
+  int updateBySqlFile_nonEntity(
+      Identity<Department> departmentId,
+      Integer departmentNo,
+      String departmentName,
+      Location<Department> location,
+      Integer version);
 
-    @BatchInsert
-    int[] insert(List<Department> entity);
+  @BatchInsert
+  int[] insert(List<Department> entity);
 
-    @BatchInsert(sqlFile = true)
-    int[] insertBySqlFile(List<Department> entity);
+  @BatchInsert(sqlFile = true)
+  int[] insertBySqlFile(List<Department> entity);
 
-    @BatchUpdate
-    int[] update(List<Department> entity);
+  @BatchUpdate
+  int[] update(List<Department> entity);
 
-    @BatchUpdate(sqlFile = true)
-    int[] updateBySqlFile(List<Department> entity);
+  @BatchUpdate(sqlFile = true)
+  int[] updateBySqlFile(List<Department> entity);
 
-    @BatchUpdate(sqlFile = true, suppressOptimisticLockException = true)
-    int[] updateBySqlFile_suppressOptimisticLockException(
-            List<Department> entity);
+  @BatchUpdate(sqlFile = true, suppressOptimisticLockException = true)
+  int[] updateBySqlFile_suppressOptimisticLockException(List<Department> entity);
 
-    @BatchUpdate(ignoreVersion = true)
-    int[] update_ignoreVersion(List<Department> entity);
+  @BatchUpdate(ignoreVersion = true)
+  int[] update_ignoreVersion(List<Department> entity);
 
-    @BatchUpdate(suppressOptimisticLockException = true)
-    int[] update_suppressOptimisticLockException(List<Department> entity);
+  @BatchUpdate(suppressOptimisticLockException = true)
+  int[] update_suppressOptimisticLockException(List<Department> entity);
 }

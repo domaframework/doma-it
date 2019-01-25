@@ -34,90 +34,123 @@ import org.seasar.doma.message.Message;
 
 public class SqlFileSelectForUpdateTest {
 
-    @ClassRule
-    public static Container container = new Container();
+  @ClassRule public static Container container = new Container();
 
-    @Rule
-    public Sandbox sandbox = new Sandbox(container);
+  @Rule public Sandbox sandbox = new Sandbox(container);
 
-    @Test
-    @Run(unless = { Dbms.H2, Dbms.POSTGRESQL, Dbms.ORACLE, Dbms.MYSQL,
-            Dbms.DB2, Dbms.SQLSERVER })
-    public void testUnsupported() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        try {
-            dao.selectById(1, SelectOptions.get().forUpdate());
-            fail();
-        } catch (JdbcException expected) {
-            assertEquals(Message.DOMA2023, expected.getMessageResource());
-        }
+  @Test
+  @Run(unless = {Dbms.H2, Dbms.POSTGRESQL, Dbms.ORACLE, Dbms.MYSQL, Dbms.DB2, Dbms.SQLSERVER})
+  public void testUnsupported() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    try {
+      dao.selectById(1, SelectOptions.get().forUpdate());
+      fail();
+    } catch (JdbcException expected) {
+      assertEquals(Message.DOMA2023, expected.getMessageResource());
     }
+  }
 
-    @Test
-    @Run(unless = { Dbms.HSQLDB, Dbms.SQLITE })
-    public void testForUpdate() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee = dao.selectById(1, SelectOptions.get().forUpdate());
-        assertNotNull(employee);
-    }
+  @Test
+  @Run(unless = {Dbms.HSQLDB, Dbms.SQLITE})
+  public void testForUpdate() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Employee employee = dao.selectById(1, SelectOptions.get().forUpdate());
+    assertNotNull(employee);
+  }
 
-    @Test
-    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
-            Dbms.DB2, Dbms.SQLSERVER, Dbms.SQLITE })
-    public void testForUpdateWithColumns() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee = dao.selectById(1,
-                SelectOptions.get().forUpdate("employee_name", "address_id"));
-        assertNotNull(employee);
-    }
+  @Test
+  @Run(
+      unless = {
+        Dbms.HSQLDB,
+        Dbms.H2,
+        Dbms.POSTGRESQL,
+        Dbms.MYSQL,
+        Dbms.DB2,
+        Dbms.SQLSERVER,
+        Dbms.SQLITE
+      })
+  public void testForUpdateWithColumns() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Employee employee =
+        dao.selectById(1, SelectOptions.get().forUpdate("employee_name", "address_id"));
+    assertNotNull(employee);
+  }
 
-    @Test
-    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.ORACLE, Dbms.MYSQL, Dbms.DB2,
-            Dbms.SQLSERVER, Dbms.SQLITE })
-    public void testForUpdateWithTables() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee = dao.selectById(1,
-                SelectOptions.get().forUpdate("employee"));
-        assertNotNull(employee);
-    }
+  @Test
+  @Run(
+      unless = {
+        Dbms.HSQLDB,
+        Dbms.H2,
+        Dbms.ORACLE,
+        Dbms.MYSQL,
+        Dbms.DB2,
+        Dbms.SQLSERVER,
+        Dbms.SQLITE
+      })
+  public void testForUpdateWithTables() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Employee employee = dao.selectById(1, SelectOptions.get().forUpdate("employee"));
+    assertNotNull(employee);
+  }
 
-    @Test
-    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
-            Dbms.DB2, Dbms.SQLITE })
-    public void testForUpdateNowait() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee = dao.selectById(1, SelectOptions.get()
-                .forUpdateNowait());
-        assertNotNull(employee);
-    }
+  @Test
+  @Run(unless = {Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL, Dbms.DB2, Dbms.SQLITE})
+  public void testForUpdateNowait() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Employee employee = dao.selectById(1, SelectOptions.get().forUpdateNowait());
+    assertNotNull(employee);
+  }
 
-    @Test
-    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
-            Dbms.DB2, Dbms.SQLSERVER, Dbms.SQLITE })
-    public void testForUpdateNowaitWithColumns() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee = dao.selectById(1, SelectOptions.get()
-                .forUpdateNowait("employee_name", "address_id"));
-        assertNotNull(employee);
-    }
+  @Test
+  @Run(
+      unless = {
+        Dbms.HSQLDB,
+        Dbms.H2,
+        Dbms.POSTGRESQL,
+        Dbms.MYSQL,
+        Dbms.DB2,
+        Dbms.SQLSERVER,
+        Dbms.SQLITE
+      })
+  public void testForUpdateNowaitWithColumns() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Employee employee =
+        dao.selectById(1, SelectOptions.get().forUpdateNowait("employee_name", "address_id"));
+    assertNotNull(employee);
+  }
 
-    @Test
-    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
-            Dbms.DB2, Dbms.SQLSERVER, Dbms.SQLITE })
-    public void testForUpdateWait() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee = dao.selectById(1, SelectOptions.get()
-                .forUpdateWait(10));
-        assertNotNull(employee);
-    }
+  @Test
+  @Run(
+      unless = {
+        Dbms.HSQLDB,
+        Dbms.H2,
+        Dbms.POSTGRESQL,
+        Dbms.MYSQL,
+        Dbms.DB2,
+        Dbms.SQLSERVER,
+        Dbms.SQLITE
+      })
+  public void testForUpdateWait() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Employee employee = dao.selectById(1, SelectOptions.get().forUpdateWait(10));
+    assertNotNull(employee);
+  }
 
-    @Test
-    @Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.POSTGRESQL, Dbms.MYSQL,
-            Dbms.DB2, Dbms.SQLSERVER, Dbms.SQLITE })
-    public void testForUpdateWaitWithColumns() throws Exception {
-        EmployeeDao dao = container.get(EmployeeDao::get);
-        Employee employee = dao.selectById(1, SelectOptions.get()
-                .forUpdateWait(10, "employee_name", "address_id"));
-        assertNotNull(employee);
-    }
+  @Test
+  @Run(
+      unless = {
+        Dbms.HSQLDB,
+        Dbms.H2,
+        Dbms.POSTGRESQL,
+        Dbms.MYSQL,
+        Dbms.DB2,
+        Dbms.SQLSERVER,
+        Dbms.SQLITE
+      })
+  public void testForUpdateWaitWithColumns() throws Exception {
+    EmployeeDao dao = container.get(EmployeeDao::get);
+    Employee employee =
+        dao.selectById(1, SelectOptions.get().forUpdateWait(10, "employee_name", "address_id"));
+    assertNotNull(employee);
+  }
 }

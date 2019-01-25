@@ -30,74 +30,68 @@ import org.seasar.doma.Update;
 import org.seasar.doma.Version;
 import org.seasar.doma.jdbc.Config;
 
-/**
- * @author nakamura-to
- *
- */
+/** @author nakamura-to */
 @Dao(accessLevel = AccessLevel.PACKAGE)
 public interface BranchDao {
 
-    public static BranchDao get(Config config) {
-        return new BranchDaoImpl(config);
+  public static BranchDao get(Config config) {
+    return new BranchDaoImpl(config);
+  }
+
+  @Select
+  Branch selectById(Integer branchId);
+
+  @Insert
+  int insert(Branch entity);
+
+  @Update
+  int update(Branch entity);
+
+  @Delete
+  int delete(Branch entity);
+
+  @Entity
+  @Table(name = "DEPARTMENT")
+  public class Branch {
+
+    @Id
+    @Column(name = "DEPARTMENT_ID")
+    public Integer branchId;
+
+    public BranchDetail branchDetail;
+
+    @Version public Integer version;
+  }
+
+  @Embeddable
+  public class BranchDetail {
+
+    @Column(name = "DEPARTMENT_NO")
+    public Integer branchNo;
+
+    @Column(name = "DEPARTMENT_NAME")
+    public String branchName;
+
+    public Location location;
+
+    public BranchDetail(Integer branchNo, String branchName, Location location) {
+      this.branchNo = branchNo;
+      this.branchName = branchName;
+      this.location = location;
+    }
+  }
+
+  @Domain(valueType = String.class)
+  public class Location {
+
+    private final String value;
+
+    public Location(final String value) {
+      this.value = value;
     }
 
-    @Select
-    Branch selectById(Integer branchId);
-
-    @Insert
-    int insert(Branch entity);
-
-    @Update
-    int update(Branch entity);
-
-    @Delete
-    int delete(Branch entity);
-
-    @Entity
-    @Table(name = "DEPARTMENT")
-    public class Branch {
-
-        @Id
-        @Column(name = "DEPARTMENT_ID")
-        public Integer branchId;
-
-        public BranchDetail branchDetail;
-
-        @Version
-        public Integer version;
+    public String getValue() {
+      return this.value;
     }
-
-    @Embeddable
-    public class BranchDetail {
-
-        @Column(name = "DEPARTMENT_NO")
-        public Integer branchNo;
-
-        @Column(name = "DEPARTMENT_NAME")
-        public String branchName;
-
-        public Location location;
-
-        public BranchDetail(Integer branchNo, String branchName,
-                Location location) {
-            this.branchNo = branchNo;
-            this.branchName = branchName;
-            this.location = location;
-        }
-    }
-
-    @Domain(valueType = String.class)
-    public class Location {
-
-        private final String value;
-
-        public Location(final String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return this.value;
-        }
-    }
-
+  }
 }

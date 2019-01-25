@@ -18,35 +18,30 @@ package org.seasar.doma.it.domain;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Optional;
-
 import org.junit.Test;
 import org.seasar.doma.internal.jdbc.scalar.Scalar;
 import org.seasar.doma.jdbc.domain.DomainType;
 import org.seasar.doma.jdbc.domain.DomainTypeFactory;
 
-/**
- * @author nakamura-to
- * 
- */
+/** @author nakamura-to */
 public class PrimitiveHeightTest {
 
-    @Test
-    public void testDefaultValue() throws Exception {
-        DomainType<Integer, PrimitiveHeight> domainType = DomainTypeFactory
-                .getDomainType(PrimitiveHeight.class);
-        Scalar<Integer, PrimitiveHeight> scalar = domainType.createScalar();
-        PrimitiveHeight domain = scalar.get();
-        assertEquals(0, domain.getValue());
-    }
+  @Test
+  public void testDefaultValue() throws Exception {
+    DomainType<Integer, PrimitiveHeight> domainType =
+        DomainTypeFactory.getDomainType(PrimitiveHeight.class);
+    Scalar<Integer, PrimitiveHeight> scalar = domainType.createScalar();
+    PrimitiveHeight domain = scalar.get();
+    assertEquals(0, domain.getValue());
+  }
 
-    @Test
-    public void testDefaultValue_Optional() throws Exception {
-        DomainType<Integer, PrimitiveHeight> domainType = DomainTypeFactory
-                .getDomainType(PrimitiveHeight.class);
-        Scalar<Integer, Optional<PrimitiveHeight>> scalar = domainType
-                .createOptionalScalar();
-        Optional<PrimitiveHeight> optional = scalar.get();
-        PrimitiveHeight domain = optional.get();
-        assertEquals(0, domain.getValue());
-    }
+  @Test
+  public void testDefaultValue_Optional() throws Exception {
+    DomainType<Integer, PrimitiveHeight> domainType =
+        DomainTypeFactory.getDomainType(PrimitiveHeight.class);
+    Scalar<Integer, Optional<PrimitiveHeight>> scalar = domainType.createOptionalScalar();
+    Optional<PrimitiveHeight> optional = scalar.get();
+    PrimitiveHeight domain = optional.get();
+    assertEquals(0, domain.getValue());
+  }
 }

@@ -8,13 +8,13 @@ import org.seasar.doma.jdbc.Config;
 @Dao(accessLevel = AccessLevel.PACKAGE)
 public interface ScriptDao {
 
-    static ScriptDao get(Config config) {
-        return new ScriptDaoImpl(config);
-    }
+  static ScriptDao get(Config config) {
+    return new ScriptDaoImpl(config);
+  }
 
-    @Script
-    void create();
+  @Script
+  void create();
 
-    @Script(haltOnError = false)
-    void drop();
+  @Script(haltOnError = false)
+  void drop();
 }

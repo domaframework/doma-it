@@ -17,7 +17,6 @@ package org.seasar.doma.it.dao;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.BatchInsert;
@@ -30,42 +29,38 @@ import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.Config;
 
-/**
- * @author nakamura-to
- *
- */
+/** @author nakamura-to */
 @Dao(accessLevel = AccessLevel.PACKAGE)
 public interface WorkerDao {
 
-    public static WorkerDao get(Config config) {
-        return new WorkerDaoImpl(config);
-    }
+  public static WorkerDao get(Config config) {
+    return new WorkerDaoImpl(config);
+  }
 
-    @Select
-    List<Worker> selectAll();
+  @Select
+  List<Worker> selectAll();
 
-    @Select
-    Worker selectById(Optional<Integer> id);
+  @Select
+  Worker selectById(Optional<Integer> id);
 
-    @Select
-    List<Worker> selectByExample(Worker worker);
+  @Select
+  List<Worker> selectByExample(Worker worker);
 
-    @Insert
-    int insert(Worker entity);
+  @Insert
+  int insert(Worker entity);
 
-    @Update
-    int update(Worker entity);
+  @Update
+  int update(Worker entity);
 
-    @Delete
-    int delete(Worker entity);
+  @Delete
+  int delete(Worker entity);
 
-    @BatchInsert
-    int[] insert(List<Worker> entity);
+  @BatchInsert
+  int[] insert(List<Worker> entity);
 
-    @BatchUpdate
-    int[] update(List<Worker> entity);
+  @BatchUpdate
+  int[] update(List<Worker> entity);
 
-    @BatchDelete
-    int[] delete(List<Worker> entity);
-
+  @BatchDelete
+  int[] delete(List<Worker> entity);
 }

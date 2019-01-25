@@ -16,41 +16,32 @@
 package org.seasar.doma.it.entity;
 
 import java.math.BigDecimal;
-
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 import org.seasar.doma.TenantId;
 import org.seasar.doma.Version;
 
-/**
- * 
- * @author taedium
- * 
- */
+/** @author taedium */
 @Entity
 @Table(name = "EMPLOYEE")
 public class Salesman {
 
-    @Id
-    public Integer employeeId;
+  @Id public Integer employeeId;
 
-    public Integer employeeNo;
+  public Integer employeeNo;
 
-    public String employeeName;
+  public String employeeName;
 
-    public Integer managerId;
+  public Integer managerId;
 
-    public java.sql.Date hiredate;
+  public java.sql.Date hiredate;
 
-    public BigDecimal salary;
+  public BigDecimal salary;
 
-    @TenantId
-    public Integer departmentId;
+  @TenantId public Integer departmentId;
 
-    public Integer addressId;
+  public Integer addressId;
 
-    @Version
-    public Integer version;
-
+  @Version public Integer version;
 }

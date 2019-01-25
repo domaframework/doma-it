@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.sql.SQLXML;
-
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,34 +29,28 @@ import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.ProductDao;
 import org.seasar.doma.it.entity.Product;
 
-/**
- * @author nakamura-to
- *
- */
-@Run(unless = { Dbms.HSQLDB, Dbms.H2, Dbms.MYSQL, Dbms.ORACLE, Dbms.DB2,
-        Dbms.SQLSERVER, Dbms.SQLITE })
+/** @author nakamura-to */
+@Run(
+    unless = {Dbms.HSQLDB, Dbms.H2, Dbms.MYSQL, Dbms.ORACLE, Dbms.DB2, Dbms.SQLSERVER, Dbms.SQLITE})
 public class SQLXMLTest {
 
-    @ClassRule
-    public static Container container = new Container();
+  @ClassRule public static Container container = new Container();
 
-    @Rule
-    public Sandbox sandbox = new Sandbox(container);
+  @Rule public Sandbox sandbox = new Sandbox(container);
 
-    @Test
-    public void testSelect() throws Exception {
-        ProductDao dao = container.get(ProductDao::get);
+  @Test
+  public void testSelect() throws Exception {
+    ProductDao dao = container.get(ProductDao::get);
 
-        SQLXML sqlxml = dao.createSQLXML();
-        sqlxml.setString("<test>hoge</test>");
-        Product product = new Product();
-        product.id = 1;
-        product.value = sqlxml;
-        dao.insert(product);
+    SQLXML sqlxml = dao.createSQLXML();
+    sqlxml.setString("<test>hoge</test>");
+    Product product = new Product();
+    product.id = 1;
+    product.value = sqlxml;
+    dao.insert(product);
 
-        product = dao.selectById(1);
-        assertNotNull(product);
-        assertEquals("<test>hoge</test>", product.value.getString());
-    }
-
+    product = dao.selectById(1);
+    assertNotNull(product);
+    assertEquals("<test>hoge</test>", product.value.getString());
+  }
 }

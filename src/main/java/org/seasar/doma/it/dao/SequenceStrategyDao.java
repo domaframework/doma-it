@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-
 import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
@@ -27,13 +26,13 @@ import org.seasar.doma.jdbc.Config;
 @Dao(accessLevel = AccessLevel.PACKAGE)
 public interface SequenceStrategyDao {
 
-    static SequenceStrategyDao get(Config config) {
-        return new SequenceStrategyDaoImpl(config);
-    }
+  static SequenceStrategyDao get(Config config) {
+    return new SequenceStrategyDaoImpl(config);
+  }
 
-    @Insert
-    int insert(SequenceStrategy entity);
+  @Insert
+  int insert(SequenceStrategy entity);
 
-    @BatchInsert
-    int[] insert(List<SequenceStrategy> entities);
+  @BatchInsert
+  int[] insert(List<SequenceStrategy> entities);
 }

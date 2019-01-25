@@ -22,25 +22,25 @@ import org.seasar.doma.Id;
 
 @Entity
 public class VeryLongCharactersNamedTable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer veryLongCharactersNamedTableId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  Integer veryLongCharactersNamedTableId;
 
-	String value;
+  String value;
 
-    public Integer getVeryLongCharactersNamedTableId() {
-		return veryLongCharactersNamedTableId;
-	}
+  public Integer getVeryLongCharactersNamedTableId() {
+    return veryLongCharactersNamedTableId;
+  }
 
-	public void setVeryLongCharactersNamedTableId(Integer veryLongCharactersNamedTableId) {
-		this.veryLongCharactersNamedTableId = veryLongCharactersNamedTableId;
-	}
+  public void setVeryLongCharactersNamedTableId(Integer veryLongCharactersNamedTableId) {
+    this.veryLongCharactersNamedTableId = veryLongCharactersNamedTableId;
+  }
 
-	public String getValue() {
-		return value;
-	}
+  public String getValue() {
+    return value;
+  }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+  public void setValue(String value) {
+    this.value = value;
+  }
 }
