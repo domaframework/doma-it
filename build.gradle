@@ -42,6 +42,7 @@ test {
     systemProperty 'url', jdbcUrl
     systemProperty 'user', jdbcUser
     systemProperty 'password', jdbcPassword
+    useJUnitPlatform()
 }
 
 repositories {
