@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.BatchUpdate;
 import org.seasar.doma.Dao;
@@ -27,7 +26,7 @@ import org.seasar.doma.it.entity.Salesman;
 import org.seasar.doma.jdbc.Config;
 
 /** @author nakamura */
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface SalesmanDao {
 
   static SalesmanDao get(Config config) {

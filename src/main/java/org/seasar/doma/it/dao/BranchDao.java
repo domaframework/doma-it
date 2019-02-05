@@ -15,7 +15,6 @@
  */
 package org.seasar.doma.it.dao;
 
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.Column;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
@@ -31,7 +30,7 @@ import org.seasar.doma.Version;
 import org.seasar.doma.jdbc.Config;
 
 /** @author nakamura-to */
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface BranchDao {
 
   public static BranchDao get(Config config) {

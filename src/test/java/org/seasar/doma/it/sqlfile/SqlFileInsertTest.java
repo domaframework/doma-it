@@ -15,29 +15,27 @@
  */
 package org.seasar.doma.it.sqlfile;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.seasar.doma.it.Container;
-import org.seasar.doma.it.Sandbox;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.seasar.doma.it.IntegrationTestEnvironment;
 import org.seasar.doma.it.dao.DepartmentDao;
+import org.seasar.doma.it.dao.DepartmentDaoImpl;
 import org.seasar.doma.it.dao.DeptDao;
+import org.seasar.doma.it.dao.DeptDaoImpl;
 import org.seasar.doma.it.domain.Identity;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
+import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Result;
 
+@ExtendWith(IntegrationTestEnvironment.class)
 public class SqlFileInsertTest {
 
-  @ClassRule public static Container container = new Container();
-
-  @Rule public Sandbox sandbox = new Sandbox(container);
-
   @Test
-  public void test() throws Exception {
-    DepartmentDao dao = container.get(DepartmentDao::get);
+  public void test(Config config) throws Exception {
+    DepartmentDao dao = new DepartmentDaoImpl(config);
     Department department = new Department();
     department.setDepartmentId(new Identity<Department>(99));
     department.setDepartmentNo(99);
@@ -51,8 +49,8 @@ public class SqlFileInsertTest {
   }
 
   @Test
-  public void testImmutable() throws Exception {
-    DeptDao dao = container.get(DeptDao::get);
+  public void testImmutable(Config config) throws Exception {
+    DeptDao dao = new DeptDaoImpl(config);
     Dept dept = new Dept(new Identity<Dept>(99), 99, "hoge", null, null);
     Result<Dept> result = dao.insertBySqlFile(dept);
     assertEquals(1, result.getCount());

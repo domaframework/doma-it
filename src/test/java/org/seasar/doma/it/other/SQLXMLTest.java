@@ -15,32 +15,28 @@
  */
 package org.seasar.doma.it.other;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.SQLXML;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.seasar.doma.it.Container;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.seasar.doma.it.Dbms;
+import org.seasar.doma.it.IntegrationTestEnvironment;
 import org.seasar.doma.it.Run;
-import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.ProductDao;
+import org.seasar.doma.it.dao.ProductDaoImpl;
 import org.seasar.doma.it.entity.Product;
+import org.seasar.doma.jdbc.Config;
 
-/** @author nakamura-to */
+@ExtendWith(IntegrationTestEnvironment.class)
 @Run(
     unless = {Dbms.HSQLDB, Dbms.H2, Dbms.MYSQL, Dbms.ORACLE, Dbms.DB2, Dbms.SQLSERVER, Dbms.SQLITE})
 public class SQLXMLTest {
 
-  @ClassRule public static Container container = new Container();
-
-  @Rule public Sandbox sandbox = new Sandbox(container);
-
   @Test
-  public void testSelect() throws Exception {
-    ProductDao dao = container.get(ProductDao::get);
+  public void testSelect(Config config) throws Exception {
+    ProductDao dao = new ProductDaoImpl(config);
 
     SQLXML sqlxml = dao.createSQLXML();
     sqlxml.setString("<test>hoge</test>");

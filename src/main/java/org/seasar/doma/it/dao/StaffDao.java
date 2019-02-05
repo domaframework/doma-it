@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.BatchUpdate;
@@ -29,7 +28,7 @@ import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.jdbc.Config;
 
 /** @author nakamura-to */
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface StaffDao {
 
   static StaffDao get(Config config) {

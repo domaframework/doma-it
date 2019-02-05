@@ -15,26 +15,32 @@
  */
 package org.seasar.doma.it.auto;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.OptionalInt;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.seasar.doma.it.Container;
-import org.seasar.doma.it.Sandbox;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.seasar.doma.it.IntegrationTestEnvironment;
 import org.seasar.doma.it.dao.BusinessmanDao;
+import org.seasar.doma.it.dao.BusinessmanDaoImpl;
 import org.seasar.doma.it.dao.CompKeyEmployeeDao;
+import org.seasar.doma.it.dao.CompKeyEmployeeDaoImpl;
 import org.seasar.doma.it.dao.EmployeeDao;
+import org.seasar.doma.it.dao.EmployeeDaoImpl;
 import org.seasar.doma.it.dao.NoIdDao;
+import org.seasar.doma.it.dao.NoIdDaoImpl;
 import org.seasar.doma.it.dao.PersonDao;
+import org.seasar.doma.it.dao.PersonDaoImpl;
 import org.seasar.doma.it.dao.SalesmanDao;
+import org.seasar.doma.it.dao.SalesmanDaoImpl;
 import org.seasar.doma.it.dao.StaffDao;
+import org.seasar.doma.it.dao.StaffDaoImpl;
 import org.seasar.doma.it.dao.WorkerDao;
+import org.seasar.doma.it.dao.WorkerDaoImpl;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyEmployee;
 import org.seasar.doma.it.entity.Employee;
@@ -44,19 +50,17 @@ import org.seasar.doma.it.entity.Salesman;
 import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.BatchResult;
+import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.JdbcException;
 import org.seasar.doma.jdbc.OptimisticLockException;
 import org.seasar.doma.message.Message;
 
+@ExtendWith(IntegrationTestEnvironment.class)
 public class AutoBatchDeleteTest {
 
-  @ClassRule public static Container container = new Container();
-
-  @Rule public Sandbox sandbox = new Sandbox(container);
-
   @Test
-  public void test() throws Exception {
-    EmployeeDao dao = container.get(EmployeeDao::get);
+  public void test(Config config) throws Exception {
+    EmployeeDao dao = new EmployeeDaoImpl(config);
     Employee employee = new Employee();
     employee.setEmployeeId(1);
     employee.setVersion(1);
@@ -75,8 +79,8 @@ public class AutoBatchDeleteTest {
   }
 
   @Test
-  public void testImmutable() throws Exception {
-    PersonDao dao = container.get(PersonDao::get);
+  public void testImmutable(Config config) throws Exception {
+    PersonDao dao = new PersonDaoImpl(config);
     Person person = new Person(1, null, null, null, null, null, null, null, 1);
     Person person2 = new Person(2, null, null, null, null, null, null, null, 1);
     BatchResult<Person> result = dao.delete(Arrays.asList(person, person2));
@@ -96,8 +100,8 @@ public class AutoBatchDeleteTest {
   }
 
   @Test
-  public void testIgnoreVersion() throws Exception {
-    EmployeeDao dao = container.get(EmployeeDao::get);
+  public void testIgnoreVersion(Config config) throws Exception {
+    EmployeeDao dao = new EmployeeDaoImpl(config);
     Employee employee = new Employee();
     employee.setEmployeeId(1);
     employee.setVersion(99);
@@ -116,8 +120,8 @@ public class AutoBatchDeleteTest {
   }
 
   @Test
-  public void testCompositeKey() throws Exception {
-    CompKeyEmployeeDao dao = container.get(CompKeyEmployeeDao::get);
+  public void testCompositeKey(Config config) throws Exception {
+    CompKeyEmployeeDao dao = new CompKeyEmployeeDaoImpl(config);
     CompKeyEmployee employee = new CompKeyEmployee();
     employee.setEmployeeId1(1);
     employee.setEmployeeId2(1);
@@ -139,8 +143,8 @@ public class AutoBatchDeleteTest {
   }
 
   @Test
-  public void testOptimisticLockException() throws Exception {
-    EmployeeDao dao = container.get(EmployeeDao::get);
+  public void testOptimisticLockException(Config config) throws Exception {
+    EmployeeDao dao = new EmployeeDaoImpl(config);
     Employee employee1 = dao.selectById(1);
     employee1.setEmployeeName("hoge");
     Employee employee2 = dao.selectById(2);
@@ -156,8 +160,8 @@ public class AutoBatchDeleteTest {
   }
 
   @Test
-  public void testSuppressOptimisticLockException() throws Exception {
-    EmployeeDao dao = container.get(EmployeeDao::get);
+  public void testSuppressOptimisticLockException(Config config) throws Exception {
+    EmployeeDao dao = new EmployeeDaoImpl(config);
     Employee employee1 = dao.selectById(1);
     employee1.setEmployeeName("hoge");
     Employee employee2 = dao.selectById(2);
@@ -169,8 +173,8 @@ public class AutoBatchDeleteTest {
   }
 
   @Test
-  public void testNoId() throws Exception {
-    NoIdDao dao = container.get(NoIdDao::get);
+  public void testNoId(Config config) throws Exception {
+    NoIdDao dao = new NoIdDaoImpl(config);
     NoId entity = new NoId();
     entity.setValue1(1);
     entity.setValue2(2);
@@ -186,8 +190,8 @@ public class AutoBatchDeleteTest {
   }
 
   @Test
-  public void testOptional() throws Exception {
-    WorkerDao dao = container.get(WorkerDao::get);
+  public void testOptional(Config config) throws Exception {
+    WorkerDao dao = new WorkerDaoImpl(config);
     Worker employee = new Worker();
     employee.employeeId = Optional.of(1);
     employee.version = Optional.of(1);
@@ -206,8 +210,8 @@ public class AutoBatchDeleteTest {
   }
 
   @Test
-  public void testOptionalInt() throws Exception {
-    BusinessmanDao dao = container.get(BusinessmanDao::get);
+  public void testOptionalInt(Config config) throws Exception {
+    BusinessmanDao dao = new BusinessmanDaoImpl(config);
     Businessman employee = new Businessman();
     employee.employeeId = OptionalInt.of(1);
     employee.version = OptionalInt.of(1);
@@ -226,8 +230,8 @@ public class AutoBatchDeleteTest {
   }
 
   @Test
-  public void testEmbeddable() throws Exception {
-    StaffDao dao = container.get(StaffDao::get);
+  public void testEmbeddable(Config config) throws Exception {
+    StaffDao dao = new StaffDaoImpl(config);
     Staff staff = new Staff();
     staff.employeeId = 1;
     staff.version = 1;
@@ -246,8 +250,8 @@ public class AutoBatchDeleteTest {
   }
 
   @Test
-  public void testTenantId() throws Exception {
-    SalesmanDao dao = container.get(SalesmanDao::get);
+  public void testTenantId(Config config) throws Exception {
+    SalesmanDao dao = new SalesmanDaoImpl(config);
     Salesman salesman = dao.selectById(1);
     Integer tenantId = salesman.departmentId;
     salesman.departmentId = -1;

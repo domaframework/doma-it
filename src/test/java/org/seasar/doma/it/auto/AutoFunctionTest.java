@@ -15,79 +15,77 @@
  */
 package org.seasar.doma.it.auto;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.Time;
 import java.util.List;
 import java.util.Map;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.seasar.doma.it.Container;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.seasar.doma.it.Dbms;
+import org.seasar.doma.it.IntegrationTestEnvironment;
 import org.seasar.doma.it.Run;
-import org.seasar.doma.it.Sandbox;
 import org.seasar.doma.it.dao.DepartmentDao;
+import org.seasar.doma.it.dao.DepartmentDaoImpl;
 import org.seasar.doma.it.dao.FunctionDao;
+import org.seasar.doma.it.dao.FunctionDaoImpl;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Employee;
+import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.ResultMappingException;
 
+@ExtendWith(IntegrationTestEnvironment.class)
 @Run(unless = {Dbms.HSQLDB, Dbms.H2, Dbms.DB2, Dbms.SQLITE})
 public class AutoFunctionTest {
 
-  @ClassRule public static Container container = new Container();
-
-  @Rule public Sandbox sandbox = new Sandbox(container);
-
   @Test
-  public void testNoParam() throws Exception {
-    FunctionDao dao = container.get(FunctionDao::get);
+  public void testNoParam(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
     Integer result = dao.func_none_param();
     assertEquals(Integer.valueOf(10), result);
   }
 
   @Test
-  public void testOneParam() throws Exception {
-    FunctionDao dao = container.get(FunctionDao::get);
+  public void testOneParam(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
     Integer result = dao.func_simpletype_param(Integer.valueOf(10));
     assertEquals(Integer.valueOf(20), result);
   }
 
   @Test
-  public void testOneParam_time() throws Exception {
-    FunctionDao dao = container.get(FunctionDao::get);
+  public void testOneParam_time(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
     Time result = dao.func_simpletype_time_param(Time.valueOf("12:34:56"));
     assertEquals(Time.valueOf("12:34:56"), result);
   }
 
   @Test
-  public void testTwoParams() throws Exception {
-    FunctionDao dao = container.get(FunctionDao::get);
+  public void testTwoParams(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
     Integer result = dao.func_dto_param(Integer.valueOf(10), Integer.valueOf(20));
     assertEquals(Integer.valueOf(30), result);
   }
 
   @Test
-  public void testTwoParams_time() throws Exception {
-    FunctionDao dao = container.get(FunctionDao::get);
+  public void testTwoParams_time(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
     Time result = dao.func_dto_time_param(Time.valueOf("12:34:56"), Integer.valueOf(20));
     assertEquals(Time.valueOf("12:34:56"), result);
   }
 
   @Test
   @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
-  public void testResultSet() throws Exception {
-    FunctionDao dao = container.get(FunctionDao::get);
+  public void testResultSet(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
     List<Employee> result = dao.func_resultset(Integer.valueOf(1));
     assertEquals(13, result.size());
   }
 
   @Test
   @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
-  public void testResultSet_check() throws Exception {
-    FunctionDao dao = container.get(FunctionDao::get);
+  public void testResultSet_check(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
     try {
       dao.func_resultset_check(Integer.valueOf(1));
       fail();
@@ -98,38 +96,38 @@ public class AutoFunctionTest {
 
   @Test
   @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
-  public void testResultSet_nocheck() throws Exception {
-    FunctionDao dao = container.get(FunctionDao::get);
+  public void testResultSet_nocheck(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
     List<Employee> result = dao.func_resultset_nocheck(Integer.valueOf(1));
     assertEquals(13, result.size());
   }
 
   @Test
   @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
-  public void testResultSet_map() throws Exception {
-    FunctionDao dao = container.get(FunctionDao::get);
+  public void testResultSet_map(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
     List<Map<String, Object>> result = dao.func_resultset_map(Integer.valueOf(1));
     assertEquals(13, result.size());
   }
 
   @Test
   @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
-  public void testResultSetAndUpdate() throws Exception {
-    FunctionDao dao = container.get(FunctionDao::get);
+  public void testResultSetAndUpdate(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
     List<Employee> result = dao.func_resultset_update(Integer.valueOf(1));
     assertEquals(13, result.size());
-    DepartmentDao departmentDao = container.get(DepartmentDao::get);
+    DepartmentDao departmentDao = new DepartmentDaoImpl(config);
     Department department = departmentDao.selectById(Integer.valueOf(1));
     assertEquals("HOGE", department.getDepartmentName());
   }
 
   @Test
   @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
-  public void testResultSetAndUpdate2() throws Exception {
-    FunctionDao dao = container.get(FunctionDao::get);
+  public void testResultSetAndUpdate2(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
     List<Employee> result = dao.func_resultset_update2(Integer.valueOf(1));
     assertEquals(13, result.size());
-    DepartmentDao departmentDao = container.get(DepartmentDao::get);
+    DepartmentDao departmentDao = new DepartmentDaoImpl(config);
     Department department = departmentDao.selectById(Integer.valueOf(1));
     assertEquals("HOGE", department.getDepartmentName());
   }

@@ -15,22 +15,25 @@
  */
 package org.seasar.doma.it.domain;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Optional;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.seasar.doma.internal.jdbc.scalar.Scalar;
+import org.seasar.doma.it.IntegrationTestEnvironment;
 import org.seasar.doma.jdbc.ClassHelper;
+import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.domain.DomainType;
 import org.seasar.doma.jdbc.domain.DomainTypeFactory;
 
-/** @author nakamura-to */
+@ExtendWith(IntegrationTestEnvironment.class)
 public class WeightTest {
 
   @Test
-  public void testDefaultValue() throws Exception {
+  public void testDefaultValue(Config config) throws Exception {
     DomainType<Integer, Weight> domainType =
         DomainTypeFactory.getDomainType(Weight.class, new ClassHelper() {});
     Scalar<Integer, Weight> scalar = domainType.createScalar();
@@ -40,7 +43,7 @@ public class WeightTest {
   }
 
   @Test
-  public void testDefaultValue_Optional() throws Exception {
+  public void testDefaultValue_Optional(Config config) throws Exception {
     DomainType<Integer, Weight> domainType = DomainTypeFactory.getDomainType(Weight.class);
     Scalar<Integer, Optional<Weight>> scalar = domainType.createOptionalScalar();
     Optional<Weight> optional = scalar.get();
