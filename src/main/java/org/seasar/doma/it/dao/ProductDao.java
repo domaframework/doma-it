@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.sql.SQLXML;
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.SQLXMLFactory;
@@ -25,7 +24,7 @@ import org.seasar.doma.it.entity.Product;
 import org.seasar.doma.jdbc.Config;
 
 /** @author nakamura-to */
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface ProductDao {
 
   static ProductDao get(Config config) {

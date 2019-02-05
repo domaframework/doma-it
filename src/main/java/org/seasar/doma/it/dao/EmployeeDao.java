@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
@@ -37,7 +36,7 @@ import org.seasar.doma.jdbc.SelectOptions;
 import org.seasar.doma.jdbc.builder.SelectBuilder;
 import org.seasar.doma.message.Message;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface EmployeeDao {
 
   static EmployeeDao get(Config config) {

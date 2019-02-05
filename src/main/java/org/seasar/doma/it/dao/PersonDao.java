@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
@@ -26,7 +25,7 @@ import org.seasar.doma.jdbc.BatchResult;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Result;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface PersonDao {
 
   static PersonDao get(Config config) {

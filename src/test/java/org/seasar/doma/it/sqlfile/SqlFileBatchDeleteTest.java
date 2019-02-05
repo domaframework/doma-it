@@ -1,29 +1,27 @@
 package org.seasar.doma.it.sqlfile;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Arrays;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.seasar.doma.it.Container;
-import org.seasar.doma.it.Sandbox;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.seasar.doma.it.IntegrationTestEnvironment;
 import org.seasar.doma.it.dao.EmployeeDao;
+import org.seasar.doma.it.dao.EmployeeDaoImpl;
 import org.seasar.doma.it.dao.PersonDao;
+import org.seasar.doma.it.dao.PersonDaoImpl;
 import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.it.entity.Person;
 import org.seasar.doma.jdbc.BatchResult;
+import org.seasar.doma.jdbc.Config;
 
+@ExtendWith(IntegrationTestEnvironment.class)
 public class SqlFileBatchDeleteTest {
 
-  @ClassRule public static Container container = new Container();
-
-  @Rule public Sandbox sandbox = new Sandbox(container);
-
   @Test
-  public void test() throws Exception {
-    EmployeeDao dao = container.get(EmployeeDao::get);
+  public void test(Config config) throws Exception {
+    EmployeeDao dao = new EmployeeDaoImpl(config);
     Employee employee = new Employee();
     employee.setEmployeeId(1);
     employee.setVersion(1);
@@ -42,8 +40,8 @@ public class SqlFileBatchDeleteTest {
   }
 
   @Test
-  public void testImmutable() throws Exception {
-    PersonDao dao = container.get(PersonDao::get);
+  public void testImmutable(Config config) throws Exception {
+    PersonDao dao = new PersonDaoImpl(config);
     Person person = new Person(1, null, null, null, null, null, null, null, 1);
     Person person2 = new Person(2, null, null, null, null, null, null, null, 1);
     BatchResult<Person> result = dao.deleteBySqlFile(Arrays.asList(person, person2));

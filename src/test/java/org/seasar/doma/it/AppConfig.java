@@ -22,6 +22,7 @@ import org.seasar.doma.jdbc.Naming;
 import org.seasar.doma.jdbc.RequiresNewController;
 import org.seasar.doma.jdbc.SimpleDataSource;
 import org.seasar.doma.jdbc.dialect.Dialect;
+import org.seasar.doma.jdbc.tx.LocalTransaction;
 import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
 import org.seasar.doma.jdbc.tx.LocalTransactionManager;
 import org.seasar.doma.jdbc.tx.TransactionManager;
@@ -92,6 +93,10 @@ public class AppConfig implements Config {
   @Override
   public TransactionManager getTransactionManager() {
     return transactionManager;
+  }
+
+  public LocalTransaction getLocalTransaction() {
+    return dataSource.getLocalTransaction(getJdbcLogger());
   }
 
   public Dbms getDbms() {

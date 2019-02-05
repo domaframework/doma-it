@@ -16,14 +16,13 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.it.entity.VeryLongCharactersNamedTable;
 import org.seasar.doma.jdbc.Config;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface VeryLongCharactersNamedTableDao {
 
   static VeryLongCharactersNamedTableDao get(Config config) {

@@ -18,7 +18,6 @@ package org.seasar.doma.it.dao;
 import java.sql.Time;
 import java.util.List;
 import java.util.Map;
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.Dao;
 import org.seasar.doma.In;
 import org.seasar.doma.InOut;
@@ -31,7 +30,7 @@ import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Reference;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface ProcedureDao {
 
   static ProcedureDao get(Config config) {

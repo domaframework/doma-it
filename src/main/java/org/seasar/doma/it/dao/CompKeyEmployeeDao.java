@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
@@ -24,7 +23,7 @@ import org.seasar.doma.Select;
 import org.seasar.doma.it.entity.CompKeyEmployee;
 import org.seasar.doma.jdbc.Config;
 
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface CompKeyEmployeeDao {
 
   static CompKeyEmployeeDao get(Config config) {

@@ -16,7 +16,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.List;
-import org.seasar.doma.AccessLevel;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
@@ -26,7 +25,7 @@ import org.seasar.doma.it.entity.Emp;
 import org.seasar.doma.jdbc.Config;
 
 /** @author taedium */
-@Dao(accessLevel = AccessLevel.PACKAGE)
+@Dao
 public interface EmpDao {
 
   static EmpDao get(Config config) {
