@@ -19,6 +19,7 @@ import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 import org.seasar.doma.Version;
+import org.seasar.doma.it.embeddable.StaffInfo;
 
 /** @author nakamura-to */
 @Entity
@@ -30,8 +31,6 @@ public class Staff {
   public Integer employeeNo;
 
   public String employeeName;
-
-  public Integer managerId;
 
   public StaffInfo staffInfo;
 

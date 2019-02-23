@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.OptionalInt;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.seasar.doma.it.IntegrationTestEnvironment;
@@ -47,6 +48,7 @@ import org.seasar.doma.it.dao.StaffDaoImpl;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.dao.WorkerDaoImpl;
 import org.seasar.doma.it.domain.Salary;
+import org.seasar.doma.it.embeddable.StaffInfo;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
@@ -54,7 +56,6 @@ import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.it.entity.NoId;
 import org.seasar.doma.it.entity.Salesman;
 import org.seasar.doma.it.entity.Staff;
-import org.seasar.doma.it.entity.StaffInfo;
 import org.seasar.doma.it.entity.Worker;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.JdbcException;
@@ -252,7 +253,8 @@ public class AutoUpdateTest {
     StaffDao dao = new StaffDaoImpl(config);
     Staff staff = dao.selectById(1);
     staff.employeeName = "hoge";
-    staff.staffInfo = new StaffInfo(staff.staffInfo.hiredate, new Salary("5000"));
+    staff.staffInfo =
+        new StaffInfo(staff.staffInfo.managerId, staff.staffInfo.hiredate, new Salary("5000"));
     int result = dao.update(staff);
     assertEquals(1, result);
     assertEquals(2, staff.version.intValue());
@@ -263,7 +265,7 @@ public class AutoUpdateTest {
     assertEquals("hoge", staff.employeeName);
     assertEquals(5000L, staff.staffInfo.salary.getValue().longValue());
     assertEquals(java.sql.Date.valueOf("1980-12-17"), staff.staffInfo.hiredate);
-    assertEquals(13, staff.managerId.intValue());
+    assertEquals(13, staff.staffInfo.managerId);
     assertEquals(2, staff.departmentId.intValue());
     assertEquals(1, staff.addressId.intValue());
   }
