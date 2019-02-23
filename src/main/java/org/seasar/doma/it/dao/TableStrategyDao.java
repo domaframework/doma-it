@@ -20,14 +20,9 @@ import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.it.entity.TableStrategy;
-import org.seasar.doma.jdbc.Config;
 
 @Dao
 public interface TableStrategyDao {
-
-  static TableStrategyDao get(Config config) {
-    return new TableStrategyDaoImpl(config);
-  }
 
   @Insert
   int insert(TableStrategy entity);

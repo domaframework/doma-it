@@ -25,15 +25,10 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Staff;
-import org.seasar.doma.jdbc.Config;
 
 /** @author nakamura-to */
 @Dao
 public interface StaffDao {
-
-  static StaffDao get(Config config) {
-    return new StaffDaoImpl(config);
-  }
 
   @Select
   Staff selectById(Integer employeeId);

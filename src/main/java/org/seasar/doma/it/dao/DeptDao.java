@@ -24,16 +24,11 @@ import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.jdbc.BatchResult;
-import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Result;
 
 /** @author taedium */
 @Dao
 public interface DeptDao {
-
-  static DeptDao get(Config config) {
-    return new DeptDaoImpl(config);
-  }
 
   @Select
   Dept selectById(Integer departmentId);

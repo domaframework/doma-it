@@ -26,15 +26,10 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Businessman;
-import org.seasar.doma.jdbc.Config;
 
 /** @author nakamura-to */
 @Dao
 public interface BusinessmanDao {
-
-  public static BusinessmanDao get(Config config) {
-    return new BusinessmanDaoImpl(config);
-  }
 
   @Select
   List<Businessman> selectAll();

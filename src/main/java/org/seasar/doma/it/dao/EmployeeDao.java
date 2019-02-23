@@ -39,10 +39,6 @@ import org.seasar.doma.message.Message;
 @Dao
 public interface EmployeeDao {
 
-  static EmployeeDao get(Config config) {
-    return new EmployeeDaoImpl(config);
-  }
-
   @Select
   List<Employee> selectByExample(Employee e);
 

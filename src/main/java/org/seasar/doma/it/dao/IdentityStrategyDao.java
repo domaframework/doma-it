@@ -20,14 +20,9 @@ import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.it.entity.IdentityStrategy;
-import org.seasar.doma.jdbc.Config;
 
 @Dao
 public interface IdentityStrategyDao {
-
-  static IdentityStrategyDao get(Config config) {
-    return new IdentityStrategyDaoImpl(config);
-  }
 
   @Insert
   int insert(IdentityStrategy entity);

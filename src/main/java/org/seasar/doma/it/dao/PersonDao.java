@@ -22,15 +22,10 @@ import org.seasar.doma.Delete;
 import org.seasar.doma.Select;
 import org.seasar.doma.it.entity.Person;
 import org.seasar.doma.jdbc.BatchResult;
-import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Result;
 
 @Dao
 public interface PersonDao {
-
-  static PersonDao get(Config config) {
-    return new PersonDaoImpl(config);
-  }
 
   @Select
   Person selectById(Integer employeeId);

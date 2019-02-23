@@ -20,14 +20,9 @@ import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.it.entity.VeryLongCharactersNamedTable;
-import org.seasar.doma.jdbc.Config;
 
 @Dao
 public interface VeryLongCharactersNamedTableDao {
-
-  static VeryLongCharactersNamedTableDao get(Config config) {
-    return new VeryLongCharactersNamedTableDaoImpl(config);
-  }
 
   @Insert
   int insert(VeryLongCharactersNamedTable entity);

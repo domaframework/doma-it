@@ -25,14 +25,9 @@ import org.seasar.doma.Update;
 import org.seasar.doma.it.domain.Identity;
 import org.seasar.doma.it.domain.Location;
 import org.seasar.doma.it.entity.Department;
-import org.seasar.doma.jdbc.Config;
 
 @Dao
 public interface DepartmentDao {
-
-  static DepartmentDao get(Config config) {
-    return new DepartmentDaoImpl(config);
-  }
 
   @Select
   Department selectById(Integer departmentId);

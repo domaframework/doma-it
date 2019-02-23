@@ -21,14 +21,9 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.Select;
 import org.seasar.doma.it.entity.CompKeyEmployee;
-import org.seasar.doma.jdbc.Config;
 
 @Dao
 public interface CompKeyEmployeeDao {
-
-  static CompKeyEmployeeDao get(Config config) {
-    return new CompKeyEmployeeDaoImpl(config);
-  }
 
   @Select
   CompKeyEmployee selectById(Integer employeeId1, Integer employeeId2);

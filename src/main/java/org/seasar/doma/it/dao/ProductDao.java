@@ -21,15 +21,10 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.SQLXMLFactory;
 import org.seasar.doma.Select;
 import org.seasar.doma.it.entity.Product;
-import org.seasar.doma.jdbc.Config;
 
 /** @author nakamura-to */
 @Dao
 public interface ProductDao {
-
-  static ProductDao get(Config config) {
-    return new ProductDaoImpl(config);
-  }
 
   @SQLXMLFactory
   SQLXML createSQLXML();

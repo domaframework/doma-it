@@ -23,14 +23,9 @@ import org.seasar.doma.Function;
 import org.seasar.doma.In;
 import org.seasar.doma.MapKeyNamingType;
 import org.seasar.doma.it.entity.Employee;
-import org.seasar.doma.jdbc.Config;
 
 @Dao
 public interface FunctionDao {
-
-  static FunctionDao get(Config config) {
-    return new FunctionDaoImpl(config);
-  }
 
   @Function
   Integer func_none_param();

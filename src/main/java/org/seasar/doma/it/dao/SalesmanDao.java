@@ -23,15 +23,10 @@ import org.seasar.doma.Delete;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Salesman;
-import org.seasar.doma.jdbc.Config;
 
 /** @author nakamura */
 @Dao
 public interface SalesmanDao {
-
-  static SalesmanDao get(Config config) {
-    return new SalesmanDaoImpl(config);
-  }
 
   @Select
   Salesman selectById(Integer id);

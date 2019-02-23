@@ -26,15 +26,10 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Worker;
-import org.seasar.doma.jdbc.Config;
 
 /** @author nakamura-to */
 @Dao
 public interface WorkerDao {
-
-  public static WorkerDao get(Config config) {
-    return new WorkerDaoImpl(config);
-  }
 
   @Select
   List<Worker> selectAll();

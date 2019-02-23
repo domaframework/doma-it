@@ -22,15 +22,10 @@ import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
 import org.seasar.doma.it.entity.Emp;
-import org.seasar.doma.jdbc.Config;
 
 /** @author taedium */
 @Dao
 public interface EmpDao {
-
-  static EmpDao get(Config config) {
-    return new EmpDaoImpl(config);
-  }
 
   @Select
   List<Emp> selectAll();

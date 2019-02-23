@@ -27,15 +27,10 @@ import org.seasar.doma.Select;
 import org.seasar.doma.Table;
 import org.seasar.doma.Update;
 import org.seasar.doma.Version;
-import org.seasar.doma.jdbc.Config;
 
 /** @author nakamura-to */
 @Dao
 public interface BranchDao {
-
-  public static BranchDao get(Config config) {
-    return new BranchDaoImpl(config);
-  }
 
   @Select
   Branch selectById(Integer branchId);

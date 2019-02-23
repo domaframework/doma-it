@@ -20,14 +20,9 @@ import org.seasar.doma.BatchInsert;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.it.entity.SequenceStrategy;
-import org.seasar.doma.jdbc.Config;
 
 @Dao
 public interface SequenceStrategyDao {
-
-  static SequenceStrategyDao get(Config config) {
-    return new SequenceStrategyDaoImpl(config);
-  }
 
   @Insert
   int insert(SequenceStrategy entity);

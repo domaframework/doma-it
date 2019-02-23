@@ -27,15 +27,10 @@ import org.seasar.doma.Procedure;
 import org.seasar.doma.ResultSet;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Employee;
-import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.Reference;
 
 @Dao
 public interface ProcedureDao {
-
-  static ProcedureDao get(Config config) {
-    return new ProcedureDaoImpl(config);
-  }
 
   @Procedure
   void proc_none_param();
