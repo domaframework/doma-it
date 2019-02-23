@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.OptionalInt;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.seasar.doma.it.IntegrationTestEnvironment;

@@ -16,7 +16,6 @@
 package org.seasar.doma.it.embeddable;
 
 import java.sql.Date;
-
 import org.seasar.doma.Embeddable;
 import org.seasar.doma.it.domain.Salary;
 
