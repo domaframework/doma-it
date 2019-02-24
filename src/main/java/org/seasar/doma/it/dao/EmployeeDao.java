@@ -24,6 +24,7 @@ import java.util.stream.Stream;
 import org.seasar.doma.BatchDelete;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
+import org.seasar.doma.Insert;
 import org.seasar.doma.MapKeyNamingType;
 import org.seasar.doma.Select;
 import org.seasar.doma.SelectType;
@@ -161,4 +162,7 @@ public interface EmployeeDao {
 
   @BatchDelete(sqlFile = true)
   int[] deleteBySqlFile(List<Employee> entity);
+
+  @Insert
+  int insert(Employee entity);
 }
