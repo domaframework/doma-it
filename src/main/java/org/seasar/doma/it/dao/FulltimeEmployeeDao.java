@@ -1,7 +1,6 @@
 package org.seasar.doma.it.dao;
 
 import java.util.Optional;
-
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
