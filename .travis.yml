@@ -19,6 +19,7 @@ jdk:
   - oraclejdk9
   - openjdk10
   - openjdk11
+  - openjdk12
 
 before_script:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS doma_it;'; fi"
