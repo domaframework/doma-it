@@ -26,8 +26,7 @@ class PrimitiveTypeTest {
   void select_primitive_types(Config config) {
     PhantomEmployeeDao dao = new PhantomEmployeeDaoImpl(config);
     Map<Integer, PhantomEmployee> map =
-        dao.selectAll()
-            .stream()
+        dao.selectAll().stream()
             .collect(Collectors.toMap(PhantomEmployee::getEmployeeId, Function.identity()));
     assertEquals(14, map.size());
 
