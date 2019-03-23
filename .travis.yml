@@ -10,7 +10,6 @@ branches:
 
 env:
   - DB=h2 JDBC_URL= JDBC_USER= JDBC_PASSWORD=
-  - DB=hsqldb JDBC_URL=jdbc:hsqldb:mem:doma_it JDBC_USER=sa JDBC_PASSWORD=
   - DB=mysql JDBC_URL=jdbc:mysql://127.0.0.1/doma_it JDBC_USER=travis JDBC_PASSWORD=
   - DB=postgresql JDBC_URL=jdbc:postgresql://127.0.0.1/doma_it JDBC_USER=postgres JDBC_PASSWORD=
 
@@ -20,11 +19,6 @@ jdk:
   - openjdk10
   - openjdk11
   - openjdk12
-  - openjdk-ea
-
-matrix:
-  allow_failures:
-    - jdk: openjdk-ea
 
 before_script:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS doma_it;'; fi"
