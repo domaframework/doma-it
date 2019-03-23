@@ -19,6 +19,12 @@ jdk:
   - oraclejdk9
   - openjdk10
   - openjdk11
+  - openjdk12
+  - openjdk-ea
+
+matrix:
+  allow_failures:
+    - jdk: openjdk-ea
 
 before_script:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database IF NOT EXISTS doma_it;'; fi"
