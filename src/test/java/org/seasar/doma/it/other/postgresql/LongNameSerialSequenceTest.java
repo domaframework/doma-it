@@ -12,18 +12,7 @@ import org.seasar.doma.it.entity.VeryLongCharactersNamedTable;
 import org.seasar.doma.jdbc.Config;
 
 @ExtendWith(IntegrationTestEnvironment.class)
-@Run(
-    onlyIf = {Dbms.POSTGRESQL},
-    unless = {
-      Dbms.H2,
-      Dbms.DB2,
-      Dbms.HSQLDB,
-      Dbms.HSQLDB,
-      Dbms.MYSQL,
-      Dbms.ORACLE,
-      Dbms.SQLITE,
-      Dbms.SQLSERVER
-    })
+@Run(onlyIf = {Dbms.POSTGRESQL})
 public class LongNameSerialSequenceTest {
 
   @Test

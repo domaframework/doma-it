@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.extension.ConditionEvaluationResult.enabled;
 import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -159,7 +160,17 @@ public class IntegrationTestEnvironment
   }
 
   private boolean isRunnable(Run run, Dbms dbms) {
-    return Arrays.asList(run.onlyIf()).contains(dbms)
-        || !Arrays.asList(run.unless()).contains(dbms);
+    List<Dbms> onlyIf = Arrays.asList(run.onlyIf());
+    List<Dbms> unless = Arrays.asList(run.unless());
+
+    if (onlyIf.size() > 0) {
+      return onlyIf.contains(dbms);
+    } else {
+      if (unless.size() > 0) {
+        return !unless.contains(dbms);
+      } else {
+        return true;
+      }
+    }
   }
 }
