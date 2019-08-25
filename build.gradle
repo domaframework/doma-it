@@ -10,7 +10,7 @@ spotless {
 
 apply plugin: 'java'
 
-version = '2.25.0' 
+version = '2.25.1-SNAPSHOT' 
 ext.dependentVersion = '2.25.0'
 
 task copyDomaResources(type: Sync) {
