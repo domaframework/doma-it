@@ -43,6 +43,8 @@ import org.seasar.doma.it.dao.DeptDao;
 import org.seasar.doma.it.dao.DeptDaoImpl;
 import org.seasar.doma.it.dao.IdentityStrategyDao;
 import org.seasar.doma.it.dao.IdentityStrategyDaoImpl;
+import org.seasar.doma.it.dao.MyRecordDao;
+import org.seasar.doma.it.dao.MyRecordDaoImpl;
 import org.seasar.doma.it.dao.NoIdDao;
 import org.seasar.doma.it.dao.NoIdDaoImpl;
 import org.seasar.doma.it.dao.SequenceStrategyDao;
@@ -54,13 +56,16 @@ import org.seasar.doma.it.dao.TableStrategyDaoImpl;
 import org.seasar.doma.it.dao.WorkerDao;
 import org.seasar.doma.it.dao.WorkerDaoImpl;
 import org.seasar.doma.it.domain.Identity;
+import org.seasar.doma.it.domain.DeptLoc;
 import org.seasar.doma.it.domain.Location;
 import org.seasar.doma.it.domain.Salary;
+import org.seasar.doma.it.embeddable.DeptInfo;
 import org.seasar.doma.it.embeddable.StaffInfo;
 import org.seasar.doma.it.entity.Businessman;
 import org.seasar.doma.it.entity.CompKeyDepartment;
 import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
+import org.seasar.doma.it.entity.DeptRecord;
 import org.seasar.doma.it.entity.IdentityStrategy;
 import org.seasar.doma.it.entity.NoId;
 import org.seasar.doma.it.entity.SequenceStrategy;
@@ -330,4 +335,21 @@ public class AutoInsertTest {
       assertEquals("foo", location.getValue());
     }
   }
+
+  @Test
+  public void record(Config config) throws Exception {
+    MyRecordDao dao = new MyRecordDaoImpl(config);
+    var department = new DeptRecord(99,new DeptInfo(99,"hoge"),new DeptLoc("foo"),null);
+    Result<DeptRecord> result = dao.insert(department);
+    assertEquals(1, result.getCount());
+    assertEquals(Integer.valueOf(1), result.getEntity().version());
+
+    department = dao.selectById(Integer.valueOf(99));
+    assertEquals(Integer.valueOf(99), department.departmentId());
+    assertEquals(Integer.valueOf(99), department.deptInfo().departmentNo());
+    assertEquals("hoge", department.deptInfo().departmentName());
+    assertEquals("foo", department.location().value());
+    assertEquals(Integer.valueOf(1), department.version());
+  }
+
 }
