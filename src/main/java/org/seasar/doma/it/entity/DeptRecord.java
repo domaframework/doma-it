@@ -8,7 +8,7 @@ import org.seasar.doma.it.domain.DeptLoc;
 import org.seasar.doma.it.embeddable.DeptInfo;
 
 @Entity
-@Table(name = "Department")
+@Table(name = "DEPARTMENT")
 public record DeptRecord(
         @Id Integer departmentId,
         DeptInfo deptInfo,
