@@ -52,7 +52,14 @@ public interface EmployeeDao {
   @Select
   Employee selectById(Integer employeeId, SelectOptions options);
 
-  @Sql("select * from EMPLOYEE where EMPLOYEE_NAME in /*names*/('aaa', 'bbb')")
+  @Sql("""
+       select
+         * 
+       from
+         EMPLOYEE
+       where
+         EMPLOYEE_NAME in /*names*/('aaa', 'bbb')
+       """)
   @Select
   List<Employee> selectByNames(List<String> names);
 
