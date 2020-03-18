@@ -75,6 +75,15 @@ public class AutoFunctionTest {
   }
 
   @Test
+  @Run(onlyIf = {Dbms.POSTGRESQL})
+  public void testScalarResultSet(Config config) throws Exception {
+    FunctionDao dao = new FunctionDaoImpl(config);
+    List<String> result = dao.func_simpletype_resultset(Integer.valueOf(1));
+    assertEquals(13, result.size());
+    assertEquals("ALLEN", result.get(0));
+  }
+
+  @Test
   @Run(unless = {Dbms.MYSQL, Dbms.SQLSERVER})
   public void testResultSet(Config config) throws Exception {
     FunctionDao dao = new FunctionDaoImpl(config);

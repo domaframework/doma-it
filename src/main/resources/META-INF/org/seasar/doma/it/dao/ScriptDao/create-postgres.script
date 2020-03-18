@@ -272,6 +272,17 @@ BEGIN
 END;
 $$ language plpgsql;
 
+CREATE OR REPLACE FUNCTION FUNC_SIMPLETYPE_RESULTSET(
+  employeeId IN INTEGER) RETURNS refcursor
+AS $$
+DECLARE
+    cur refcursor;
+BEGIN
+  OPEN cur FOR SELECT EMPLOYEE_NAME FROM EMPLOYEE WHERE employee_id > employeeId ORDER BY employee_id;
+  RETURN cur;
+END;
+$$ language plpgsql;
+
 CREATE OR REPLACE FUNCTION FUNC_RESULTSET(
   employeeId IN INTEGER) RETURNS refcursor
 AS $$

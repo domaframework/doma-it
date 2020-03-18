@@ -43,6 +43,9 @@ public interface FunctionDao {
   Time func_dto_time_param(@In Time param1, @In Integer param2);
 
   @Function
+  List<String> func_simpletype_resultset(@In Integer employee_id);
+
+  @Function
   List<Employee> func_resultset(@In Integer employee_id);
 
   @Function(name = "func_resultset", ensureResultMapping = true)
