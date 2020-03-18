@@ -348,7 +348,7 @@ public class AutoInsertTest {
     assertEquals(Integer.valueOf(99), department.departmentId());
     assertEquals(Integer.valueOf(99), department.deptInfo().departmentNo());
     assertEquals("hoge", department.deptInfo().departmentName());
-    assertEquals("foo", department.location().value());
+    assertEquals("foo", department.location().loc());
     assertEquals(Integer.valueOf(1), department.version());
   }
 

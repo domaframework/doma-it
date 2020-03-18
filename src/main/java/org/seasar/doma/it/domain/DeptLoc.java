@@ -1,7 +1,7 @@
 package org.seasar.doma.it.domain;
 
-import org.seasar.doma.Domain;
+import org.seasar.doma.experimental.DataType;
 
-@Domain(valueType = String.class, accessorMethod = "value")
-public record DeptLoc(String value) {
+@DataType
+public record DeptLoc(String loc) {
 }
