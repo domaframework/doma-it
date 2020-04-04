@@ -54,6 +54,10 @@ dependencies {
     testRuntimeOnly 'org.postgresql:postgresql:9.3-1100-jdbc41'
 }
 
+release {
+    newVersionCommitMessage = '[Gradle Release Plugin] - [skip ci] new version commit: '
+}
+
 eclipse {
     classpath {
         file {
