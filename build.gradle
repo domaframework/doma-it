@@ -6,6 +6,8 @@ plugins {
     id 'org.seasar.doma.compile' version '1.0.0'
 }
 
+def domaVersion = project.property('release.releaseVersion')
+
 spotless {
     java {
         googleJavaFormat('1.7')
@@ -42,10 +44,8 @@ repositories {
 }
 
 dependencies {
-    def domaVersion = project.property('release.releaseVersion')
-
     annotationProcessor "org.seasar.doma:doma-processor:${domaVersion}"
-    implementation "org.seasar.doma:doma:${domaVersion}"
+    implementation "org.seasar.doma:doma-core:${domaVersion}"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
     testRuntimeOnly 'org.hsqldb:hsqldb:2.3.2'
