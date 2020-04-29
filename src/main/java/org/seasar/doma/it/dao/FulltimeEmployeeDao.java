@@ -4,7 +4,7 @@ import java.util.Optional;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
-import org.seasar.doma.experimental.Sql;
+import org.seasar.doma.Sql;
 import org.seasar.doma.it.domain.Money;
 import org.seasar.doma.it.entity.FulltimeEmployee;
 
