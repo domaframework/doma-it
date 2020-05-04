@@ -18,6 +18,7 @@ package org.seasar.doma.it.entity;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.OriginalStates;
+import org.seasar.doma.Transient;
 import org.seasar.doma.Version;
 import org.seasar.doma.it.domain.Identity;
 import org.seasar.doma.it.domain.Salary;
@@ -44,6 +45,8 @@ public class Employee {
   @Version private Integer version;
 
   @OriginalStates private Employee originalStates;
+
+  @Transient Department department;
 
   public Integer getEmployeeId() {
     return employeeId;
@@ -115,5 +118,13 @@ public class Employee {
 
   public void setVersion(Integer version) {
     this.version = version;
+  }
+
+  public Department getDepartment() {
+    return department;
+  }
+
+  public void setDepartment(Department department) {
+    this.department = department;
   }
 }

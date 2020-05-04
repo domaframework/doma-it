@@ -15,9 +15,12 @@
  */
 package org.seasar.doma.it.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.OriginalStates;
+import org.seasar.doma.Transient;
 import org.seasar.doma.Version;
 import org.seasar.doma.it.domain.Identity;
 import org.seasar.doma.it.domain.Location;
@@ -36,6 +39,8 @@ public class Department {
   @Version Integer version;
 
   @OriginalStates Department originalStates;
+
+  @Transient List<Employee> employeeList = new ArrayList<>();
 
   public Identity<Department> getDepartmentId() {
     return departmentId;
@@ -75,5 +80,13 @@ public class Department {
 
   public void setVersion(Integer version) {
     this.version = version;
+  }
+
+  public List<Employee> getEmployeeList() {
+    return employeeList;
+  }
+
+  public void setEmployeeList(List<Employee> employeeList) {
+    this.employeeList = employeeList;
   }
 }
