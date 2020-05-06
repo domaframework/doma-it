@@ -15,7 +15,9 @@ public interface CriteriaDao {
   default List<Employee> selectAll() {
     Employee_ e = new Employee_();
     Department_ d = new Department_();
-    return Entityql.from(e)
+    Entityql entityql = new Entityql(Config.get(this));
+    return entityql
+        .from(e)
         .innerJoin(d, on -> on.eq(e.departmentId, d.departmentId))
         .associate(
             e,
@@ -24,24 +26,24 @@ public interface CriteriaDao {
               employee.setDepartment(department);
               department.getEmployeeList().add(employee);
             })
-        .execute(Config.get(this));
+        .getResultList();
   }
 
   default Optional<Employee> selectById(Integer id) {
     Employee_ e = new Employee_();
     Department_ d = new Department_();
-    List<Employee> list =
-        Entityql.from(e)
-            .innerJoin(d, on -> on.eq(e.departmentId, d.departmentId))
-            .associate(
-                e,
-                d,
-                (employee, department) -> {
-                  employee.setDepartment(department);
-                  department.getEmployeeList().add(employee);
-                })
-            .where(c -> c.eq(e.employeeId, id))
-            .execute(Config.get(this));
-    return list.stream().findFirst();
+    Entityql entityql = new Entityql(Config.get(this));
+    return entityql
+        .from(e)
+        .innerJoin(d, on -> on.eq(e.departmentId, d.departmentId))
+        .associate(
+            e,
+            d,
+            (employee, department) -> {
+              employee.setDepartment(department);
+              department.getEmployeeList().add(employee);
+            })
+        .where(c -> c.eq(e.employeeId, id))
+        .getSingleResult();
   }
 }
