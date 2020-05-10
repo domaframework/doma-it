@@ -26,7 +26,7 @@ public interface CriteriaDao {
               employee.setDepartment(department);
               department.getEmployeeList().add(employee);
             })
-        .getResultList();
+        .fetch();
   }
 
   default Optional<Employee> selectById(Integer id) {
@@ -44,6 +44,6 @@ public interface CriteriaDao {
               department.getEmployeeList().add(employee);
             })
         .where(c -> c.eq(e.employeeId, id))
-        .getSingleResult();
+        .fetchOptional();
   }
 }
