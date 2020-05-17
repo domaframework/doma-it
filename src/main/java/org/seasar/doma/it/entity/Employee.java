@@ -17,13 +17,14 @@ package org.seasar.doma.it.entity;
 
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
+import org.seasar.doma.Metamodel;
 import org.seasar.doma.OriginalStates;
 import org.seasar.doma.Transient;
 import org.seasar.doma.Version;
 import org.seasar.doma.it.domain.Identity;
 import org.seasar.doma.it.domain.Salary;
 
-@Entity
+@Entity(metamodel = @Metamodel)
 public class Employee {
 
   @Id private Integer employeeId;
