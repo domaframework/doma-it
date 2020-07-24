@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Test against JDK ${{ matrix.java }} and DB ${{ matrix.db }}
+    name: Test against JDK ${{ matrix.java }} and ${{ matrix.db }}
     runs-on: ubuntu-latest
     
     strategy:
@@ -50,4 +50,9 @@ jobs:
         ORG_GRADLE_PROJECT_jdbcUrl: jdbc:postgresql://127.0.0.1/doma_it
         ORG_GRADLE_PROJECT_jdbcUser: postgres
         ORG_GRADLE_PROJECT_jdbcPassword: postgres
-        
+    - name: Upload failure Archive
+      uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: jdk-${{ matrix.java }}-${{ matrix.db }}
+        path: build/reports        
