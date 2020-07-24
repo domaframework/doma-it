@@ -46,6 +46,8 @@ public class IntegrationTestEnvironment
 
   private static Pattern jdbcUrlPattern = Pattern.compile("^jdbc:([^:]*):.*");
 
+  private static transient boolean imported;
+
   private final Dbms dbms;
 
   private final AppConfig config;
@@ -104,12 +106,16 @@ public class IntegrationTestEnvironment
 
   @Override
   public void beforeAll(ExtensionContext context) throws Exception {
+    if (imported) {
+      return;
+    }
     config
         .getTransactionManager()
         .required(
             () -> {
               scriptDao.create();
             });
+    imported = true;
   }
 
   @Override
@@ -123,14 +129,7 @@ public class IntegrationTestEnvironment
   }
 
   @Override
-  public void afterAll(ExtensionContext context) throws Exception {
-    config
-        .getTransactionManager()
-        .required(
-            () -> {
-              scriptDao.drop();
-            });
-  }
+  public void afterAll(ExtensionContext context) throws Exception {}
 
   @Override
   public boolean supportsParameter(

@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Test against JDK ${{ matrix.java }} and ${{ matrix.db }}
+    name: JDK ${{ matrix.java }} and ${{ matrix.db }}
     runs-on: ubuntu-latest
     
     strategy:
@@ -54,5 +54,5 @@ jobs:
       uses: actions/upload-artifact@v1
       if: failure()
       with:
-        name: jdk-${{ matrix.java }}-${{ matrix.db }}
+        name: jdk${{ matrix.java }}-${{ matrix.db }}
         path: build/reports        
