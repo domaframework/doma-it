@@ -51,7 +51,7 @@ dependencies {
     testRuntimeOnly 'org.hsqldb:hsqldb:2.3.2'
     testRuntimeOnly 'com.h2database:h2:1.4.200'
     testRuntimeOnly 'mysql:mysql-connector-java:5.1.29'
-    testRuntimeOnly 'org.postgresql:postgresql:9.3-1100-jdbc41'
+    testRuntimeOnly 'org.postgresql:postgresql:42.2.14'
 }
 
 release {
