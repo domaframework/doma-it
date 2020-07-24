@@ -1,4 +1,4 @@
-Doma Integration Test [![Build Status](https://travis-ci.org/domaframework/doma-it.png?branch=master)](https://travis-ci.org/domaframework/doma-it)
+Doma Integration Test ![Java CI with Gradle](https://github.com/domaframework/doma-it/workflows/Java%20CI%20with%20Gradle/badge.svg)
 ========================================
 
 Test Target
