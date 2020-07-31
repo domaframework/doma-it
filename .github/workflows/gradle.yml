@@ -69,9 +69,8 @@ jobs:
         ORG_GRADLE_PROJECT_jdbcUrl: jdbc:mysql://127.0.0.1/doma_it
         ORG_GRADLE_PROJECT_jdbcUser: root
         ORG_GRADLE_PROJECT_jdbcPassword: root
-    - name: Upload failure Archive
+    - name: Upload reports
       uses: actions/upload-artifact@v1
-      if: failure()
       with:
         name: jdk${{ matrix.java }}-${{ matrix.db }}
         path: build/reports        
