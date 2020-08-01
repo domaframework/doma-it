@@ -51,6 +51,7 @@ jobs:
       with:
         repository: domaframework/doma
         path: doma
+        ref: ${{ github.event.inputs.ref }}
     - name: Set up JDK (doma)
       uses: actions/setup-java@v1
       with:
