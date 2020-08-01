@@ -40,7 +40,9 @@ jobs:
 
     steps:
     - name: Doma version
-      run: echo "domaVersion = ${{ github.event.inputs.domaVersion }}"
+      run: |
+        echo "domaVersion = ${{ github.event.inputs.domaVersion }}"
+        echo "GITHUB_ACTOR=$GITHUB_ACTOR"
     - name: Start the MySQL service
       if: matrix.db == 'mysql'
       run: |
