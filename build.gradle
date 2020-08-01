@@ -38,9 +38,17 @@ test {
 }
 
 repositories {
-    mavenCentral()
-    mavenLocal()
-    maven {url 'https://oss.sonatype.org/content/repositories/snapshots/'}
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/domaframework/doma")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR")?.toString()
+            password = System.getenv("GITHUB_TOKEN")?.toString()
+        }
+    }
+//    mavenCentral()
+//    mavenLocal()
+//    maven {url 'https://oss.sonatype.org/content/repositories/snapshots/'}
 }
 
 dependencies {
