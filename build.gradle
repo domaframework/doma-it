@@ -6,7 +6,7 @@ plugins {
     id 'org.seasar.doma.compile' version '1.1.0'
 }
 
-def domaVersion = project.property('release.releaseVersion')
+def domaVersion = project.findProperty('domaVersion') ?: project.property('release.releaseVersion')
 
 spotless {
     java {

@@ -6,7 +6,11 @@ on:
   pull_request:
     branches: [ master ]
   workflow_dispatch:
-
+    inputs:
+      domaVersion:
+        description: 'Doma version'
+        required: true
+        default: ''
 jobs:
   build:
     name: JDK ${{ matrix.java }} and ${{ matrix.db }}
@@ -35,6 +39,8 @@ jobs:
           - 3306
 
     steps:
+    - name: Doma version
+      run: echo "domaVersion = ${{ github.event.inputs.domaVersion }}"
     - name: Start the MySQL service
       if: matrix.db == 'mysql'
       run: |
@@ -49,10 +55,13 @@ jobs:
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew assemble
+      env:
+        ORG_GRADLE_PROJECT_domaVersion: ${{ github.event.inputs.domaVersion }}
     - name: Connect to h2
       if: matrix.db == 'h2'
       run: ./gradlew check -s
       env:
+        ORG_GRADLE_PROJECT_domaVersion: ${{ github.event.inputs.domaVersion }}
         ORG_GRADLE_PROJECT_jdbcUrl: ''
         ORG_GRADLE_PROJECT_jdbcUser: ''
         ORG_GRADLE_PROJECT_jdbcPassword: '' 
@@ -60,6 +69,7 @@ jobs:
       if: matrix.db == 'postgres'
       run: ./gradlew check -s
       env:
+        ORG_GRADLE_PROJECT_domaVersion: ${{ github.event.inputs.domaVersion }}
         ORG_GRADLE_PROJECT_jdbcUrl: jdbc:postgresql://127.0.0.1/doma_it
         ORG_GRADLE_PROJECT_jdbcUser: postgres
         ORG_GRADLE_PROJECT_jdbcPassword: postgres
@@ -67,6 +77,7 @@ jobs:
       if: matrix.db == 'mysql'
       run: ./gradlew check -s
       env:
+        ORG_GRADLE_PROJECT_domaVersion: ${{ github.event.inputs.domaVersion }}
         ORG_GRADLE_PROJECT_jdbcUrl: jdbc:mysql://127.0.0.1/doma_it
         ORG_GRADLE_PROJECT_jdbcUser: root
         ORG_GRADLE_PROJECT_jdbcPassword: root
