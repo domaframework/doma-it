@@ -7,10 +7,10 @@ on:
     branches: [ master ]
   workflow_dispatch:
     inputs:
-      domaVersion:
-        description: 'Doma version'
+      ref:
+        description: 'The branch, tag or SHA to checkout for domaframework/doma'
         required: true
-        default: ''
+        default: 'master'
 jobs:
   build:
     name: JDK ${{ matrix.java }} and ${{ matrix.db }}
@@ -39,34 +39,60 @@ jobs:
           - 3306
 
     steps:
-    - name: Doma version
-      run: echo "domaVersion = ${{ github.event.inputs.domaVersion }}"
+    - name: Debug inputs
+      run: echo "::debug::inputs=${{ toJson(github.event.inputs) }}"
     - name: Start the MySQL service
       if: matrix.db == 'mysql'
       run: |
         sudo /etc/init.d/mysql start
         mysql -uroot -h127.0.0.1 -proot -e 'create database doma_it;'
-    - uses: actions/checkout@v2
+    - name: Checkout (doma)
+      uses: actions/checkout@v2
+      with:
+        repository: domaframework/doma
+        path: doma
+    - name: Set up JDK (doma)
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Grant execute permission for gradlew (doma)
+      working-directory: ./doma
+      run: chmod +x gradlew
+    - name: Build with Gradle (doma)
+      working-directory: ./doma
+      run: ./gradlew build -x test
+    - name: Set version (doma)
+      id: set-version
+      working-directory: ./doma
+      run: ./gradlew properties | grep "^version:" | awk '{print $2}' | { read v; echo "::set-output name=version::$v"; }
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        path: doma-it
     - name: Set up JDK
       uses: actions/setup-java@v1
       with:
         java-version: ${{ matrix.java }}
     - name: Grant execute permission for gradlew
+      working-directory: ./doma-it
       run: chmod +x gradlew
     - name: Build with Gradle
+      working-directory: ./doma-it
       run: ./gradlew assemble
       env:
-        ORG_GRADLE_PROJECT_domaVersion: ${{ github.event.inputs.domaVersion }}
+        ORG_GRADLE_PROJECT_domaVersion: ${{ steps.set-version.outputs.version }}
     - name: Connect to h2
       if: matrix.db == 'h2'
+      working-directory: ./doma-it
       run: ./gradlew check -s
       env:
-        ORG_GRADLE_PROJECT_domaVersion: ${{ github.event.inputs.domaVersion }}
+        ORG_GRADLE_PROJECT_domaVersion: ${{ steps.set-version.outputs.version }}
         ORG_GRADLE_PROJECT_jdbcUrl: ''
         ORG_GRADLE_PROJECT_jdbcUser: ''
         ORG_GRADLE_PROJECT_jdbcPassword: '' 
     - name: Connect to postgres
       if: matrix.db == 'postgres'
+      working-directory: ./doma-it
       run: ./gradlew check -s
       env:
         ORG_GRADLE_PROJECT_domaVersion: ${{ github.event.inputs.domaVersion }}
@@ -75,6 +101,7 @@ jobs:
         ORG_GRADLE_PROJECT_jdbcPassword: postgres
     - name: Connect to mysql
       if: matrix.db == 'mysql'
+      working-directory: ./doma-it
       run: ./gradlew check -s
       env:
         ORG_GRADLE_PROJECT_domaVersion: ${{ github.event.inputs.domaVersion }}
@@ -82,6 +109,8 @@ jobs:
         ORG_GRADLE_PROJECT_jdbcUser: root
         ORG_GRADLE_PROJECT_jdbcPassword: root
     - name: Upload reports
+      if: always()
+      working-directory: ./doma-it
       uses: actions/upload-artifact@v1
       with:
         name: jdk${{ matrix.java }}-${{ matrix.db }}
