@@ -66,6 +66,8 @@ jobs:
       id: set-version
       working-directory: ./doma
       run: ./gradlew properties | grep "^version:" | awk '{print $2}' | { read v; echo "::set-output name=version::$v"; }
+    - name: Debug version (doma)
+      run: echo "::debug::version=${{ steps.set-version.outputs.version }}"
     - name: Checkout
       uses: actions/checkout@v2
       with:
@@ -82,7 +84,7 @@ jobs:
       run: ./gradlew assemble
       env:
         ORG_GRADLE_PROJECT_domaVersion: ${{ steps.set-version.outputs.version }}
-    - name: Connect to h2
+    - name: Test with h2
       if: matrix.db == 'h2'
       working-directory: ./doma-it
       run: ./gradlew check -s
@@ -91,7 +93,7 @@ jobs:
         ORG_GRADLE_PROJECT_jdbcUrl: ''
         ORG_GRADLE_PROJECT_jdbcUser: ''
         ORG_GRADLE_PROJECT_jdbcPassword: '' 
-    - name: Connect to postgres
+    - name: Test with postgres
       if: matrix.db == 'postgres'
       working-directory: ./doma-it
       run: ./gradlew check -s
@@ -100,7 +102,7 @@ jobs:
         ORG_GRADLE_PROJECT_jdbcUrl: jdbc:postgresql://127.0.0.1/doma_it
         ORG_GRADLE_PROJECT_jdbcUser: postgres
         ORG_GRADLE_PROJECT_jdbcPassword: postgres
-    - name: Connect to mysql
+    - name: Test with mysql
       if: matrix.db == 'mysql'
       working-directory: ./doma-it
       run: ./gradlew check -s
