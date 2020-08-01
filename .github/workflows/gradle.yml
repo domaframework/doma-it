@@ -55,7 +55,7 @@ jobs:
       uses: whelk-io/maven-settings-xml-action@v10
       with:
         repositories: '[{ "id": "github", "url": "https://maven.pkg.github.com/domaframework/doma", "releases": { "enabled": "true" }, "snapshots": { "enabled": "true" } }]'
-        servers: '[{ "id": "github", "username": "${ GITHUB_ACTOR }", "password": "${ WORKFLOW_DISPATCH_TOKEN }" }]'
+        servers: '[{ "id": "github", "username": "${ GITHUB_ACTOR }", "password": "${{ secrets.GITHUB_TOKEN }}" }]'
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
