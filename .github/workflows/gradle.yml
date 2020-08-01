@@ -111,8 +111,7 @@ jobs:
         ORG_GRADLE_PROJECT_jdbcPassword: root
     - name: Upload reports
       if: always()
-      working-directory: ./doma-it
       uses: actions/upload-artifact@v1
       with:
         name: jdk${{ matrix.java }}-${{ matrix.db }}
-        path: build/reports        
+        path: ./doma-it/build/reports
