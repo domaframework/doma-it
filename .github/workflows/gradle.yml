@@ -17,6 +17,7 @@ on:
 
 jobs:
   build:
+    if: "! contains(toJSON(github.event.commits.*.message), '[skip ci]')"
     name: JDK ${{ matrix.java }} and ${{ matrix.db }}
     runs-on: ubuntu-latest
     
