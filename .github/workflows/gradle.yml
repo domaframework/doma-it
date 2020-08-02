@@ -17,8 +17,8 @@ on:
         description: 'The pull request number'
       pull_request_sha:
         description: 'The pull request sha'
-      messages:
-        description: 'The commit messages'
+      message:
+        description: 'The commit message'
 
 jobs:
   build:
