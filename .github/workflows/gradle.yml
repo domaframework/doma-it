@@ -50,7 +50,7 @@ jobs:
 
     steps:
     - name: Debug inputs
-      run: echo "inputs=${{ format('inputs={0}', toJson(github.event.inputs) }}"
+      run: echo "inputs=${{ format('inputs={0}', toJson(github.event.inputs)) }}"
     - name: Start the MySQL service
       if: matrix.db == 'mysql'
       run: |
