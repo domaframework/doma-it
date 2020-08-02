@@ -50,7 +50,10 @@ jobs:
 
     steps:
     - name: Debug inputs
-      run: echo "inputs=${{ format('inputs={0}', toJson(github.event.inputs)) }}"
+      run: |
+        echo "ref=${{ github.event.inputs.ref }}"
+        echo "pull_request_number=${{ github.event.inputs.pull_request_number }}"
+        echo "pull_request_sha=${{ github.event.inputs.pull_request_sha }}"
     - name: Start the MySQL service
       if: matrix.db == 'mysql'
       run: |
