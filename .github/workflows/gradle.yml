@@ -11,6 +11,10 @@ on:
         description: 'The branch, tag or SHA to checkout for domaframework/doma'
         required: true
         default: 'master'
+      messages:
+        description: 'The commit messages'
+        required: false
+
 jobs:
   build:
     name: JDK ${{ matrix.java }} and ${{ matrix.db }}
