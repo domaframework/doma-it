@@ -11,8 +11,8 @@ on:
         description: 'The branch, tag or SHA to checkout for domaframework/doma'
         required: true
         default: 'master'
-      title:
-        description: 'The pull request title'
+      pull_request:
+        description: 'The pull request'
       messages:
         description: 'The commit messages'
 
