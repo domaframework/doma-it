@@ -1,5 +1,7 @@
-Doma Integration Test ![Java CI with Gradle](https://github.com/domaframework/doma-it/workflows/Java%20CI%20with%20Gradle/badge.svg)
-========================================
+Doma Integration Test 
+=====================
+
+[![Java CI with Gradle](https://github.com/domaframework/doma-it/workflows/Java%20CI%20with%20Gradle/badge.svg)](https://github.com/domaframework/doma-it/actions?query=workflow%3A%22Java+CI+with+Gradle%22)
 
 Test Target
 -------
