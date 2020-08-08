@@ -5,24 +5,11 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-  workflow_dispatch:
-    inputs:
-      ref:
-        description: 'The branch, tag or SHA to checkout for domaframework/doma'
-        required: true
-        default: 'master'
 
 jobs:
-  debug:
-    if: contains(toJSON(github.event.commits.*.message), '[skip ci]') == false
-    name: Debug
-    runs-on: ubuntu-latest
-    steps:
-      - name: Debug inputs
-        run: echo "ref=${{ github.event.inputs.ref }}"
 
   build:
-    if: contains(toJSON(github.event.commits.*.message), '[skip ci]') == false
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
     name: JDK ${{ matrix.java }} and ${{ matrix.db }}
     runs-on: ubuntu-latest
     
