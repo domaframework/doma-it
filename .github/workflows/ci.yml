@@ -58,7 +58,7 @@ jobs:
 
     - name: Build and Install (doma)
       working-directory: ./doma
-      run: ./gradlew assemble check publishToMavenLocal -x test
+      run: ./gradlew assemble publishToMavenLocal
 
     - name: Checkout
       uses: actions/checkout@v2
