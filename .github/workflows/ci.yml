@@ -50,7 +50,7 @@ jobs:
       - name: Set up JDK (doma)
         uses: actions/setup-java@v1
         with:
-          java-version: 1.8
+          java-version: 8
 
       - name: Grant execute permission for gradlew (doma)
         working-directory: ./doma
