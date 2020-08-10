@@ -35,90 +35,90 @@ jobs:
           - 3306
 
     steps:
-    - name: Start the MySQL service
-      run: |
-        sudo /etc/init.d/mysql start
-        mysql -uroot -h127.0.0.1 -proot -e 'create database doma_it;'
+      - name: Start the MySQL service
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -uroot -h127.0.0.1 -proot -e 'create database doma_it;'
 
-    - name: Checkout (doma)
-      uses: actions/checkout@v2
-      with:
-        repository: domaframework/doma
-        path: doma
-        ref: ${{ github.event.inputs.ref }}
+      - name: Checkout (doma)
+        uses: actions/checkout@v2
+        with:
+          repository: domaframework/doma
+          path: doma
+          ref: ${{ github.event.inputs.ref }}
 
-    - name: Set up JDK (doma)
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
+      - name: Set up JDK (doma)
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
 
-    - name: Grant execute permission for gradlew (doma)
-      working-directory: ./doma
-      run: chmod +x gradlew
+      - name: Grant execute permission for gradlew (doma)
+        working-directory: ./doma
+        run: chmod +x gradlew
 
-    - name: Cache Gradle wrapper
-      uses: actions/cache@v2
-      with:
-        path: ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
+      - name: Cache Gradle wrapper
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
 
-    - name: Cache Gradle packages
-      uses: actions/cache@v2
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.m2/repository
-        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.m2/repository
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
 
-    - name: Build and Install (doma)
-      working-directory: ./doma
-      run: ./gradlew assemble publishToMavenLocal
+      - name: Build and Install (doma)
+        working-directory: ./doma
+        run: ./gradlew assemble publishToMavenLocal
 
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        path: doma-it
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: doma-it
 
-    - name: Set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{ matrix.java }}
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
 
-    - name: Grant execute permission for gradlew
-      working-directory: ./doma-it
-      run: chmod +x gradlew
+      - name: Grant execute permission for gradlew
+        working-directory: ./doma-it
+        run: chmod +x gradlew
 
-    - name: Build with Gradle
-      working-directory: ./doma-it
-      run: ./gradlew assemble
+      - name: Build with Gradle
+        working-directory: ./doma-it
+        run: ./gradlew assemble
 
-    - name: Test with h2
-      working-directory: ./doma-it
-      run: ./gradlew check -s
-      env:
-        ORG_GRADLE_PROJECT_jdbcUrl: ''
-        ORG_GRADLE_PROJECT_jdbcUser: ''
-        ORG_GRADLE_PROJECT_jdbcPassword: '' 
+      - name: Test with h2
+        working-directory: ./doma-it
+        run: ./gradlew check -s
+        env:
+          ORG_GRADLE_PROJECT_jdbcUrl: ''
+          ORG_GRADLE_PROJECT_jdbcUser: ''
+          ORG_GRADLE_PROJECT_jdbcPassword: ''
 
-    - name: Test with postgres
-      working-directory: ./doma-it
-      run: ./gradlew check -s
-      env:
-        ORG_GRADLE_PROJECT_jdbcUrl: jdbc:postgresql://127.0.0.1/doma_it
-        ORG_GRADLE_PROJECT_jdbcUser: postgres
-        ORG_GRADLE_PROJECT_jdbcPassword: postgres
+      - name: Test with postgres
+        working-directory: ./doma-it
+        run: ./gradlew check -s
+        env:
+          ORG_GRADLE_PROJECT_jdbcUrl: jdbc:postgresql://127.0.0.1/doma_it
+          ORG_GRADLE_PROJECT_jdbcUser: postgres
+          ORG_GRADLE_PROJECT_jdbcPassword: postgres
 
-    - name: Test with mysql
-      working-directory: ./doma-it
-      run: ./gradlew check -s
-      env:
-        ORG_GRADLE_PROJECT_jdbcUrl: jdbc:mysql://127.0.0.1/doma_it
-        ORG_GRADLE_PROJECT_jdbcUser: root
-        ORG_GRADLE_PROJECT_jdbcPassword: root
+      - name: Test with mysql
+        working-directory: ./doma-it
+        run: ./gradlew check -s
+        env:
+          ORG_GRADLE_PROJECT_jdbcUrl: jdbc:mysql://127.0.0.1/doma_it
+          ORG_GRADLE_PROJECT_jdbcUser: root
+          ORG_GRADLE_PROJECT_jdbcPassword: root
 
-    - name: Upload reports
-      if: always()
-      uses: actions/upload-artifact@v1
-      with:
-        name: jdk${{ matrix.java }}-${{ matrix.db }}
-        path: ./doma-it/build/reports
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: jdk${{ matrix.java }}-${{ matrix.db }}
+          path: ./doma-it/build/reports
