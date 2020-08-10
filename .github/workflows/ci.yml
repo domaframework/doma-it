@@ -56,6 +56,20 @@ jobs:
       working-directory: ./doma
       run: chmod +x gradlew
 
+    - name: Cache Gradle wrapper
+      uses: actions/cache@v2
+      with:
+        path: ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
+
+    - name: Cache Gradle packages
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.m2/repository
+        key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
+
     - name: Build and Install (doma)
       working-directory: ./doma
       run: ./gradlew assemble publishToMavenLocal
