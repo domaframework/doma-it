@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.Date;
@@ -45,6 +46,8 @@ import org.seasar.doma.it.dao.IdentityStrategyDao;
 import org.seasar.doma.it.dao.IdentityStrategyDaoImpl;
 import org.seasar.doma.it.dao.NoIdDao;
 import org.seasar.doma.it.dao.NoIdDaoImpl;
+import org.seasar.doma.it.dao.PrimitiveIdentityStrategyDao;
+import org.seasar.doma.it.dao.PrimitiveIdentityStrategyDaoImpl;
 import org.seasar.doma.it.dao.SequenceStrategyDao;
 import org.seasar.doma.it.dao.SequenceStrategyDaoImpl;
 import org.seasar.doma.it.dao.StaffDao;
@@ -63,6 +66,7 @@ import org.seasar.doma.it.entity.Department;
 import org.seasar.doma.it.entity.Dept;
 import org.seasar.doma.it.entity.IdentityStrategy;
 import org.seasar.doma.it.entity.NoId;
+import org.seasar.doma.it.entity.PrimitiveIdentityStrategy;
 import org.seasar.doma.it.entity.SequenceStrategy;
 import org.seasar.doma.it.entity.Staff;
 import org.seasar.doma.it.entity.TableStrategy;
@@ -192,6 +196,16 @@ public class AutoInsertTest {
       IdentityStrategy entity = new IdentityStrategy();
       dao.insert(entity);
       assertNotNull(entity.getId());
+    }
+  }
+
+  @Test
+  public void testId_PrimitiveIdentity(Config config) throws Exception {
+    PrimitiveIdentityStrategyDao dao = new PrimitiveIdentityStrategyDaoImpl(config);
+    for (int i = 0; i < 110; i++) {
+      PrimitiveIdentityStrategy entity = new PrimitiveIdentityStrategy();
+      dao.insert(entity);
+      assertTrue(entity.getId() > 0);
     }
   }
 
