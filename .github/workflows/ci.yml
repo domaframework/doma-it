@@ -90,7 +90,9 @@ jobs:
 
       - name: Build with Gradle
         working-directory: ./doma-it
-        run: ./gradlew assemble
+        run: |
+          ./gradlew -v
+          ./gradlew assemble
 
       - name: Test with h2
         working-directory: ./doma-it
