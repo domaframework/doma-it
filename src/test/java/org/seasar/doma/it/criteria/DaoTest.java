@@ -13,7 +13,7 @@ import org.seasar.doma.it.entity.Employee;
 import org.seasar.doma.jdbc.Config;
 
 @ExtendWith(IntegrationTestEnvironment.class)
-public class EntitySelectTest {
+public class DaoTest {
 
   @Test
   void selectAll(Config config) {
