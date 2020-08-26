@@ -31,7 +31,9 @@ import java.util.Objects;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.seasar.doma.it.Dbms;
 import org.seasar.doma.it.IntegrationTestEnvironment;
+import org.seasar.doma.it.Run;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.SqlLogType;
 import org.seasar.doma.jdbc.criteria.NativeSql;
@@ -427,6 +429,7 @@ public class NativeSqlSelectTest {
   }
 
   @Test
+  @Run(unless = Dbms.MYSQL)
   void union_multi_orderBy() {
     Employee_ e = new Employee_();
     Department_ d = new Department_();

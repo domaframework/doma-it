@@ -12,7 +12,9 @@ import static org.seasar.doma.jdbc.criteria.expression.Expressions.select;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.seasar.doma.it.Dbms;
 import org.seasar.doma.it.IntegrationTestEnvironment;
+import org.seasar.doma.it.Run;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.SqlLogType;
 import org.seasar.doma.jdbc.criteria.NativeSql;
@@ -145,6 +147,7 @@ public class NativeSqlUpdateTest {
   }
 
   @Test
+  @Run(unless = Dbms.MYSQL)
   void expression_select() {
     Employee_ e = new Employee_();
     Employee_ e2 = new Employee_();
