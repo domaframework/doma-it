@@ -79,16 +79,20 @@ jobs:
         with:
           path: doma-it
 
+      - name: Grant execute permission for gradlew
+        working-directory: ./doma-it
+        run: chmod +x gradlew
+
+      - name: Check code format
+        working-directory: ./doma-it
+        run: ./gradlew spotlessCheck
+
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
 
-      - name: Grant execute permission for gradlew
-        working-directory: ./doma-it
-        run: chmod +x gradlew
-
-      - name: Build with Gradle
+      - name: Build
         working-directory: ./doma-it
         run: |
           ./gradlew -v
@@ -96,7 +100,7 @@ jobs:
 
       - name: Test with h2
         working-directory: ./doma-it
-        run: ./gradlew check -s
+        run: ./gradlew check -x spotlessCheck
         env:
           ORG_GRADLE_PROJECT_jdbcUrl: ''
           ORG_GRADLE_PROJECT_jdbcUser: ''
@@ -104,7 +108,7 @@ jobs:
 
       - name: Test with postgres
         working-directory: ./doma-it
-        run: ./gradlew check -s
+        run: ./gradlew check -x spotlessCheck
         env:
           ORG_GRADLE_PROJECT_jdbcUrl: jdbc:postgresql://127.0.0.1/doma_it
           ORG_GRADLE_PROJECT_jdbcUser: postgres
@@ -112,7 +116,7 @@ jobs:
 
       - name: Test with mysql
         working-directory: ./doma-it
-        run: ./gradlew check -s
+        run: ./gradlew check -x spotlessCheck
         env:
           ORG_GRADLE_PROJECT_jdbcUrl: jdbc:mysql://127.0.0.1/doma_it
           ORG_GRADLE_PROJECT_jdbcUser: root
