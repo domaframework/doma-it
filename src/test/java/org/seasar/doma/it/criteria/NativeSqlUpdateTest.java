@@ -22,7 +22,6 @@ import org.seasar.doma.jdbc.criteria.expression.SelectExpression;
 import org.seasar.doma.jdbc.criteria.statement.EmptyWhereClauseException;
 
 @ExtendWith(IntegrationTestEnvironment.class)
-@Run(unless = Dbms.SQLSERVER)
 public class NativeSqlUpdateTest {
 
   private final NativeSql nativeSql;
