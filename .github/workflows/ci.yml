@@ -33,19 +33,24 @@ jobs:
           MYSQL_DATABASE: doma_it
         ports:
           - 3306
+      sqlserver:
+        image: docker://mcr.microsoft.com/mssql/server:2019-CU4-ubuntu-16.04
+        options: --name "mssqlcontainer" --health-cmd "/opt/mssql-tools/bin/sqlcmd -S 127.0.0.1 -U sa -P P@ssw0rd -Q \"SELECT * FROM sys.objects;\"" --health-interval 20s --health-timeout 30s --health-retries 128
+        ports:
+          - "1433:1433"
+        env:
+          ACCEPT_EULA: Y
+          SA_PASSWORD: "P@ssw0rd"
 
     steps:
-      - name: Start the MySQL service
+      - name: Setup MySQL service
         run: |
           sudo /etc/init.d/mysql start
           mysql -uroot -h127.0.0.1 -proot -e 'create database doma_it;'
 
-      - name: Start the MS-SQL service
+      - name: Setup MS-SQL service
         run: |
-          docker run --rm --publish 1433:1433 --name build-mssql \
-            -e ACCEPT_EULA=Y -e SA_PASSWORD='P@ssw0rd' \
-            -d microsoft/mssql-server-linux:2017-CU13
-          docker exec build-mssql /opt/mssql-tools/bin/sqlcmd \
+          docker exec mssqlcontainer /opt/mssql-tools/bin/sqlcmd \
             -S 127.0.0.1 -U sa -P 'P@ssw0rd' -Q 'CREATE DATABASE doma_it'
 
       - name: Checkout (doma)
