@@ -40,11 +40,13 @@ jobs:
           sudo /etc/init.d/mysql start
           mysql -uroot -h127.0.0.1 -proot -e 'create database doma_it;'
 
-      - name: MS-SQL Service
+      - name: Start the MS-SQL service
         run: |
           docker run --rm --publish 1433:1433 --name build-mssql \
-            -e ACCEPT_EULA=Y -e SA_PASSWORD=ActuallyRequired11Complexity \
+            -e ACCEPT_EULA=Y -e SA_PASSWORD='P@ssw0rd' \
             -d microsoft/mssql-server-linux:2017-CU13
+          docker exec build-mssql /opt/mssql-tools/bin/sqlcmd \
+            -S 127.0.0.1 -U sa -P 'P@ssw0rd' -Q 'CREATE DATABASE doma_it'
 
       - name: Checkout (doma)
         uses: actions/checkout@v2
@@ -127,6 +129,14 @@ jobs:
           ORG_GRADLE_PROJECT_jdbcUrl: jdbc:mysql://127.0.0.1/doma_it
           ORG_GRADLE_PROJECT_jdbcUser: root
           ORG_GRADLE_PROJECT_jdbcPassword: root
+
+      - name: Test with mssql
+        working-directory: ./doma-it
+        run: ./gradlew check -x spotlessCheck
+        env:
+          ORG_GRADLE_PROJECT_jdbcUrl: jdbc:sqlserver://127.0.0.1;database=doma_it
+          ORG_GRADLE_PROJECT_jdbcUser: sa
+          ORG_GRADLE_PROJECT_jdbcPassword: P@ssw0rd
 
       - name: Upload reports
         if: failure()
