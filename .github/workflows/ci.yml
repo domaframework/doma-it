@@ -40,6 +40,12 @@ jobs:
           sudo /etc/init.d/mysql start
           mysql -uroot -h127.0.0.1 -proot -e 'create database doma_it;'
 
+      - name: MS-SQL Service
+        run: |
+          docker run --rm --publish 1433:1433 --name build-mssql \
+            -e ACCEPT_EULA=Y -e SA_PASSWORD=ActuallyRequired11Complexity \
+            -d microsoft/mssql-server-linux:2017-CU13
+
       - name: Checkout (doma)
         uses: actions/checkout@v2
         with:
