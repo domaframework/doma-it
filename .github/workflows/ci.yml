@@ -148,4 +148,6 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: jdk${{ matrix.java }}
-          path: ./doma-it/build/reports
+          path: |
+            ./doma-it/java/build/reports
+            ./doma-it/kotlin/build/reports
