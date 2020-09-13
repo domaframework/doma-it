@@ -8,9 +8,62 @@ on:
 
 jobs:
 
-  build:
+  prepare:
     if: contains(github.event.head_commit.message, '[skip ci]') == false
-    name: JDK ${{ matrix.java }}
+    name: Build and Install Doma
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: domaframework/doma
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 8
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Cache Gradle wrapper
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.m2/repository
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
+
+      - name: Build and Install
+        run: ./gradlew assemble publishToMavenLocal
+
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: ./**/build/reports
+
+      - name: Tar Maven Repository
+        shell: bash
+        run: tar -czf maven-repository.tgz -C ~ .m2/repository
+
+      - name: Persist Maven Repository
+        uses: actions/upload-artifact@v1
+        with:
+          name: maven-repository
+          path: maven-repository.tgz
+
+  integration-test:
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
+    name: JDK ${{ matrix.java }} and ${{ matrix.module }}
     runs-on: ubuntu-latest
     
     strategy:
@@ -54,21 +107,15 @@ jobs:
           docker exec mssqlcontainer /opt/mssql-tools/bin/sqlcmd \
             -S 127.0.0.1 -U sa -P 'P@ssw0rd' -Q 'CREATE DATABASE doma_it'
 
-      - name: Checkout (doma)
-        uses: actions/checkout@v2
+      - name: Download Maven Repository
+        uses: actions/download-artifact@v1
         with:
-          repository: domaframework/doma
-          path: doma
-          ref: ${{ github.event.inputs.ref }}
+          name: maven-repository
+          path: .
 
-      - name: Set up JDK (doma)
-        uses: actions/setup-java@v1
-        with:
-          java-version: 8
-
-      - name: Grant execute permission for gradlew (doma)
-        working-directory: ./doma
-        run: chmod +x gradlew
+      - name: Extract Maven Repository
+        shell: bash
+        run: tar -xzf maven-repository.tgz -C ~
 
       - name: Cache Gradle wrapper
         uses: actions/cache@v2
@@ -84,36 +131,26 @@ jobs:
             ~/.m2/repository
           key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
 
-      - name: Build and Install (doma)
-        working-directory: ./doma
-        run: ./gradlew assemble publishToMavenLocal
-
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          path: doma-it
-
-      - name: Grant execute permission for gradlew
-        working-directory: ./doma-it
-        run: chmod +x gradlew
-
-      - name: Check code format
-        working-directory: ./doma-it
-        run: ./gradlew spotlessCheck
 
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Check code format
+        run: ./gradlew spotlessCheck
+
       - name: Build
-        working-directory: ./doma-it
         run: |
           ./gradlew -v
-          ./gradlew assemble
+          ./gradlew :${{ matrix.module }}:assemble
 
       - name: Test with h2
-        working-directory: ./doma-it
         run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck
         env:
           ORG_GRADLE_PROJECT_jdbcUrl: ''
@@ -121,7 +158,6 @@ jobs:
           ORG_GRADLE_PROJECT_jdbcPassword: ''
 
       - name: Test with postgres
-        working-directory: ./doma-it
         run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck
         env:
           ORG_GRADLE_PROJECT_jdbcUrl: jdbc:postgresql://127.0.0.1/doma_it
@@ -129,7 +165,6 @@ jobs:
           ORG_GRADLE_PROJECT_jdbcPassword: postgres
 
       - name: Test with mysql
-        working-directory: ./doma-it
         run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck
         env:
           ORG_GRADLE_PROJECT_jdbcUrl: jdbc:mysql://127.0.0.1/doma_it
@@ -137,7 +172,6 @@ jobs:
           ORG_GRADLE_PROJECT_jdbcPassword: root
 
       - name: Test with mssql
-        working-directory: ./doma-it
         run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck
         env:
           ORG_GRADLE_PROJECT_jdbcUrl: jdbc:sqlserver://127.0.0.1;database=doma_it
@@ -148,5 +182,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: jdk${{ matrix.java }}
-          path: ./doma-it/**/build/reports
+          name: jdk${{ matrix.java }}-${{ matrix.module }}
+          path: ./**/build/reports
