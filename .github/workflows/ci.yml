@@ -8,24 +8,16 @@ on:
 
 jobs:
 
-  prepare:
+  setup:
     if: contains(github.event.head_commit.message, '[skip ci]') == false
-    name: Build and Install Doma
+    name: Setup
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          repository: domaframework/doma
-
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
           java-version: 8
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
 
       - name: Cache Gradle wrapper
         uses: actions/cache@v2
@@ -41,15 +33,32 @@ jobs:
             ~/.m2/repository
           key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
 
-      - name: Build and Install
-        run: ./gradlew assemble publishToMavenLocal
-
-      - name: Upload reports
-        if: failure()
-        uses: actions/upload-artifact@v2
+      - name: Checkout (doma-it)
+        uses: actions/checkout@v2
         with:
-          name: reports
-          path: ./**/build/reports
+          path: doma-it
+
+      - name: Grant execute permission for gradlew (doma-it)
+        working-directory: ./doma-it
+        run: chmod +x gradlew
+
+      - name: Check code format (doma-it)
+        working-directory: ./doma-it
+        run: ./gradlew spotlessCheck
+
+      - name: Checkout (doma)
+        uses: actions/checkout@v2
+        with:
+          repository: domaframework/doma
+          path: doma
+ 
+      - name: Grant execute permission for gradlew (doma)
+        working-directory: ./doma
+        run: chmod +x gradlew
+
+      - name: Build and Install (doma)
+        working-directory: ./doma
+        run: ./gradlew assemble publishToMavenLocal
 
       - name: Tar Maven Repository
         shell: bash
@@ -61,11 +70,18 @@ jobs:
           name: maven-repository
           path: maven-repository.tgz
 
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: ./**/build/reports
+
   integration-test:
     if: contains(github.event.head_commit.message, '[skip ci]') == false
     name: JDK ${{ matrix.java }} and ${{ matrix.module }}
     runs-on: ubuntu-latest
-    needs: prepare
+    needs: setup
     
     strategy:
       matrix:
@@ -142,9 +158,6 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
-      - name: Check code format
-        run: ./gradlew spotlessCheck
 
       - name: Build
         run: |
