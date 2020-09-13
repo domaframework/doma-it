@@ -145,10 +145,7 @@ jobs:
 
       - name: Upload reports
         if: failure()
-        working-directory: ./doma-it
         uses: actions/upload-artifact@v2
         with:
           name: jdk${{ matrix.java }}
-          path: |
-            ./java/build/reports
-            ./kotlin/build/reports
+          path: ./doma-it/**/build/reports
