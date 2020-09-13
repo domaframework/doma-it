@@ -16,6 +16,7 @@ jobs:
     strategy:
       matrix:
         java: [ 8, 11, 14, 15-ea ]
+        module: [ java, kotlin ]
 
     services:
       postgres:
@@ -113,7 +114,7 @@ jobs:
 
       - name: Test with h2
         working-directory: ./doma-it
-        run: ./gradlew check -x spotlessCheck
+        run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck
         env:
           ORG_GRADLE_PROJECT_jdbcUrl: ''
           ORG_GRADLE_PROJECT_jdbcUser: ''
@@ -121,7 +122,7 @@ jobs:
 
       - name: Test with postgres
         working-directory: ./doma-it
-        run: ./gradlew check -x spotlessCheck
+        run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck
         env:
           ORG_GRADLE_PROJECT_jdbcUrl: jdbc:postgresql://127.0.0.1/doma_it
           ORG_GRADLE_PROJECT_jdbcUser: postgres
@@ -129,7 +130,7 @@ jobs:
 
       - name: Test with mysql
         working-directory: ./doma-it
-        run: ./gradlew check -x spotlessCheck
+        run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck
         env:
           ORG_GRADLE_PROJECT_jdbcUrl: jdbc:mysql://127.0.0.1/doma_it
           ORG_GRADLE_PROJECT_jdbcUser: root
@@ -137,7 +138,7 @@ jobs:
 
       - name: Test with mssql
         working-directory: ./doma-it
-        run: ./gradlew check -x spotlessCheck
+        run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck
         env:
           ORG_GRADLE_PROJECT_jdbcUrl: jdbc:sqlserver://127.0.0.1;database=doma_it
           ORG_GRADLE_PROJECT_jdbcUser: sa
