@@ -1,4 +1,4 @@
-package org.seasar.doma.it.kotlin
+package org.seasar.doma.it
 
 import org.junit.jupiter.api.extension.AfterAllCallback
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback
@@ -11,8 +11,8 @@ import org.junit.jupiter.api.extension.ParameterContext
 import org.junit.jupiter.api.extension.ParameterResolutionException
 import org.junit.jupiter.api.extension.ParameterResolver
 import org.junit.platform.commons.util.AnnotationUtils
-import org.seasar.doma.it.kotlin.dao.ScriptDao
-import org.seasar.doma.it.kotlin.dao.ScriptDaoImpl
+import org.seasar.doma.it.dao.ScriptDao
+import org.seasar.doma.it.dao.ScriptDaoImpl
 import org.seasar.doma.jdbc.Config
 import org.seasar.doma.jdbc.dialect.Db2Dialect
 import org.seasar.doma.jdbc.dialect.Dialect
@@ -51,10 +51,8 @@ class IntegrationTestEnvironment : BeforeAllCallback, BeforeTestExecutionCallbac
             return
         }
         config
-            .getTransactionManager()
-            .required(
-                Runnable { scriptDao.create() }
-            )
+            .transactionManager
+            .required { scriptDao.create() }
         imported = true
     }
 

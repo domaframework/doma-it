@@ -1,4 +1,4 @@
-package org.seasar.doma.it.kotlin
+package org.seasar.doma.it
 
 @Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
 @kotlin.annotation.Retention(AnnotationRetention.RUNTIME)

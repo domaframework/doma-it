@@ -1,14 +1,14 @@
-package org.seasar.doma.it.kotlin.criteria
+package org.seasar.doma.it.criteria
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.seasar.doma.it.kotlin.IntegrationTestEnvironment
+import org.seasar.doma.it.IntegrationTestEnvironment
 import org.seasar.doma.jdbc.Config
 import org.seasar.doma.jdbc.criteria.KEntityql
 import org.seasar.doma.jdbc.criteria.KNativeSql
 
 @ExtendWith(IntegrationTestEnvironment::class)
-class DifferenceBetweenTwoDsls(config: Config) {
+class KDifferenceBetweenTwoDsls(config: Config) {
     private val entityql = KEntityql(config)
     private val nativeSql = KNativeSql(config)
 

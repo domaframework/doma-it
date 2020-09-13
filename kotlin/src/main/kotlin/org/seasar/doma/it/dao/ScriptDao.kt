@@ -1,4 +1,4 @@
-package org.seasar.doma.it.kotlin.dao
+package org.seasar.doma.it.dao
 
 import org.seasar.doma.Dao
 import org.seasar.doma.Script

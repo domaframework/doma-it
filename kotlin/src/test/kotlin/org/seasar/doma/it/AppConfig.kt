@@ -1,4 +1,4 @@
-package org.seasar.doma.it.kotlin
+package org.seasar.doma.it
 
 import org.seasar.doma.jdbc.Config
 import org.seasar.doma.jdbc.Naming

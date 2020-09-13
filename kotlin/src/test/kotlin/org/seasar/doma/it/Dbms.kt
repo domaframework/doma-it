@@ -1,4 +1,4 @@
-package org.seasar.doma.it.kotlin
+package org.seasar.doma.it
 
 enum class Dbms {
     H2,

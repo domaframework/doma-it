@@ -1,4 +1,4 @@
-package org.seasar.doma.it.kotlin.criteria
+package org.seasar.doma.it.criteria
 
 import org.seasar.doma.Entity
 import org.seasar.doma.Id
@@ -9,6 +9,7 @@ import org.seasar.doma.Version
 
 @Entity(metamodel = Metamodel())
 class Department {
+
     @Id
     var departmentId: Int? = null
     var departmentNo: Int? = null

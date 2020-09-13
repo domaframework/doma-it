@@ -1,4 +1,4 @@
-package org.seasar.doma.it.kotlin.criteria
+package org.seasar.doma.it.criteria
 
 import org.seasar.doma.Embeddable
 import java.time.LocalDate
