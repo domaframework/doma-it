@@ -85,7 +85,7 @@ jobs:
     
     strategy:
       matrix:
-        java: [ 8, 11, 14, 15-ea ]
+        java: [ 8, 11, 15 ]
         module: [ java, kotlin ]
 
     services:
