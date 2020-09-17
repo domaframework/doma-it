@@ -2,7 +2,7 @@ plugins {
     java
 }
 
-val domaVersion = project.findProperty("domaVersion") ?: "2.+"
+val domaVersion: String by project
 
 tasks {
     val encoding = "UTF-8"
