@@ -3,7 +3,7 @@ plugins {
     kotlin("kapt")
 }
 
-val domaVersion = project.findProperty("domaVersion") ?: "2.+"
+val domaVersion: String by project
 
 spotless {
     kotlin {
