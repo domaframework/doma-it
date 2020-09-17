@@ -23,7 +23,6 @@ import org.seasar.doma.Id;
 import org.seasar.doma.Table;
 import org.seasar.doma.Version;
 
-/** @author nakamura-to */
 @Entity
 @Table(name = "EMPLOYEE")
 public class Businessman {

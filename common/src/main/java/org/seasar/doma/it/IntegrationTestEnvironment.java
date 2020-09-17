@@ -42,9 +42,9 @@ public class IntegrationTestEnvironment
         ParameterResolver,
         ExecutionCondition {
 
-  private static Logger logger = Logger.getLogger(IntegrationTestEnvironment.class.getName());
+  private static final Logger logger = Logger.getLogger(IntegrationTestEnvironment.class.getName());
 
-  private static Pattern jdbcUrlPattern = Pattern.compile("^jdbc:([^:]*):.*");
+  private static final Pattern jdbcUrlPattern = Pattern.compile("^jdbc:([^:]*):.*");
 
   private static transient boolean imported;
 
@@ -105,31 +105,26 @@ public class IntegrationTestEnvironment
   }
 
   @Override
-  public void beforeAll(ExtensionContext context) throws Exception {
+  public void beforeAll(ExtensionContext context) {
     if (imported) {
       return;
     }
-    config
-        .getTransactionManager()
-        .required(
-            () -> {
-              scriptDao.create();
-            });
+    config.getTransactionManager().required(scriptDao::create);
     imported = true;
   }
 
   @Override
-  public void beforeTestExecution(ExtensionContext context) throws Exception {
+  public void beforeTestExecution(ExtensionContext context) {
     config.getLocalTransaction().begin();
   }
 
   @Override
-  public void afterTestExecution(ExtensionContext context) throws Exception {
+  public void afterTestExecution(ExtensionContext context) {
     config.getLocalTransaction().rollback();
   }
 
   @Override
-  public void afterAll(ExtensionContext context) throws Exception {}
+  public void afterAll(ExtensionContext context) {}
 
   @Override
   public boolean supportsParameter(

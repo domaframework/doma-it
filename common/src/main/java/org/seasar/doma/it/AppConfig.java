@@ -66,10 +66,7 @@ public class AppConfig implements Config {
     return new RequiresNewController() {
       @Override
       public <R> R requiresNew(Callback<R> callback) throws Throwable {
-        return transactionManager.requiresNew(
-            () -> {
-              return callback.execute();
-            });
+        return transactionManager.requiresNew(callback::execute);
       }
     };
   }
