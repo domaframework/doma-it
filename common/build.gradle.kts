@@ -9,17 +9,15 @@ tasks {
 
     compileJava {
         options.encoding = encoding
-        options.compilerArgs = listOf("-Adoma.domain.converters=org.seasar.doma.it.domain.DomainConverterProvider")
     }
 
     compileTestJava {
         options.encoding = encoding
-        options.compilerArgs.addAll(listOf("-proc:none"))
     }
 }
 
 dependencies {
     annotationProcessor("org.seasar.doma:doma-processor:${domaVersion}")
     implementation("org.seasar.doma:doma-core:${domaVersion}")
-    testImplementation(project(":common"))
+    implementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
 }
