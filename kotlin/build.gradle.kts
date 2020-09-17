@@ -16,6 +16,7 @@ spotless {
 dependencies {
     kapt("org.seasar.doma:doma-processor:${domaVersion}")
     implementation("org.seasar.doma:doma-kotlin:${domaVersion}")
+    testImplementation(project(":common"))
 }
 
 tasks {
