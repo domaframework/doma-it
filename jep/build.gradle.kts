@@ -2,17 +2,17 @@ plugins {
     java
 }
 
+// This block must be located before the java block
 tasks {
     val encoding = "UTF-8"
 
-    compileJava {
+    withType<JavaCompile> {
         options.encoding = encoding
-        options.compilerArgs.addAll(listOf("-Adoma.domain.converters=org.seasar.doma.it.domain.DomainConverterProvider"))
+        options.compilerArgs.addAll(listOf("--enable-preview", "-Xlint:preview"))
     }
 
-    compileTestJava {
-        options.encoding = encoding
-        options.compilerArgs.addAll(listOf("-proc:none"))
+    withType<Test> {
+        jvmArgs("--enable-preview")
     }
 }
 
@@ -23,8 +23,15 @@ dependencies {
     testImplementation(project(":common"))
 }
 
-spotless {
-    java {
-        googleJavaFormat("1.7")
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(15))
     }
 }
+
+spotless {
+    java {
+        googleJavaFormat("1.9")
+    }
+}
+
