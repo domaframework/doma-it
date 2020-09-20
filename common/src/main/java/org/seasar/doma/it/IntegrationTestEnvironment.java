@@ -24,6 +24,7 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.seasar.doma.it.dao.ScriptDao;
 import org.seasar.doma.it.dao.ScriptDaoImpl;
 import org.seasar.doma.jdbc.Config;
+import org.seasar.doma.jdbc.ScriptException;
 import org.seasar.doma.jdbc.dialect.Db2Dialect;
 import org.seasar.doma.jdbc.dialect.Dialect;
 import org.seasar.doma.jdbc.dialect.H2Dialect;
@@ -109,6 +110,15 @@ public class IntegrationTestEnvironment
     if (imported) {
       return;
     }
+    config
+        .getTransactionManager()
+        .required(
+            () -> {
+              try {
+                scriptDao.drop();
+              } catch (ScriptException ignored) {
+              }
+            });
     config.getTransactionManager().required(scriptDao::create);
     imported = true;
   }

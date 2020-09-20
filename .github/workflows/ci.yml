@@ -87,16 +87,168 @@ jobs:
           name: reports
           path: ./**/build/reports
 
-  integration-test:
+  h2:
     if: contains(github.event.head_commit.message, '[skip ci]') == false
-    name: JDK ${{ matrix.java }} and ${{ matrix.module }}
+    name: H2 - JDK ${{ matrix.java }}
     runs-on: ubuntu-latest
     needs: setup
-    
+
+    env:
+      ORG_GRADLE_PROJECT_jdbcUrl: ''
+      ORG_GRADLE_PROJECT_jdbcUser: ''
+      ORG_GRADLE_PROJECT_jdbcPassword: ''
+
     strategy:
       matrix:
         java: [ 8, 11, 15 ]
-        module: [ java, kotlin ]
+
+    steps:
+      - name: Download Maven Repository
+        uses: actions/download-artifact@v1
+        with:
+          name: maven-repository
+          path: .
+
+      - name: Extract Maven Repository
+        shell: bash
+        run: tar -xzf maven-repository.tgz -C ~
+
+      - name: Cache Gradle wrapper
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.m2/repository
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Print version
+        run: ./gradlew -v
+
+      - name: Test (java)
+        run: ./gradlew :java:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
+
+      - name: Test (kotlin)
+        run: ./gradlew :kotlin:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
+
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: h2-jdk${{ matrix.java }}
+          path: ./**/build/reports
+
+  mysql:
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
+    name: MySQL - JDK ${{ matrix.java }}
+    runs-on: ubuntu-latest
+    needs: setup
+
+    env:
+      ORG_GRADLE_PROJECT_jdbcUrl: jdbc:mysql://127.0.0.1/doma_it
+      ORG_GRADLE_PROJECT_jdbcUser: root
+      ORG_GRADLE_PROJECT_jdbcPassword: root
+
+    strategy:
+      matrix:
+        java: [ 8, 11, 15 ]
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: doma_it
+        ports:
+          - 3306
+
+    steps:
+      - name: Setup MySQL service
+        run: |
+          sudo /etc/init.d/mysql start
+          mysql -uroot -h127.0.0.1 -proot -e 'create database doma_it;'
+
+      - name: Download Maven Repository
+        uses: actions/download-artifact@v1
+        with:
+          name: maven-repository
+          path: .
+
+      - name: Extract Maven Repository
+        shell: bash
+        run: tar -xzf maven-repository.tgz -C ~
+
+      - name: Cache Gradle wrapper
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.m2/repository
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Print version
+        run: ./gradlew -v
+
+      - name: Test (java)
+        run: ./gradlew :java:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
+
+      - name: Test (kotlin)
+        run: ./gradlew :kotlin:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
+
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: mysql-jdk${{ matrix.java }}
+          path: ./**/build/reports
+
+  postgres:
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
+    name: PostgreSQL - JDK ${{ matrix.java }}
+    runs-on: ubuntu-latest
+    needs: setup
+
+    env:
+      ORG_GRADLE_PROJECT_jdbcUrl: jdbc:postgresql://127.0.0.1/doma_it
+      ORG_GRADLE_PROJECT_jdbcUser: postgres
+      ORG_GRADLE_PROJECT_jdbcPassword: postgres
+
+    strategy:
+      matrix:
+        java: [ 8, 11, 15 ]
 
     services:
       postgres:
@@ -107,13 +259,75 @@ jobs:
           POSTGRES_DB: doma_it
         ports:
           - 127.0.0.1:5432:5432
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: doma_it
-        ports:
-          - 3306
+
+    steps:
+      - name: Download Maven Repository
+        uses: actions/download-artifact@v1
+        with:
+          name: maven-repository
+          path: .
+
+      - name: Extract Maven Repository
+        shell: bash
+        run: tar -xzf maven-repository.tgz -C ~
+
+      - name: Cache Gradle wrapper
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle-wrapper.properties') }}
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.m2/repository
+          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle.kts', '**/gradle.properties') }}
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Print version
+        run: ./gradlew -v
+
+      - name: Test (java)
+        run: ./gradlew :java:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
+
+      - name: Test (kotlin)
+        run: ./gradlew :kotlin:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
+
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: postgres-jdk${{ matrix.java }}
+          path: ./**/build/reports
+
+  sqlserver:
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
+    name: SQL Server - JDK ${{ matrix.java }}
+    runs-on: ubuntu-latest
+    needs: setup
+
+    env:
+      ORG_GRADLE_PROJECT_jdbcUrl: jdbc:sqlserver://127.0.0.1;database=doma_it
+      ORG_GRADLE_PROJECT_jdbcUser: sa
+      ORG_GRADLE_PROJECT_jdbcPassword: P@ssw0rd
+    
+    strategy:
+      matrix:
+        java: [ 8, 11, 15 ]
+
+    services:
       sqlserver:
         image: docker://mcr.microsoft.com/mssql/server:2019-CU4-ubuntu-16.04
         options: --name "mssqlcontainer" --health-cmd "/opt/mssql-tools/bin/sqlcmd -S 127.0.0.1 -U sa -P P@ssw0rd -Q \"SELECT * FROM sys.objects;\"" --health-interval 20s --health-timeout 30s --health-retries 128
@@ -124,12 +338,7 @@ jobs:
           SA_PASSWORD: "P@ssw0rd"
 
     steps:
-      - name: Setup MySQL service
-        run: |
-          sudo /etc/init.d/mysql start
-          mysql -uroot -h127.0.0.1 -proot -e 'create database doma_it;'
-
-      - name: Setup MS-SQL service
+      - name: Setup SQL Server service
         run: |
           docker exec mssqlcontainer /opt/mssql-tools/bin/sqlcmd \
             -S 127.0.0.1 -U sa -P 'P@ssw0rd' -Q 'CREATE DATABASE doma_it'
@@ -169,47 +378,23 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build
-        run: |
-          ./gradlew -v
-          ./gradlew :${{ matrix.module }}:assemble -PdomaVersion=${{ needs.setup.outputs.version }}
+      - name: Print version
+        run: ./gradlew -v
 
-      - name: Test with h2
-        run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
-        env:
-          ORG_GRADLE_PROJECT_jdbcUrl: ''
-          ORG_GRADLE_PROJECT_jdbcUser: ''
-          ORG_GRADLE_PROJECT_jdbcPassword: ''
+      - name: Test (java)
+        run: ./gradlew :java:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
 
-      - name: Test with postgres
-        run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
-        env:
-          ORG_GRADLE_PROJECT_jdbcUrl: jdbc:postgresql://127.0.0.1/doma_it
-          ORG_GRADLE_PROJECT_jdbcUser: postgres
-          ORG_GRADLE_PROJECT_jdbcPassword: postgres
-
-      - name: Test with mysql
-        run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
-        env:
-          ORG_GRADLE_PROJECT_jdbcUrl: jdbc:mysql://127.0.0.1/doma_it
-          ORG_GRADLE_PROJECT_jdbcUser: root
-          ORG_GRADLE_PROJECT_jdbcPassword: root
-
-      - name: Test with mssql
-        run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
-        env:
-          ORG_GRADLE_PROJECT_jdbcUrl: jdbc:sqlserver://127.0.0.1;database=doma_it
-          ORG_GRADLE_PROJECT_jdbcUser: sa
-          ORG_GRADLE_PROJECT_jdbcPassword: P@ssw0rd
+      - name: Test (kotlin)
+        run: ./gradlew :kotlin:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
 
       - name: Upload reports
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: jdk${{ matrix.java }}-${{ matrix.module }}
+          name: sqlserver-jdk${{ matrix.java }}
           path: ./**/build/reports
 
-  additional-features-test:
+  additional-features:
     if: contains(github.event.head_commit.message, '[skip ci]') == false
     name: Additional Features
     runs-on: ubuntu-latest
