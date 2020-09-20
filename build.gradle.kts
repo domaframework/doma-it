@@ -44,12 +44,6 @@ subprojects {
         "testRuntimeOnly"("com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre8")
     }
 
-    configure<com.diffplug.gradle.spotless.SpotlessExtension> {
-        java {
-            googleJavaFormat("1.7")
-        }
-    }
-
     configure<org.gradle.plugins.ide.eclipse.model.EclipseModel> {
         classpath {
             file {
@@ -70,6 +64,17 @@ subprojects {
         }
         jdt {
             javaRuntimeName = "JavaSE-1.8"
+        }
+    }
+}
+
+gradle.taskGraph.whenReady {
+    val enableAdditionalFeatures: String? by project
+    allTasks.forEach {
+        if (it.project.name == "jep") {
+            it.onlyIf {
+                enableAdditionalFeatures != null
+            }
         }
     }
 }
