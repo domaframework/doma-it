@@ -172,7 +172,7 @@ jobs:
       - name: Build
         run: |
           ./gradlew -v
-          ./gradlew :${{ matrix.module }}:assemble
+          ./gradlew :${{ matrix.module }}:assemble -PdomaVersion=${{ needs.setup.outputs.version }}
 
       - name: Test with h2
         run: ./gradlew :${{ matrix.module }}:check -x spotlessCheck -PdomaVersion=${{ needs.setup.outputs.version }}
