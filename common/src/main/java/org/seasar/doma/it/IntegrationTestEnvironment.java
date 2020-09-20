@@ -1,16 +1,5 @@
 package org.seasar.doma.it;
 
-import static org.junit.jupiter.api.extension.ConditionEvaluationResult.disabled;
-import static org.junit.jupiter.api.extension.ConditionEvaluationResult.enabled;
-import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -24,6 +13,7 @@ import org.junit.jupiter.api.extension.ParameterResolver;
 import org.seasar.doma.it.dao.ScriptDao;
 import org.seasar.doma.it.dao.ScriptDaoImpl;
 import org.seasar.doma.jdbc.Config;
+import org.seasar.doma.jdbc.ScriptException;
 import org.seasar.doma.jdbc.dialect.Db2Dialect;
 import org.seasar.doma.jdbc.dialect.Dialect;
 import org.seasar.doma.jdbc.dialect.H2Dialect;
@@ -33,6 +23,18 @@ import org.seasar.doma.jdbc.dialect.MysqlDialect;
 import org.seasar.doma.jdbc.dialect.OracleDialect;
 import org.seasar.doma.jdbc.dialect.PostgresDialect;
 import org.seasar.doma.jdbc.dialect.SqliteDialect;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static org.junit.jupiter.api.extension.ConditionEvaluationResult.disabled;
+import static org.junit.jupiter.api.extension.ConditionEvaluationResult.enabled;
+import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
 public class IntegrationTestEnvironment
     implements BeforeAllCallback,
@@ -109,7 +111,15 @@ public class IntegrationTestEnvironment
     if (imported) {
       return;
     }
-    config.getTransactionManager().required(scriptDao::drop);
+    config
+        .getTransactionManager()
+        .required(
+            () -> {
+              try {
+                scriptDao.drop();
+              } catch (ScriptException ignored) {
+              }
+            });
     config.getTransactionManager().required(scriptDao::create);
     imported = true;
   }
