@@ -109,10 +109,8 @@ public class IntegrationTestEnvironment
     if (imported) {
       return;
     }
-    config.getTransactionManager().required(() -> {
-      scriptDao.drop();
-      scriptDao.create();
-    });
+    config.getTransactionManager().required(scriptDao::drop);
+    config.getTransactionManager().required(scriptDao::create);
     imported = true;
   }
 
