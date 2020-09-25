@@ -7,8 +7,6 @@ import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.extension.AfterAllCallback;
@@ -34,6 +32,8 @@ import org.seasar.doma.jdbc.dialect.MysqlDialect;
 import org.seasar.doma.jdbc.dialect.OracleDialect;
 import org.seasar.doma.jdbc.dialect.PostgresDialect;
 import org.seasar.doma.jdbc.dialect.SqliteDialect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class IntegrationTestEnvironment
     implements BeforeAllCallback,
@@ -43,7 +43,7 @@ public class IntegrationTestEnvironment
         ParameterResolver,
         ExecutionCondition {
 
-  private static final Logger logger = Logger.getLogger(IntegrationTestEnvironment.class.getName());
+  private static final Logger logger = LoggerFactory.getLogger(IntegrationTestEnvironment.class);
 
   private static final Pattern jdbcUrlPattern = Pattern.compile("^jdbc:([^:]*):.*");
 
@@ -57,9 +57,9 @@ public class IntegrationTestEnvironment
 
   public IntegrationTestEnvironment() {
     String url = getProperty("url", "jdbc:h2:mem:doma_it;DB_CLOSE_DELAY=-1");
-    logger.log(Level.INFO, "url=" + url);
+    logger.debug("url={}", url);
     String user = getProperty("user", "sa");
-    logger.log(Level.INFO, "user=" + user);
+    logger.debug("user={}", user);
     String password = getProperty("password", "");
     dbms = determineDbms(url);
     Dialect dialect = createDialect(dbms);

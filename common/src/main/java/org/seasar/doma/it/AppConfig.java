@@ -3,9 +3,11 @@ package org.seasar.doma.it;
 import java.util.Objects;
 import javax.sql.DataSource;
 import org.seasar.doma.jdbc.Config;
+import org.seasar.doma.jdbc.JdbcLogger;
 import org.seasar.doma.jdbc.Naming;
 import org.seasar.doma.jdbc.RequiresNewController;
 import org.seasar.doma.jdbc.SimpleDataSource;
+import org.seasar.doma.jdbc.Slf4jJdbcLogger;
 import org.seasar.doma.jdbc.dialect.Dialect;
 import org.seasar.doma.jdbc.tx.LocalTransaction;
 import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
@@ -17,6 +19,8 @@ public class AppConfig implements Config {
   private final Dialect dialect;
 
   private final Dbms dbms;
+
+  private final JdbcLogger jdbcLogger;
 
   private final DataSource originalDataSource;
 
@@ -32,10 +36,10 @@ public class AppConfig implements Config {
     Objects.requireNonNull(password);
     this.dialect = dialect;
     this.dbms = dbms;
+    jdbcLogger = new Slf4jJdbcLogger();
     originalDataSource = createDataSource(url, user, password);
     dataSource = new LocalTransactionDataSource(originalDataSource);
-    transactionManager =
-        new LocalTransactionManager(dataSource.getLocalTransaction(getJdbcLogger()));
+    transactionManager = new LocalTransactionManager(dataSource.getLocalTransaction(jdbcLogger));
   }
 
   private DataSource createDataSource(String url, String user, String password) {
@@ -91,5 +95,10 @@ public class AppConfig implements Config {
   @Override
   public Naming getNaming() {
     return Naming.SNAKE_UPPER_CASE;
+  }
+
+  @Override
+  public JdbcLogger getJdbcLogger() {
+    return jdbcLogger;
   }
 }
