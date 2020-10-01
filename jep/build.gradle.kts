@@ -2,13 +2,15 @@ plugins {
     java
 }
 
+val javaLanguageVersion = JavaLanguageVersion.of(15)
+
 // This block must be located before the java block
 tasks {
     val encoding = "UTF-8"
 
     withType<JavaCompile> {
         options.encoding = encoding
-        options.compilerArgs.addAll(listOf("--enable-preview", "-Xlint:preview"))
+        options.compilerArgs.addAll(listOf("--enable-preview", "--release", "$javaLanguageVersion", "-Xlint:preview"))
     }
 
     withType<Test> {
@@ -25,7 +27,7 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(15))
+        languageVersion.set(javaLanguageVersion)
     }
 }
 
