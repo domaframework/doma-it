@@ -42,7 +42,7 @@ subprojects {
         "testRuntimeOnly"("com.h2database:h2:1.4.200")
         "testRuntimeOnly"("mysql:mysql-connector-java:8.0.21")
         "testRuntimeOnly"("org.postgresql:postgresql:42.2.18")
-        "testRuntimeOnly"("com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre8")
+        "testRuntimeOnly"("com.microsoft.sqlserver:mssql-jdbc:9.1.0.jre15-preview")
     }
 
     configure<org.gradle.plugins.ide.eclipse.model.EclipseModel> {
