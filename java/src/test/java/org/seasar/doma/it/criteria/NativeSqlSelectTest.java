@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +38,7 @@ import org.seasar.doma.it.Run;
 import org.seasar.doma.jdbc.Config;
 import org.seasar.doma.jdbc.SqlLogType;
 import org.seasar.doma.jdbc.criteria.NativeSql;
+import org.seasar.doma.jdbc.criteria.expression.Expressions;
 import org.seasar.doma.jdbc.criteria.metamodel.PropertyMetamodel;
 import org.seasar.doma.jdbc.criteria.statement.EmptyWhereClauseException;
 import org.seasar.doma.jdbc.criteria.tuple.Row;
@@ -609,5 +611,23 @@ public class NativeSqlSelectTest {
         nativeSql.from(e).select(select(c -> c.from(e2).select(count(e2.employeeId)))).fetchOne();
 
     assertEquals(14L, count);
+  }
+
+  @Test
+  void select_optional_property() {
+    Person_ p = new Person_();
+    Optional<Integer> result =
+        nativeSql.from(p).where(c -> c.eq(p.employeeId, 2)).select(p.managerId).fetchOptional();
+    assertTrue(result.isPresent());
+    assertEquals(6, result.get());
+  }
+
+  @Test
+  void select_optional_property_with_aggregate_function() {
+    Person_ p = new Person_();
+    Optional<Integer> result =
+        nativeSql.from(p).select(Expressions.max(p.managerId)).fetchOptional();
+    assertTrue(result.isPresent());
+    assertEquals(13, result.get());
   }
 }
