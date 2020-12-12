@@ -160,6 +160,7 @@ public class NativeSqlSelectTest {
         nativeSql
             .from(e)
             .innerJoin(d, on -> on.eq(e.departmentId, d.departmentId))
+            .orderBy(c -> c.asc(e.employeeId))
             .select(e, d)
             .fetch();
 
