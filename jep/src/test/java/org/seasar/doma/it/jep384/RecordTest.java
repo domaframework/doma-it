@@ -2,7 +2,7 @@ package org.seasar.doma.it.jep384;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.seasar.doma.internal.util.AssertionUtil.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
