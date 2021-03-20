@@ -1,7 +1,7 @@
 package org.seasar.doma.it.jep384;
 
 import java.math.BigDecimal;
-import org.seasar.doma.experimental.DataType;
+import org.seasar.doma.DataType;
 
 @DataType
 public record Salary(BigDecimal value) {
