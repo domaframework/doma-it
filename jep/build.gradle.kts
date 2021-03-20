@@ -7,12 +7,9 @@ tasks {
 
     withType<JavaCompile> {
         options.encoding = encoding
-        options.compilerArgs.addAll(listOf("--enable-preview", "-Xlint:preview"))
     }
 
-    withType<Test> {
-        jvmArgs("--enable-preview")
-    }
+    withType<Test> {}
 }
 
 dependencies {
@@ -24,7 +21,7 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(15))
+        languageVersion.set(JavaLanguageVersion.of(16))
     }
 }
 
