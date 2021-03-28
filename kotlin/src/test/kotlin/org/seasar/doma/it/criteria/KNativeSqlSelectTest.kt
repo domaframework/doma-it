@@ -106,6 +106,7 @@ class KNativeSqlSelectTest(config: Config) {
         val list = nativeSql
             .from(e)
             .innerJoin(d) { eq(e.departmentId, d.departmentId) }
+            .orderBy { asc(e.employeeId) }
             .select(e, d)
             .fetch()
         assertEquals(14, list.size)
