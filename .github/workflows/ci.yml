@@ -17,8 +17,9 @@ jobs:
 
     steps:
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: 8
 
       - name: Checkout
@@ -89,16 +90,18 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Set up JDK 8
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: 8
 
       - name: Check code format (common, java, kotlin)
         run: ./gradlew spotlessCheck
 
       - name: Set up JDK 16
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: 16
 
       - name: Check code format (jep)
@@ -138,8 +141,9 @@ jobs:
         run: tar -xzf maven-repository.tgz -C ~
 
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: ${{ matrix.java }}
 
       - name: Checkout
@@ -212,8 +216,9 @@ jobs:
         run: tar -xzf maven-repository.tgz -C ~
 
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: ${{ matrix.java }}
 
       - name: Checkout
@@ -282,8 +287,9 @@ jobs:
         run: tar -xzf maven-repository.tgz -C ~
 
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: ${{ matrix.java }}
 
       - name: Checkout
@@ -357,8 +363,9 @@ jobs:
         run: tar -xzf maven-repository.tgz -C ~
 
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: ${{ matrix.java }}
 
       - name: Checkout
@@ -408,8 +415,9 @@ jobs:
         run: tar -xzf maven-repository.tgz -C ~
 
       - name: Set up JDK 16
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
+          distribution: 'zulu'
           java-version: 16
 
       - name: Checkout
