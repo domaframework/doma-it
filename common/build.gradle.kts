@@ -19,7 +19,7 @@ dependencies {
     annotationProcessor("org.seasar.doma:doma-processor:${domaVersion}")
     implementation("org.seasar.doma:doma-core:${domaVersion}")
     implementation("org.seasar.doma:doma-slf4j:${domaVersion}")
-    implementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
+    implementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
 }
 
 spotless {
