@@ -36,8 +36,8 @@ subprojects {
     }
 
     dependencies {
-        "testImplementation"("org.junit.jupiter:junit-jupiter-api:5.7.1")
-        "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine:5.7.1")
+        "testImplementation"("org.junit.jupiter:junit-jupiter-api:5.7.2")
+        "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine:5.7.2")
         "testRuntimeOnly"("ch.qos.logback:logback-classic:1.2.3")
         "testRuntimeOnly"("com.h2database:h2:1.4.200")
         "testRuntimeOnly"("mysql:mysql-connector-java:8.0.25")
