@@ -84,6 +84,30 @@ public class NativeSqlSelectTest {
   }
 
   @Test
+  void fetchOne_null() {
+    Employee_ e = new Employee_();
+
+    Integer result =
+        nativeSql.from(e).where(c -> c.eq(e.employeeId, 99)).select(sum(e.employeeNo)).fetchOne();
+
+    assertNull(result);
+  }
+
+  @Test
+  void fetchOptional_null() {
+    Employee_ e = new Employee_();
+
+    Optional<Integer> result =
+        nativeSql
+            .from(e)
+            .where(c -> c.eq(e.employeeId, 99))
+            .select(sum(e.employeeNo))
+            .fetchOptional();
+
+    assertFalse(result.isPresent());
+  }
+
+  @Test
   void from() {
     Employee_ e = new Employee_();
 
