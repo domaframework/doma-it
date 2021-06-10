@@ -41,7 +41,7 @@ subprojects {
         "testRuntimeOnly"("ch.qos.logback:logback-classic:1.2.3")
         "testRuntimeOnly"("com.h2database:h2:1.4.200")
         "testRuntimeOnly"("mysql:mysql-connector-java:8.0.25")
-        "testRuntimeOnly"("org.postgresql:postgresql:42.2.20")
+        "testRuntimeOnly"("org.postgresql:postgresql:42.2.21")
         "testRuntimeOnly"("com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre8")
     }
 
