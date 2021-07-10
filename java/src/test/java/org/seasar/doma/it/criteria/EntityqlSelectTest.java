@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.seasar.doma.jdbc.criteria.expression.Expressions.literal;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -483,5 +484,19 @@ public class EntityqlSelectTest {
     Employee employee = entityql.from(e).where(c -> c.eq(e.employeeId, literal(1))).fetchOne();
 
     assertNotNull(employee);
+  }
+
+  @Test
+  void iterableDomain() {
+    Division_ d = new Division_();
+
+    Division division = entityql.from(d).where(c -> c.eq(d.departmentId, 1)).fetchOne();
+    division.location = new Names("TOKYO, KYOTO");
+    entityql.update(d, division).execute();
+    Division division2 = entityql.from(d).where(c -> c.eq(d.departmentId, 1)).fetchOne();
+    Iterator<String> iterator = division2.location.iterator();
+
+    assertEquals("TOKYO", iterator.next());
+    assertEquals("KYOTO", iterator.next());
   }
 }
