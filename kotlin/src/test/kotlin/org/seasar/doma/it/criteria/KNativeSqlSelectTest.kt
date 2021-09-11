@@ -170,7 +170,7 @@ class KNativeSqlSelectTest(config: Config) {
     }
 
     @Test
-    fun selectAsRow() {
+    fun select_row() {
         val e = Employee_()
 
         @Suppress("RemoveRedundantSpreadOperator")
@@ -178,6 +178,28 @@ class KNativeSqlSelectTest(config: Config) {
             .from(e)
             .orderBy { asc(e.employeeId) }
             .select(e.employeeId, *arrayOf<PropertyMetamodel<*>>(e.employeeName))
+            .fetch()
+        assertEquals(14, list.size)
+        val row = list[0]
+        assertEquals(2, row.size())
+        assertTrue(row.containsKey(e.employeeId))
+        assertEquals(1, row.get(e.employeeId))
+        assertTrue(row.containsKey(e.employeeName))
+        assertEquals("SMITH", row.get(e.employeeName))
+        assertFalse(row.containsKey(e.hiredate))
+        assertNotNull(row.keySet())
+        assertNotNull(row.values())
+    }
+
+    @Test
+    fun selectAsRow() {
+        val e = Employee_()
+
+        @Suppress("RemoveRedundantSpreadOperator")
+        val list = nativeSql
+            .from(e)
+            .orderBy { asc(e.employeeId) }
+            .selectAsRow(e.employeeId, e.employeeName)
             .fetch()
         assertEquals(14, list.size)
         val row = list[0]

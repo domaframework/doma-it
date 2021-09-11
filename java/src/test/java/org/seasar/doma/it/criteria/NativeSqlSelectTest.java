@@ -270,7 +270,7 @@ public class NativeSqlSelectTest {
   }
 
   @Test
-  void selectAsRow() {
+  void select_row() {
     Employee_ e = new Employee_();
 
     List<Row> list =
@@ -278,6 +278,29 @@ public class NativeSqlSelectTest {
             .from(e)
             .orderBy(c -> c.asc(e.employeeId))
             .select(e.employeeId, new PropertyMetamodel<?>[] {e.employeeName})
+            .fetch();
+
+    assertEquals(14, list.size());
+    Row row = list.get(0);
+    assertEquals(2, row.size());
+    assertTrue(row.containsKey(e.employeeId));
+    assertEquals(1, row.get(e.employeeId));
+    assertTrue(row.containsKey(e.employeeName));
+    assertEquals("SMITH", row.get(e.employeeName));
+    assertFalse(row.containsKey(e.hiredate));
+    assertNotNull(row.keySet());
+    assertNotNull(row.values());
+  }
+
+  @Test
+  void selectAsRow() {
+    Employee_ e = new Employee_();
+
+    List<Row> list =
+        nativeSql
+            .from(e)
+            .orderBy(c -> c.asc(e.employeeId))
+            .selectAsRow(e.employeeId, e.employeeName)
             .fetch();
 
     assertEquals(14, list.size());
