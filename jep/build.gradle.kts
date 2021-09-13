@@ -25,9 +25,9 @@ java {
     }
 }
 
-//spotless {
-//    java {
-//        googleJavaFormat("1.9")
-//    }
-//}
+spotless {
+    java {
+        googleJavaFormat("1.11.0")
+    }
+}
 
