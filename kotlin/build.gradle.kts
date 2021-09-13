@@ -3,18 +3,6 @@ plugins {
     kotlin("kapt")
 }
 
-tasks {
-    val jvmTarget = "1.8"
-
-    compileKotlin {
-        kotlinOptions.jvmTarget = jvmTarget
-    }
-
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = jvmTarget
-    }
-}
-
 dependencies {
     val domaVersion: String by project
     kapt("org.seasar.doma:doma-processor:${domaVersion}")
