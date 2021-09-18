@@ -72,6 +72,8 @@ public class IntegrationTestEnvironment
         return Dbms.H2;
       case "mysql":
         return Dbms.MYSQL;
+      case "oracle":
+        return Dbms.ORACLE;
       case "postgresql":
         return Dbms.POSTGRESQL;
       case "sqlserver":
