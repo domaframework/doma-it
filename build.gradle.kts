@@ -36,6 +36,10 @@ subprojects {
             prepare("mysql")
         }
 
+        val oracle by registering(Test::class) {
+            prepare("oracle")
+        }
+
         val postgresql by registering(Test::class) {
             prepare("postgresql")
         }
@@ -45,7 +49,7 @@ subprojects {
         }
 
         register("testAll") {
-            dependsOn(h2, mysql, postgresql, sqlserver)
+            dependsOn(h2, mysql, oracle, postgresql, sqlserver)
         }
 
         named("build") {
@@ -65,9 +69,11 @@ subprojects {
         "testRuntimeOnly"("ch.qos.logback:logback-classic:1.2.6")
         "testRuntimeOnly"("com.h2database:h2:1.4.200")
         "testRuntimeOnly"("mysql:mysql-connector-java:8.0.26")
+        "testRuntimeOnly"("com.oracle.database.jdbc:ojdbc8-production:18.15.0.0")
         "testRuntimeOnly"("org.postgresql:postgresql:42.2.23")
         "testRuntimeOnly"("com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre8")
         "testRuntimeOnly"("org.testcontainers:mysql")
+        "testRuntimeOnly"("org.testcontainers:oracle-xe")
         "testRuntimeOnly"("org.testcontainers:postgresql")
         "testRuntimeOnly"("org.testcontainers:mssqlserver")
     }

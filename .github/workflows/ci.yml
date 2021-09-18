@@ -119,7 +119,7 @@ jobs:
     strategy:
       matrix:
         java: [8, 11, 17]
-        driver: [h2, mysql, postgresql, sqlserver]
+        driver: [h2, mysql, oracle, postgresql, sqlserver]
     timeout-minutes: 10
 
     steps:
