@@ -169,5 +169,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.java }}-${{ matrix.driver }}
+          name: java${{ matrix.java }}-${{ matrix.driver }}
           path: ./**/build/reports
