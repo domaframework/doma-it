@@ -164,8 +164,7 @@ jobs:
 
       - name: Test (additional features)
         if: matrix.java == '17'
-        run: ./gradlew ${{ matrix.driver }}
-        ./gradlew jep:${{ matrix.driver }} -PdomaVersion=${{ needs.setup.outputs.version }} -PenableAdditionalFeatures=true
+        run: ./gradlew jep:${{ matrix.driver }} -PdomaVersion=${{ needs.setup.outputs.version }} -PenableAdditionalFeatures=true
 
       - name: Upload reports
         if: failure()
