@@ -11,7 +11,7 @@ public interface RecordDao {
         select
           /*%expand*/*
          from
-          department
+          DEPARTMENT
         """)
   @Select
   List<Department> selectAll();
@@ -21,9 +21,9 @@ public interface RecordDao {
         select
           /*%expand*/*
         from
-          department
+          DEPARTMENT
         where
-          department_id = /*id*/0
+          DEPARTMENT_ID = /*id*/0
         """)
   @Select
   Department selectById(Integer id);

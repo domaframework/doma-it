@@ -12,7 +12,7 @@ public interface TextBlockDao {
         select
           /*%expand*/*
         from
-          employee
+          EMPLOYEE
         """)
   @Select
   List<Employee> selectAll();
@@ -22,9 +22,9 @@ public interface TextBlockDao {
         select
           /*%expand*/*
         from
-          employee
+          EMPLOYEE
         where
-          employee_id = /*id*/0
+          EMPLOYEE_ID = /*id*/0
         """)
   @Select
   Employee selectById(Integer id);

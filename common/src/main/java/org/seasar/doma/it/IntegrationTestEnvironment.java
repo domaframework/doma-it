@@ -6,8 +6,8 @@ import static org.junit.platform.commons.util.AnnotationUtils.findAnnotation;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
@@ -56,31 +56,29 @@ public class IntegrationTestEnvironment
   private final ScriptDao scriptDao;
 
   public IntegrationTestEnvironment() {
-    String url = getProperty("url", "jdbc:h2:mem:doma_it;DB_CLOSE_DELAY=-1");
-    logger.debug("url={}", url);
-    String user = getProperty("user", "sa");
-    logger.debug("user={}", user);
-    String password = getProperty("password", "");
-    dbms = determineDbms(url);
+    String driver = System.getProperty("driver");
+    logger.debug("driver={}", Objects.requireNonNull(driver));
+    String url = System.getProperty("url");
+    logger.debug("url={}", Objects.requireNonNull(url));
+    dbms = determineDbms(driver);
     Dialect dialect = createDialect(dbms);
-    config = new AppConfig(dialect, dbms, url, user, password);
+    config = new AppConfig(dialect, dbms, url, "test", "test");
     scriptDao = new ScriptDaoImpl(config);
   }
 
-  private static String getProperty(String key, String defaultValue) {
-    String value = System.getProperty(key);
-    if (value != null && value.length() > 0) {
-      return value;
+  private static Dbms determineDbms(String driver) {
+    switch (driver) {
+      case "h2":
+        return Dbms.H2;
+      case "mysql":
+        return Dbms.MYSQL;
+      case "postgresql":
+        return Dbms.POSTGRESQL;
+      case "sqlserver":
+        return Dbms.SQLSERVER;
+      default:
+        throw new IllegalArgumentException(driver);
     }
-    return defaultValue;
-  }
-
-  private static Dbms determineDbms(String url) {
-    Matcher matcher = jdbcUrlPattern.matcher(url);
-    if (matcher.matches()) {
-      return Dbms.valueOf(matcher.group(1).toUpperCase());
-    }
-    throw new IllegalArgumentException("url: " + url);
   }
 
   private static Dialect createDialect(Dbms dbms) {

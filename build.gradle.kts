@@ -14,17 +14,40 @@ subprojects {
     apply(plugin ="org.seasar.doma.compile")
 
     tasks {
-        named<Test>("test") {
-            val jdbcUrl: Any by project
-            val jdbcUser: Any by project
-            val jdbcPassword: Any by project
-            systemProperty("url", jdbcUrl)
-            systemProperty("user", jdbcUser)
-            systemProperty("password", jdbcPassword)
+        fun Test.prepare(driver: String) {
+            val urlKey = "$driver.url"
+            val url = project.property(urlKey) ?: throw GradleException("The $urlKey property is not found.")
+            this.systemProperty("driver", driver)
+            this.systemProperty("url", url)
             maxHeapSize = "1g"
             useJUnitPlatform()
         }
         
+        named<Test>("test") {
+            val driver: Any by project
+            prepare(driver.toString())
+        }
+
+        val h2 by registering(Test::class) {
+            prepare("h2")
+        }
+        
+        val mysql by registering(Test::class) {
+            prepare("mysql")
+        }
+
+        val postgresql by registering(Test::class) {
+            prepare("postgresql")
+        }
+        
+        val sqlserver by registering(Test::class) {
+            prepare("sqlserver")
+        }
+
+        register("testAll") {
+            dependsOn(h2, mysql, postgresql, sqlserver)
+        }
+
         named("build") {
             dependsOn("spotlessApply")
         }
@@ -36,6 +59,7 @@ subprojects {
     }
 
     dependencies {
+        "testImplementation"(platform("org.testcontainers:testcontainers-bom:1.16.0"))
         "testImplementation"("org.junit.jupiter:junit-jupiter-api:5.8.0")
         "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine:5.8.0")
         "testRuntimeOnly"("ch.qos.logback:logback-classic:1.2.6")
@@ -43,6 +67,9 @@ subprojects {
         "testRuntimeOnly"("mysql:mysql-connector-java:8.0.26")
         "testRuntimeOnly"("org.postgresql:postgresql:42.2.23")
         "testRuntimeOnly"("com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre8")
+        "testRuntimeOnly"("org.testcontainers:mysql")
+        "testRuntimeOnly"("org.testcontainers:postgresql")
+        "testRuntimeOnly"("org.testcontainers:mssqlserver")
     }
 
     configure<org.gradle.plugins.ide.eclipse.model.EclipseModel> {
