@@ -115,6 +115,7 @@ jobs:
           path: ./**/build/reports
 
   test:
+    name: Test (Java${{ matrix.java }}, ${{ matrix.driver }})
     runs-on: ubuntu-latest
     needs: [ setup, check ]
     strategy:
