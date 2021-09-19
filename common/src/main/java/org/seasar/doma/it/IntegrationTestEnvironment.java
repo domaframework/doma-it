@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.regex.Pattern;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -44,8 +43,6 @@ public class IntegrationTestEnvironment
         ExecutionCondition {
 
   private static final Logger logger = LoggerFactory.getLogger(IntegrationTestEnvironment.class);
-
-  private static final Pattern jdbcUrlPattern = Pattern.compile("^jdbc:([^:]*):.*");
 
   private static transient boolean imported;
 
