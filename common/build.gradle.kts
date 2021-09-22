@@ -20,7 +20,7 @@ dependencies {
     implementation("org.seasar.doma:doma-core:${domaVersion}")
     implementation("org.seasar.doma:doma-slf4j:${domaVersion}")
     implementation("ch.qos.logback:logback-classic:1.2.6")
-    implementation("org.junit.jupiter:junit-jupiter-api:5.8.0")
+    implementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
 }
 
 spotless {
