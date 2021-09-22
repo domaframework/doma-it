@@ -64,8 +64,8 @@ subprojects {
 
     dependencies {
         "testImplementation"(platform("org.testcontainers:testcontainers-bom:1.16.0"))
-        "testImplementation"("org.junit.jupiter:junit-jupiter-api:5.8.0")
-        "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine:5.8.0")
+        "testImplementation"("org.junit.jupiter:junit-jupiter-api:5.8.1")
+        "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine:5.8.1")
         "testRuntimeOnly"("com.h2database:h2:1.4.200")
         "testRuntimeOnly"("mysql:mysql-connector-java:8.0.26")
         "testRuntimeOnly"("com.oracle.database.jdbc:ojdbc8-production:18.15.0.0")
