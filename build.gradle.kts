@@ -69,7 +69,7 @@ subprojects {
         "testRuntimeOnly"("com.h2database:h2:1.4.200")
         "testRuntimeOnly"("mysql:mysql-connector-java:8.0.27")
         "testRuntimeOnly"("com.oracle.database.jdbc:ojdbc8-production:18.15.0.0")
-        "testRuntimeOnly"("org.postgresql:postgresql:42.2.24")
+        "testRuntimeOnly"("org.postgresql:postgresql:42.3.0")
         "testRuntimeOnly"("com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre8")
         "testRuntimeOnly"("org.testcontainers:mysql")
         "testRuntimeOnly"("org.testcontainers:oracle-xe")
