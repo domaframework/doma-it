@@ -63,7 +63,7 @@ subprojects {
     }
 
     dependencies {
-        "testImplementation"(platform("org.testcontainers:testcontainers-bom:1.16.0"))
+        "testImplementation"(platform("org.testcontainers:testcontainers-bom:1.16.2"))
         "testImplementation"("org.junit.jupiter:junit-jupiter-api:5.8.1")
         "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine:5.8.1")
         "testRuntimeOnly"("com.h2database:h2:1.4.200")
