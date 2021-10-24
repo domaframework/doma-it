@@ -7,12 +7,12 @@ import org.seasar.doma.jdbc.JdbcLogger;
 import org.seasar.doma.jdbc.Naming;
 import org.seasar.doma.jdbc.RequiresNewController;
 import org.seasar.doma.jdbc.SimpleDataSource;
-import org.seasar.doma.jdbc.Slf4jJdbcLogger;
 import org.seasar.doma.jdbc.dialect.Dialect;
 import org.seasar.doma.jdbc.tx.LocalTransaction;
 import org.seasar.doma.jdbc.tx.LocalTransactionDataSource;
 import org.seasar.doma.jdbc.tx.LocalTransactionManager;
 import org.seasar.doma.jdbc.tx.TransactionManager;
+import org.seasar.doma.slf4j.Slf4jJdbcLogger;
 
 public class AppConfig implements Config {
 

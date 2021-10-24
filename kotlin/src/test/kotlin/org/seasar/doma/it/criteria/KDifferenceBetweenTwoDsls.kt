@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.seasar.doma.it.IntegrationTestEnvironment
 import org.seasar.doma.jdbc.Config
-import org.seasar.doma.jdbc.criteria.KEntityql
-import org.seasar.doma.jdbc.criteria.KNativeSql
+import org.seasar.doma.kotlin.jdbc.criteria.KEntityql
+import org.seasar.doma.kotlin.jdbc.criteria.KNativeSql
 
 @ExtendWith(IntegrationTestEnvironment::class)
 class KDifferenceBetweenTwoDsls(config: Config) {

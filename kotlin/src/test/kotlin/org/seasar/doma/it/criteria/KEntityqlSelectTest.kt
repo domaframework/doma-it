@@ -10,11 +10,11 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.seasar.doma.it.IntegrationTestEnvironment
 import org.seasar.doma.jdbc.Config
 import org.seasar.doma.jdbc.SqlLogType
-import org.seasar.doma.jdbc.criteria.KEntityql
-import org.seasar.doma.jdbc.criteria.expression.KExpressions
 import org.seasar.doma.jdbc.criteria.option.AssociationOption
 import org.seasar.doma.jdbc.criteria.statement.EmptyWhereClauseException
-import org.seasar.doma.jdbc.criteria.statement.KListable
+import org.seasar.doma.kotlin.jdbc.criteria.KEntityql
+import org.seasar.doma.kotlin.jdbc.criteria.expression.KExpressions
+import org.seasar.doma.kotlin.jdbc.criteria.statement.KListable
 
 @ExtendWith(IntegrationTestEnvironment::class)
 class KEntityqlSelectTest(config: Config) {
