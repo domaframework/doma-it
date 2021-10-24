@@ -9,13 +9,13 @@ import org.seasar.doma.it.IntegrationTestEnvironment
 import org.seasar.doma.it.Run
 import org.seasar.doma.jdbc.Config
 import org.seasar.doma.jdbc.SqlLogType
-import org.seasar.doma.jdbc.criteria.KNativeSql
 import org.seasar.doma.jdbc.criteria.declaration.JoinDeclaration
 import org.seasar.doma.jdbc.criteria.declaration.WhereDeclaration
 import org.seasar.doma.jdbc.criteria.expression.Expressions
-import org.seasar.doma.jdbc.criteria.expression.KExpressions
 import org.seasar.doma.jdbc.criteria.expression.SelectExpression
 import org.seasar.doma.jdbc.criteria.statement.EmptyWhereClauseException
+import org.seasar.doma.kotlin.jdbc.criteria.KNativeSql
+import org.seasar.doma.kotlin.jdbc.criteria.expression.KExpressions
 import java.math.BigDecimal
 
 @ExtendWith(IntegrationTestEnvironment::class)
